@@ -46,11 +46,11 @@ template <class F> JVector<F>::JVector(std::vector<F> vec) {
     underlying_vector = vec;
 }
 
-//template <class F> JVector<F>::JVector(uint size) {
+template <class F> JVector<F>::JVector(uint size) {
+    underlying_vector.reserve( size );
+}
 
-//    auto zero = static_cast<F>(0.0);
-//    underlying_vector = std::vector<F> (size, zero);
-//}
+template <class F> JVector<F>::JVector() {}
 
 template <class F> JVector<F>::~JVector() {
     underlying_vector.clear();
@@ -119,6 +119,16 @@ template <class F> double JVector<F>::mean() {
     return mean(underlying_vector);
 }
 
+template <class F> F JVector<F>::min() {
+    F min_power= *std::min_element(underlying_vector.begin(), underlying_vector.end());
+    return min_power;
+}
+
+template <class F> F JVector<F>::max() {
+    F min_power= *std::max_element(underlying_vector.begin(), underlying_vector.end());
+    return min_power;
+}
+
 template <class F> double JVector<F>::std_dev(std::vector<F> &data_list) {
 
     //compute mean value of data set
@@ -143,12 +153,12 @@ template <class F> double JVector<F>::norm() {
 
 }
 
-//template <class F> void JVector<F>::Normalize() {
-//    double norm_factor=sqrt(sum(underlying_vector,2.0));
+template <class F> void JVector<F>::Normalize() {
+    double norm_factor=sqrt(sum(underlying_vector,2.0));
 
-//    for(unsigned int i = 0; i<underlying_vector.size(); i++) {
-//        underlying_vector.at(i)=underlying_vector.at(i)/norm_factor;
-//    }
-//}
+    for(unsigned int i = 0; i<underlying_vector.size(); i++) {
+        underlying_vector.at(i)=underlying_vector.at(i)/norm_factor;
+    }
+}
 
 }

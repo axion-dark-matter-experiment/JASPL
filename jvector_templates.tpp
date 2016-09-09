@@ -1,4 +1,4 @@
-JVector<F> operator*=(double scalar) {
+JVector<F> operator*= (F scalar) {
 
     for(unsigned int i=0; i<underlying_vector.size(); i++) {
         underlying_vector[i]*=scalar;
@@ -7,7 +7,7 @@ JVector<F> operator*=(double scalar) {
     return *this;
 }
 
-JVector<F> operator*(double scalar) {
+JVector<F> operator* (F scalar) {
 
     for(unsigned int i=0; i<underlying_vector.size(); i++) {
         underlying_vector[i]*=scalar;
@@ -16,7 +16,7 @@ JVector<F> operator*(double scalar) {
     return *this;
 }
 
-JVector<F> operator+= (double scalar) {
+JVector<F> operator+= (F scalar) {
 
     for(unsigned int i=0; i<underlying_vector.size(); i++) {
         underlying_vector[i]+=scalar;
@@ -74,13 +74,13 @@ friend JVector<F> operator+ (JVector<F>& vector_a, JVector<F>& vector_b) {
                    vector_c.underlying_vector.end(),\
                    vector_b.underlying_vector.begin(),\
                    vector_c.underlying_vector.begin(),\
-                   std::plus<double>());
+                   std::plus<F>());
 
     return vector_c;
 }
 
 
-friend JVector<F> operator+ (JVector<F>& vector_a, std::vector<double>& vector_b) {
+friend JVector<F> operator+ (JVector<F>& vector_a, std::vector<F>& vector_b) {
 
     if( vector_a.size() != vector_b.size() ) {
         std::string err_mesg = "JVector and vector are not the same size ";
@@ -98,7 +98,7 @@ friend JVector<F> operator+ (JVector<F>& vector_a, std::vector<double>& vector_b
                    vector_c.underlying_vector.end(),\
                    vector_b.begin(),\
                    vector_c.underlying_vector.begin(),\
-                   std::plus<double>());
+                   std::plus<F>());
 
     return vector_c;
 }
@@ -120,12 +120,12 @@ friend JVector<F> operator- (JVector<F>& vector_a, JVector<F>& vector_b) {
                    vector_c.underlying_vector.end(),\
                    vector_b.underlying_vector.begin(),\
                    vector_c.underlying_vector.begin(),\
-                   std::minus<double>());
+                   std::minus<F>());
 
     return vector_c;
 }
 
-friend JVector<F> operator- (JVector<F>& vector_a, std::vector<double>& vector_b) {
+friend JVector<F> operator- (JVector<F>& vector_a, std::vector<F>& vector_b) {
 
     if( vector_a.size() != vector_b.size() ) {
         std::string err_mesg = "JVectors and vector are not the same size ";
@@ -141,7 +141,7 @@ friend JVector<F> operator- (JVector<F>& vector_a, std::vector<double>& vector_b
                    vector_c.underlying_vector.end(),\
                    vector_b.begin(),\
                    vector_c.underlying_vector.begin(),\
-                   std::minus<double>());
+                   std::minus<F>());
 
     return vector_c;
 }
@@ -168,7 +168,7 @@ friend JVector<F> operator* (JVector<F>& vector_a, JVector<F>& vector_b) {
     return vector_c;
 }
 
-friend JVector<F> operator* (JVector<F>& vector_a, std::vector<double>& vector_b) {
+friend JVector<F> operator* (JVector<F>& vector_a, std::vector<F>& vector_b) {
 
     if( vector_a.size() != vector_b.size() ) {
         std::string err_mesg = "JVectors and vector are not the same size ";
@@ -189,3 +189,30 @@ friend JVector<F> operator* (JVector<F>& vector_a, std::vector<double>& vector_b
     return vector_c;
 }
 
+void push_back( F element ) {
+    underlying_vector.push_back( element );
+}
+
+void push_front( F element ) {
+    underlying_vector.insert( underlying_vector.begin(), element);
+}
+
+typename std::vector<F>::iterator begin() {
+    return underlying_vector.begin();
+}
+
+typename std::vector<F>::iterator end() {
+    return underlying_vector.end();
+}
+
+F* data() {
+    return underlying_vector.data();
+}
+
+F& operator[] ( const uint index ) {
+    return underlying_vector[index];
+}
+
+F& at( const uint index ) {
+    return underlying_vector.at( index );
+}

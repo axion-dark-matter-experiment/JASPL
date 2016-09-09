@@ -12,26 +12,8 @@
 #include <boost/lexical_cast.hpp>  //lexical cast (unsurprisingly)
 
 //Miscellaneous Headers
-//
 
 namespace jaspl {
-
-//template <class F> class JVector;
-//template <class F> std::ostream& operator<< (std::ostream& stream, JVector<F>& spectrum);
-
-//template <class F> bool operator== (JVector<F>& vector_a, JVector<F>& vector_b);
-//template <class F> bool operator!= (JVector<F>& vector_a, JVector<F>& vector_b);
-
-//template <class F> std::ostream& operator<< (std::ostream& stream, JVector<F>& spectrum);
-//template <class F> std::ofstream& operator<< (std::ofstream& stream, JVector<F>& spectrum);
-
-//template <class F> JVector<F> operator* (JVector<F>& vector_a, JVector<F>& vector_b);
-//template <class F> JVector<F> operator+ (JVector<F>& vector_a, JVector<F>& vector_b);
-//template <class F> JVector<F> operator- (JVector<F>& vector_a, JVector<F>& vector_b);
-
-//template <class F> JVector<F> operator* (JVector<F>& vector_a, std::vector<double>& vector_b);
-//template <class F> JVector<F> operator+ (JVector<F>& vector_a, std::vector<double>& vector_b);
-//template <class F> JVector<F> operator- (JVector<F>& vector_a, std::vector<double>& vector_b);
 
 template <class F>
 class JVector {
@@ -39,18 +21,26 @@ class JVector {
   public:
     JVector(std::string raw_data);
     JVector(std::vector<F> vec);
-//    JVector(uint size);
+    JVector(uint size);
+    JVector();
+
     ~JVector();
+
+    template <class T> friend void plot ( JVector<T>& vec );
+    template <class T> friend void plot ( JVector<T>& vec, std::string plot_title );
 
     #include "jvector_templates.tpp"
 
     double norm();
+    void Normalize();
 
     double std_dev();
     double mean();
 
+    F min();
+    F max();
+
     uint size();
-    void push_back();
 
   private:
     bool check_if_arithmetic(F input);
