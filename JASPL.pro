@@ -3,6 +3,8 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
+CONFIG += c++11
+
 LIBS += -L/usr/local/lib -L/usr/lib -lboost_iostreams -lboost_system -lboost_filesystem
 
 INCLUDEPATH +=-I "/usr/local/cuda/include"
@@ -27,7 +29,8 @@ SOURCES += main.cpp \
     jfft.cpp \
     jfft_templates.tpp \
     ocl_jfilter.cpp \
-    ocl_jfilter_templates.tpp
+    ocl_jfilter_templates.tpp \
+    jalgorithm.cpp
 
 HEADERS += \
     jvector.h \
@@ -35,7 +38,8 @@ HEADERS += \
     jfilter.h \
     ocl_jfft.h \
     jfft.h \
-    ocl_jfilter.h
+    ocl_jfilter.h \
+    jalgorithm.h
 
 DISTFILES += \
     ocl_jfilter_kernel.cl

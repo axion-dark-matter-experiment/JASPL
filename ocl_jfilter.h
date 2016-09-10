@@ -2,6 +2,7 @@
 #define OCL_JFITTER_H
 
 #include "jvector.h"
+#include "jalgorithm.h"
 
 #include <CL/cl.h>
 #include <CL/cl.hpp>
@@ -15,9 +16,7 @@ class JLinearConvolve {
   public:
     JLinearConvolve();
     ~JLinearConvolve();
-
-    template <class T> void SetKernel( JVector<T>& conv_kernel );
-    template <class T> JVector<T> Convolve( JVector<T>& signal );
+    template <class T> JVector<T> Convolve(JVector<T>& signal, JVector<T>& kernel);
 
     void TearDown();
 
@@ -25,9 +24,6 @@ class JLinearConvolve {
 
     void LoadCLKernel();
     void SetUp();
-
-    float* convolution_kernel;
-    int convolution_kernel_size;
 
     char* source_str;
     size_t source_size;

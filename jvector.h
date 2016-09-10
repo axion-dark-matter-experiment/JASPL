@@ -7,11 +7,12 @@
 #include <vector>
 #include <string>
 #include <iostream>
-
 //Boost Headers
 #include <boost/lexical_cast.hpp>  //lexical cast (unsurprisingly)
-
 //Miscellaneous Headers
+//
+//Project specific headers
+#include "jalgorithm.h"
 
 namespace jaspl {
 
@@ -21,7 +22,9 @@ class JVector {
   public:
     JVector(std::string raw_data);
     JVector(std::vector<F> vec);
+    JVector(F* ptr, uint ptr_size);
     JVector(uint size);
+    JVector(uint size, F fill_element);
     JVector();
 
     ~JVector();

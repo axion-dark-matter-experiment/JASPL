@@ -46,8 +46,19 @@ template <class F> JVector<F>::JVector(std::vector<F> vec) {
     underlying_vector = vec;
 }
 
+template <class F> JVector<F>::JVector(F* ptr, uint ptr_size) {
+
+    underlying_vector.reserve(underlying_vector.size() + ptr_size);
+    std::copy(&ptr[0], &ptr[ptr_size], std::back_inserter(underlying_vector));
+}
+
 template <class F> JVector<F>::JVector(uint size) {
     underlying_vector.reserve( size );
+}
+
+template <class F> JVector<F>::JVector(uint size, F fill_element) {
+    underlying_vector.reserve( size );
+    underlying_vector = std::vector<F> ( size , fill_element);
 }
 
 template <class F> JVector<F>::JVector() {}

@@ -189,6 +189,8 @@ friend JVector<F> operator* (JVector<F>& vector_a, std::vector<F>& vector_b) {
     return vector_c;
 }
 
+//Re-implementation of std::vector methods
+
 void push_back( F element ) {
     underlying_vector.push_back( element );
 }
@@ -215,4 +217,8 @@ F& operator[] ( const uint index ) {
 
 F& at( const uint index ) {
     return underlying_vector.at( index );
+}
+
+void reserve ( uint n ) {
+    underlying_vector.reserve( n );
 }
