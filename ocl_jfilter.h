@@ -7,6 +7,10 @@
 #include <CL/cl.h>
 #include <CL/cl.hpp>
 
+#include <boost/algorithm/string.hpp> //boost::replace_all
+#include <typeinfo> //typeid(T).name()
+#include <cxxabi.h> //abi::__cxa_demangle
+
 namespace jaspl {
 
 namespace ocl {
@@ -22,30 +26,26 @@ class JLinearConvolve {
 
   private:
 
-    void LoadCLKernel();
+    std::string GetOpenCLKernel();
+    template <class T> void LoadCLKernel(T type);
     void SetUp();
 
-    char* source_str;
-    size_t source_size;
-
-    cl_device_id device_id = NULL;
-    cl_context context = NULL;
-    cl_command_queue command_queue = NULL;
-
-    // Device input buffers
-    cl_mem inputCL = NULL;
-    cl_mem kernelCL = NULL;
-    // Device output buffer
-    cl_mem outputCL = NULL;
-
-    cl_program program = NULL;
-    cl_kernel kernel = NULL;
-    cl_platform_id platform_id = NULL;
-    cl_uint ret_num_devices;
-    cl_uint ret_num_platforms;
-    cl_int ret;
-
     size_t global_size, local_size;
+
+    std::vector<cl::Platform> all_platforms;
+    cl::Platform default_platform;
+    std::vector<cl::Device> all_devices;
+    cl::Device default_device;
+    cl::Context context;
+    cl::Program::Sources sources;
+    std::string kernel_source;
+    cl::Program program;
+    cl::Kernel kernel;
+    cl::CommandQueue command_queue;
+
+    cl::Buffer inputCL;
+    cl::Buffer kernelCL;
+    cl::Buffer outputCL;
 
 };
 

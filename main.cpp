@@ -17,6 +17,8 @@
 #include "jplot.h"
 #include "jfilter.h"
 
+#define TEST_TYPE double
+
 template <typename T> void TestCPUFFT( jaspl::JVector<T>& vec ) {
 
     auto fft_er = jaspl::JFFT();
@@ -58,7 +60,7 @@ template <typename T> void TestGPUFFT( jaspl::JVector<T>&vec ) {
 }
 
 uint num_elem_per_MB ( uint MB ) {
-    return static_cast<uint> (MB/4*10e5);
+    return static_cast<uint> (MB/4*1e5);
 }
 
 inline double gaussian(double x, double sigma) {
@@ -69,7 +71,7 @@ template <typename T> void TestCPUConvolve ( jaspl::JVector<T>&vec, int kernel_r
 
     plot( vec, "Original", 500 );
 
-    jaspl::JVector<float> kernel;
+    jaspl::JVector<TEST_TYPE> kernel;
 
     int r = kernel_radius;
     double sigma = static_cast<double>(r)/2.0;
@@ -100,7 +102,7 @@ template <typename T> void TestGPUConvolve ( jaspl::JVector<T>&vec, int kernel_r
 
     auto convolver = jaspl::ocl::JLinearConvolve();
 
-    jaspl::JVector<float> kernel;
+    jaspl::JVector<TEST_TYPE> kernel;
 
     int r = kernel_radius;
     double sigma = static_cast<double>(r)/2.0;
@@ -129,30 +131,32 @@ template <typename T> void TestGPUConvolve ( jaspl::JVector<T>&vec, int kernel_r
 
 int main() {
 
-    uint N = static_cast<uint>( num_elem_per_MB(10) );
+    uint N = static_cast<uint>( 1e6 );
 
-    jaspl::JVector<float> sin_vect ( N );
+    jaspl::JVector<TEST_TYPE> sin_vect ( N );
 
-    #pragma omp parallel for
+    #pragma omp parallel for ordered
     for ( uint i = 0; i < N ; i++ ) {
 
+        #pragma omp ordered
         sin_vect.push_back( sinf( 2*i *2*M_PI/N) + sinf( 25*i*2*M_PI/N) + sinf( 100*i*2*M_PI/N ) );
     }
 
-    for ( uint i = 0; i < N/2 ; i++ ) {
+//    for ( uint i = 0; i < N/2 ; i++ ) {
 
-        sin_vect.push_back( 0.0 );
-    }
+//        sin_vect.push_back( 0.0 );
+//    }
 
 
-    for ( uint i = N/2; i < N ; i++ ) {
+//    for ( uint i = N/2; i < N ; i++ ) {
 
-        sin_vect.push_back( 1.0 );
-    }
+//        sin_vect.push_back( 1.0 );
+//    }
 
-    TestCPUConvolve( sin_vect, 1500 );
-
-    TestGPUConvolve( sin_vect, 1500 );
+    TestGPUConvolve(sin_vect, 5*1e3);
+    TestCPUConvolve(sin_vect, 5*1e3);
+//    TestGPUFFT( sin_vect );
+//    TestCPUFFT( sin_vect );
 
     return 0;
 }
