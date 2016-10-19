@@ -42,5 +42,7 @@ HEADERS += \
     jalgorithm.h
 
 DISTFILES += \
-    ocl_jfilter_kernel.cl
+    jfilter_linearconvolve.cl \
+    jfilter_templated_linearconvolve.cl \
+    jfilter_nonlinearconvolve.cl
 

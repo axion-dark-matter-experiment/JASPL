@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <fstream>      // std::ifstream
-#include<iostream>
+#include <iostream>
 
 namespace jaspl {
 
@@ -29,7 +29,7 @@ std::string JLinearConvolve::GetOpenCLKernel() {
         homedir = getpwuid(getuid())->pw_dir;
     }
     std::string kernel_path = std::string(homedir);
-    kernel_path += "/Qt-Projects/JASPL/ocl_jfilter_kernel.cl";
+    kernel_path += "/Qt-Projects/JASPL/jfilter_templated_linearconvolve.cl";
 
     std::string kernel_str = FastRead( kernel_path );
 

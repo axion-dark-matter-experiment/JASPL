@@ -34,7 +34,7 @@ void JLinearConvolve::LoadCLKernel(T type) {
         throw std::runtime_error( err_str );
     }
 
-    kernel = cl::Kernel(program, "TemplatedConvolve" );
+    kernel = cl::Kernel(program, "TemplatedLinearConvolve" );
 
 }
 

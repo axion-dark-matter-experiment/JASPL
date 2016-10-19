@@ -17,7 +17,7 @@
 #include "jplot.h"
 #include "jfilter.h"
 
-#define TEST_TYPE double
+#define TEST_TYPE float
 
 template <typename T> void TestCPUFFT( jaspl::JVector<T>& vec ) {
 
