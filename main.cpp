@@ -10,12 +10,14 @@
 //Boost Headers
 
 //Project specific headers
-#include "jvector.h"
-#include "ocl_jfft.h"
-#include "jfft.h"
-#include "ocl_jfilter.h"
-#include "jplot.h"
-#include "jfilter.h"
+#include "jVector/jvector.h"
+#include "jFFT/ocl_jfft.h"
+#include "jFFT/jfft.h"
+#include "jFilter/ocl_jfilter.h"
+#include "jPlot/jplot.h"
+#include "jFilter/jfilter.h"
+#include "jAlgorithm/jalgorithm.h"
+#include "jFilter/jfilter_unit_test.h"
 
 #define TEST_TYPE float
 
@@ -67,34 +69,34 @@ inline double gaussian(double x, double sigma) {
     return 1/(sqrt(M_PI_2)*sigma)*exp( -0.5 *pow(x/sigma,2.0));
 }
 
-template <typename T> void TestCPUConvolve ( jaspl::JVector<T>&vec, int kernel_radius ) {
+//template <typename T> void TestCPUConvolve ( jaspl::JVector<T>&vec, int kernel_radius ) {
 
-    plot( vec, "Original", 500 );
+//    plot( vec, "Original", 500 );
 
-    jaspl::JVector<TEST_TYPE> kernel;
+//    jaspl::JVector<TEST_TYPE> kernel;
 
-    int r = kernel_radius;
-    double sigma = static_cast<double>(r)/2.0;
+//    int r = kernel_radius;
+//    double sigma = static_cast<double>(r)/2.0;
 
-    for( int i = -r; i<= r ; i ++) {
-        kernel.push_back(gaussian(i,sigma));
-    }
+//    for( int i = -r; i<= r ; i ++) {
+//        kernel.push_back(gaussian(i,sigma));
+//    }
 
-    kernel.Normalize();
+//    kernel.Normalize();
 
-    auto start_cpu = std::chrono::high_resolution_clock::now();
+//    auto start_cpu = std::chrono::high_resolution_clock::now();
 
-    auto convolved_vect = jaspl::JLinearConvolve( vec, kernel );
+//    auto convolved_vect = jaspl::JLinearConvolve( vec, kernel );
 
-    plot( convolved_vect, "Convolved (CPU)", 500 );
+//    plot( convolved_vect, "Convolved (CPU)", 500 );
 
-    auto end_cpu = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> cpu_ms = end_cpu - start_cpu;
-    auto time_taken_cpu = cpu_ms.count();
+//    auto end_cpu = std::chrono::high_resolution_clock::now();
+//    std::chrono::duration<double, std::milli> cpu_ms = end_cpu - start_cpu;
+//    auto time_taken_cpu = cpu_ms.count();
 
-    std::cout<<"CPU took "<<time_taken_cpu<<" ms."<<std::endl;
+//    std::cout<<"CPU took "<<time_taken_cpu<<" ms."<<std::endl;
 
-}
+//}
 
 template <typename T> void TestGPUConvolve ( jaspl::JVector<T>&vec, int kernel_radius ) {
 
@@ -131,7 +133,7 @@ template <typename T> void TestGPUConvolve ( jaspl::JVector<T>&vec, int kernel_r
 
 int main() {
 
-    uint N = static_cast<uint>( 1e6 );
+    uint N = static_cast<uint>( 1e5 );
 
     jaspl::JVector<TEST_TYPE> sin_vect ( N );
 
@@ -153,10 +155,12 @@ int main() {
 //        sin_vect.push_back( 1.0 );
 //    }
 
-    TestGPUConvolve(sin_vect, 5*1e3);
-    TestCPUConvolve(sin_vect, 5*1e3);
+//    TestGPUConvolve(sin_vect, 5*1e3);
+//    TestCPUConvolve(sin_vect, 5*1e3);
 //    TestGPUFFT( sin_vect );
 //    TestCPUFFT( sin_vect );
+    jaspl::jFilterUnitTest<float> test;
+    test.CheckFilterCPU( 1 );
 
     return 0;
 }
