@@ -21,7 +21,6 @@ namespace ocl {
 class JFFT {
   public:
     JFFT();
-    void ListCLDevices();
 
     void Setup();
     template <typename T> void PowerSpectrum( T &input );

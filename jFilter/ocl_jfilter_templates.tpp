@@ -1,13 +1,8 @@
 template <typename T>
-std::string FakeKernelTemplating( T type, std::string kernel_source ) {
+std::string FakeKernelTemplating( T type, std::string kernel_source ) {;
 
-    int status;
-    char* type_name = abi::__cxa_demangle(typeid(T).name(), 0, 0, &status);
-    std::string type_str = std::string( type_name );
-
+    std::string type_str = get_type_name( type );
     boost::replace_all(kernel_source, "TYPE", type_str );
-
-    free (type_name);
 
     return kernel_source;
 }
@@ -24,12 +19,12 @@ void JLinearConvolve::LoadCLKernel(T type) {
 
     program = cl::Program (context,sources);
 
-    if( program.build({default_device}) != CL_SUCCESS ) {
+    if( program.build({current_device}) != CL_SUCCESS ) {
 
         std::string err_str = __FUNCTION__;
         err_str += "Error Building OpenCL Program\n ";
         err_str += "Compilier Output:\n ";
-        err_str += program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(default_device);
+        err_str += program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(current_device);
         err_str += "\n";
         throw std::runtime_error( err_str );
     }

@@ -1,9 +1,3 @@
-//define a gaussian function with standard deviation sigma and a mean value of zero
-//used in the construction of gaussian kernels
-inline float gaussian(double x, double sigma) {
-    return 1/(sqrt(M_PI_2)*sigma)*exp( -0.5 *pow(x/sigma,2.0));
-}
-
 __kernel void NonLinearConvolve( const __global float* input, __constant float* filter_kernel, __global float* output, const int signal_size, const int kernel_size)
 {
 

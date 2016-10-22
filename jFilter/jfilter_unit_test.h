@@ -27,22 +27,50 @@ template <typename T>
 class jFilterUnitTest {
 
   public:
-//    jFilterUnitTest();
+    void CheckFilterCPU( uint num_points ) {
 
-    void CheckFilterCPU( uint size_MB ) {
-        uint num_points = num_elem_per_MB( size_MB );
-        int kernel_radius = static_cast<int>( floor( num_points/100 ) );
+        uint kernel_radius = static_cast<uint>( floor( num_points/100 ) );
+
+        uint kernel_bytes = kernel_radius*2*sizeof( T );
+
+        if( kernel_bytes > CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE ) {
+            kernel_radius = static_cast<uint>( CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE/( 2 * sizeof(T) ) );
+        }
 
         JVector<T> signal = SineSignal( num_points );
+
+        std::string mesg = "CPU Linear Convolution Test:";
+        mesg += "\nSignal size:";
+        mesg += boost::lexical_cast<std::string>( num_points );
+        mesg += "\nKernel size:";
+        mesg += boost::lexical_cast<std::string>( kernel_radius );
+
+        std::cout << mesg << std::endl;
+
         TestCPUConvolve( signal, kernel_radius );
 
     }
 
-    void CheckFilterGPU( uint size_MB ) {
-        uint num_points = num_elem_per_MB( size_MB );
+    void CheckFilterGPU( uint num_points ) {
+
         int kernel_radius = static_cast<int>( floor( num_points/100 ) );
 
+        uint kernel_bytes = kernel_radius*2*sizeof( T );
+
+        if( kernel_bytes > CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE ) {
+            kernel_radius = static_cast<uint>( CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE/( 2 * sizeof(T) ) );
+        }
+
         JVector<T> signal = SineSignal( num_points );
+
+        std::string mesg = "GPU Linear Convolution Test:";
+        mesg += "\nSignal size:";
+        mesg += boost::lexical_cast<std::string>( num_points );
+        mesg += "\nKernel size:";
+        mesg += boost::lexical_cast<std::string>( kernel_radius );
+
+        std::cout << mesg << std::endl;
+
         TestGPUConvolve( signal, kernel_radius );
     }
 
@@ -78,18 +106,16 @@ class jFilterUnitTest {
 
         JVector<T> sin_vect ( N );
 
-        #pragma omp parallel for ordered
         for ( uint i = 0; i < N ; i++ ) {
 
-            #pragma omp ordered
-            sin_vect[i] = ( sinf( 2*i *2*M_PI/N) + sinf( 25*i*2*M_PI/N) + sinf( 100*i*2*M_PI/N ) );
+            sin_vect.push_back( sinf( 2*i *2*M_PI/N) + sinf( 25*i*2*M_PI/N) + sinf( 100*i*2*M_PI/N ) );
         }
 
         return sin_vect;
     }
 
 
-    void TestCPUConvolve ( jaspl::JVector<T>&vec, int kernel_radius ) {
+    void TestCPUConvolve ( jaspl::JVector<T>&vec, uint kernel_radius ) {
 
         plot( vec, "Original", 500 );
 

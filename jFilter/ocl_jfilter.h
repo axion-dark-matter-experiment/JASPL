@@ -15,6 +15,7 @@
 //OpenMP Headers
 #include<omp.h>
 //Project specific headers
+#include "OpenCLBase/openclbase.h"
 #include "jVector/jvector.h"
 #include "jAlgorithm/jalgorithm.h"
 
@@ -22,10 +23,10 @@ namespace jaspl {
 
 namespace ocl {
 
-class JLinearConvolve {
+class JLinearConvolve : public OpenCLBase {
 
   public:
-    JLinearConvolve();
+    JLinearConvolve( uint device_number = 0 );
     ~JLinearConvolve();
     template <class T> JVector<T> Convolve(JVector<T>& signal, JVector<T>& kernel);
 
@@ -35,21 +36,12 @@ class JLinearConvolve {
 
     std::string GetOpenCLKernel();
     template <class T> void LoadCLKernel(T type);
-    void SetUp();
 
     size_t global_size, local_size;
-
-    std::vector<cl::Platform> all_platforms;
-    cl::Platform default_platform;
-    std::vector<cl::Device> all_devices;
-    cl::Device default_device;
-    cl::Context context;
     cl::Program::Sources sources;
     std::string kernel_source;
     cl::Program program;
     cl::Kernel kernel;
-    cl::CommandQueue command_queue;
-
     cl::Buffer inputCL;
     cl::Buffer kernelCL;
     cl::Buffer outputCL;

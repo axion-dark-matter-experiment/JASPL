@@ -17,23 +17,26 @@
 
 namespace jaspl {
 
-template <typename T> void check_if_arithmetic(T& to_check) {
-    if ( !std::is_arithmetic<T>::value ) {
-
-        std::string err_mesg = __FUNCTION__;
-        err_mesg += "cannot initialize from non-arithmetic type ";
-        err_mesg += boost::lexical_cast<std::string>(typeid(to_check).name());
-        throw std::invalid_argument(err_mesg);
-    }
-}
-
 //Get the name of a type as it would appear in source code
 template <typename T> std::string get_type_name (T& type_to_check) {
     int status;
     char* type_name = abi::__cxa_demangle(typeid(T).name(), 0, 0, &status);
     std::string type_str = std::string( type_name );
 
+    free (type_name);
+
     return type_str;
+}
+
+//Check if given type is a numerical type
+template <typename T> void check_if_arithmetic(T& to_check) {
+    if ( !std::is_arithmetic<T>::value ) {
+
+        std::string err_mesg = __FUNCTION__;
+        err_mesg += "cannot initialize from non-arithmetic type ";
+        err_mesg += get_type_name( to_check );
+        throw std::invalid_argument(err_mesg);
+    }
 }
 
 // SFINAE test for [] operator
@@ -49,7 +52,7 @@ class has_accessor {
     enum { value = sizeof(test<T>(0)) == sizeof(char) };
 };
 
-//Function that check a class for the [] operator
+//Check a class for the [] operator
 template <typename T> void check_for_accesor ( T& to_check ) {
 
     if( !has_accessor< T >::value ) {

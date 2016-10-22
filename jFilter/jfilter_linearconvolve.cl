@@ -11,8 +11,6 @@ __kernel void LinearConvolve( const __global float* input, __constant float* fil
     int k_max = ( ( i + half_k_size ) > signal_max_index )?( signal_max_index + half_k_size - i ):(kernel_size);
     int k_min = ( ( i - half_k_size ) < 0 )?( half_k_size - i ):(0);
 
-//    printf("%d,%d\n", k_min, k_max);
-
     for ( int j = k_min ; j < k_max ; j++ ) {
 
         conv_elem += input[ i + j - half_k_size ]*filter_kernel[ j ];

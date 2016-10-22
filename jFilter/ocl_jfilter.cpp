@@ -42,40 +42,7 @@ std::string JLinearConvolve::GetOpenCLKernel() {
     }
 }
 
-
-void JLinearConvolve::SetUp() {
-    //Force kernels to be compiled each time
-    setenv("CUDA_CACHE_DISABLE", "1", 1);
-
-    //get all platforms (drivers)
-    cl::Platform::get( &all_platforms) ;
-
-    if( all_platforms.size() == 0  ) {
-        std::string err_str = __FUNCTION__;
-        err_str += "No OpenCL platforms found, check OpenCL installation";
-        throw std::runtime_error( err_str );
-    }
-
-    default_platform = all_platforms[0];
-
-    default_platform.getDevices(CL_DEVICE_TYPE_GPU, &all_devices);
-
-    if( all_devices.size() == 0 ) {
-        std::string err_str = __FUNCTION__;
-        err_str += "No OpenCL GPU devices found, check OpenCL installation";
-        throw std::runtime_error( err_str );
-    }
-
-    default_device = all_devices[0];
-
-    context = cl::Context ({default_device});
-
-    command_queue = cl::CommandQueue (context,default_device);
-}
-
-JLinearConvolve::JLinearConvolve() {
-
-    SetUp();
+JLinearConvolve::JLinearConvolve( uint device_number ) : OpenCLBase( device_number ) {
 
 }
 

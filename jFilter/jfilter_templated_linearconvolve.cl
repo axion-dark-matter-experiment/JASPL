@@ -6,7 +6,7 @@ __kernel void TemplatedLinearConvolve( const __global TYPE* input, __constant TY
 
     int i = get_global_id(0);
 
-    float conv_elem = 0.0;
+    TYPE conv_elem = 0.0;
 
     int k_max = ( ( i + half_k_size ) > signal_max_index )?( signal_max_index + half_k_size - i ):(kernel_size);
     int k_min = ( ( i - half_k_size ) < 0 )?( half_k_size - i ):(0);
