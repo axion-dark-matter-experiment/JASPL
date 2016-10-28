@@ -1,5 +1,5 @@
 //Header for this file
-#include "jfilter.h"
+#include "jlinearfilter.h"
 //C System-Headers
 
 //C++ System headers

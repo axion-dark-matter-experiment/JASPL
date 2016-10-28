@@ -63,11 +63,16 @@ void OpenCLBase::PrintDebugInfo() {
     std::vector<cl::Platform> platforms;
     cl::Platform::get(&platforms);
     if(platforms.size()==0) {
-        std::cout<<" No platforms found. Check OpenCL installation!\n";
-        exit(1);
+        std::cout<<" No platforms found. Check OpenCL installation." << std::endl;
     }
 
-    cl::Platform default_platform=platforms[0];
+    std::cout << "Available Platforms:" << std::endl;
+    for( uint i = 0 ; i < platforms.size() ; i++ ) {
+
+        std::cout << "Platform number " << i << " " << platforms[i].getInfo<CL_PLATFORM_NAME>() << std::endl;
+    }
+
+    cl::Platform default_platform = platforms[0];
     std::cout << "Using platform: "<<default_platform.getInfo<CL_PLATFORM_NAME>()<<"\n";
 
     //get default device of the default platform
@@ -78,7 +83,7 @@ void OpenCLBase::PrintDebugInfo() {
         exit(1);
     }
 
-    std::cout<<"Number of devices: "<<devices.size()<<std::endl;
+    std::cout<<"Available devices: "<<devices.size()<<std::endl;
 
     for( uint i = 0 ; i < devices.size() ; i++ ) {
 

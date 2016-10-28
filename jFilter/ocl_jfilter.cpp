@@ -1,56 +1,50 @@
 #include "ocl_jfilter.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <pwd.h>//pwd
-#include <unistd.h>
-#include <sys/types.h>
-#include <string.h>
-#include <fstream>      // std::ifstream
-#include <iostream>
-
 namespace jaspl {
 
 namespace ocl {
 
-inline std::string FastRead( std::string file_name ) {
-    const char* c_file_name = file_name.c_str();
+JFilter::JFilter( uint device_number ) : OpenCLBase( device_number ) {}
 
-    std::ifstream file_stream(c_file_name);
+void JFilter::TearDown(){}
+
+std::string FastRead( std::string file_name ) {
+
+    std::ifstream file_stream( file_name.c_str() );
     std::stringstream buffer;
     buffer << file_stream.rdbuf();
 
     return buffer.str();
 }
 
-std::string JLinearConvolve::GetOpenCLKernel() {
-    const char *homedir;
-    if ((homedir = getenv("HOME")) == NULL) {
-        homedir = getpwuid(getuid())->pw_dir;
-    }
-    std::string kernel_path = std::string(homedir);
-    kernel_path += "/Qt-Projects/JASPL/jFilter/jfilter_templated_linearconvolve.cl";
+void JFilter::EstablishKernelPath( std::string kernel_source_path ) {
+
+        std::ifstream test_stream( kernel_source_path.c_str() );
+        if ( test_stream.good() ) {
+            kernel_path = kernel_source_path;
+        } else {
+            std::string err_str = __FUNCTION__;
+            err_str += "Could not locate OpenCL kernel source file @";
+            err_str += kernel_source_path;
+            throw std::ios_base::failure( err_str );
+        }
+}
+
+std::string JFilter::GetOpenCLSource( std::string file_name ) {
+
+    std::string kernel_path = std::string( __FILE__ );
+    kernel_path += file_name;
 
     std::string kernel_str = FastRead( kernel_path );
 
     if( kernel_str.empty() ) {
         std::string err_str = __FUNCTION__;
-        err_str += "Could not load OpenCL Kernel.";
+        err_str += "Could not load OpenCL Kernel @";
+        err_str += kernel_path;
         throw std::runtime_error( err_str );
     } else {
         return kernel_str;
     }
-}
-
-JLinearConvolve::JLinearConvolve( uint device_number ) : OpenCLBase( device_number ) {
-
-}
-
-JLinearConvolve::~JLinearConvolve() {}
-
-void JLinearConvolve::TearDown() {
-    /* Finalization */
-
 }
 
 }

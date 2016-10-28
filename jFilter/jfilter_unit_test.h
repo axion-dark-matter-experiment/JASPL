@@ -16,9 +16,9 @@
 #include "jVector/jvector.h"
 #include "jFFT/ocl_jfft.h"
 #include "jFFT/jfft.h"
-#include "jFilter/ocl_jfilter.h"
+#include "jFilter/ocl_jlinearfilter.h"
 #include "jPlot/jplot.h"
-#include "jFilter/jfilter.h"
+#include "jFilter/jlinearfilter.h"
 #include "jAlgorithm/jalgorithm.h"
 
 namespace jaspl {

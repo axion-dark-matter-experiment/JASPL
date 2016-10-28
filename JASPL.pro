@@ -25,31 +25,37 @@ SOURCES += main.cpp \
     jFFT/jfft_templates.tpp \
     jFFT/ocl_jfft.cpp \
     jFFT/ocl_jfft_templates.tpp \
-    jFilter/jfilter.cpp \
-    jFilter/ocl_jfilter.cpp \
-    jFilter/ocl_jfilter_templates.tpp \
     jPlot/jplot.cpp \
     jVector/jvector.cpp \
     jVector/jvector_templates.tpp \
     OpenCLBase/openclbase.cpp \
     jFFT/jfft_unit_test.cpp \
     jFilter/jnonlinearfilter.cpp \
-    jFilter/ocl_jnonlinearfilter.cpp
+    jFilter/ocl_jnonlinearfilter.cpp \
+    jFilter/ocl_jlinearfilter_templates.tpp \
+    jFilter/jlinearfilter.cpp \
+    jFilter/ocl_jlinearfilter.cpp \
+    jFilter/ocl_jfilter.cpp \
+    jFilter/ocl_jfilter_templates.tpp \
+    TaskQueue/taskqueue.cpp \
+    TaskQueue/taskqueue_templates.tpp
 
 HEADERS += \
     includes/gnuplot-iostream.h \
     jAlgorithm/jalgorithm.h \
     jFFT/jfft.h \
     jFFT/ocl_jfft.h \
-    jFilter/jfilter.h \
-    jFilter/ocl_jfilter.h \
     jPlot/jplot.h \
     jVector/jvector.h \
     jFilter/jfilter_unit_test.h \
     OpenCLBase/openclbase.h \
     jFFT/jfft_unit_test.h \
     jFilter/jnonlinearfilter.h \
-    jFilter/ocl_jnonlinearfilter.h
+    jFilter/ocl_jnonlinearfilter.h \
+    jFilter/ocl_jlinearfilter.h \
+    jFilter/jlinearfilter.h \
+    jFilter/ocl_jfilter.h \
+    TaskQueue/taskqueue.h
 
 DISTFILES += \
     jFilter/jfilter_linearconvolve.cl \

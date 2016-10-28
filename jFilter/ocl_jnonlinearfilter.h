@@ -1,5 +1,5 @@
-#ifndef JNONLINEARFILTER_H
-#define JNONLINEARFILTER_H
+#ifndef OCL_JNONLINEARFILTER_H
+#define OCL_JNONLINEARFILTER_H
 
 //Header for this file
 //
@@ -19,11 +19,20 @@
 #include "jVector/jvector.h"
 #include "jAlgorithm/jalgorithm.h"
 
+namespace jaspl {
+
+namespace ocl {
+
 class JNonLinearFilter : OpenCLBase {
 
   public:
 
     JNonLinearFilter( uint device_number = 0 );
+    template <class T> JVector<T> Convolve(JVector<T>& signal, JVector<T>& kernel);
 };
 
-#endif // JNONLINEARFILTER_H
+}
+
+}
+
+#endif // OCL_JNONLINEARFILTER_H

@@ -1,5 +1,5 @@
-#ifndef OCL_JFITTER_H
-#define OCL_JFITTER_H
+#ifndef OCL_JFILTER_H
+#define OCL_JFILTER_H
 
 //Header for this file
 //
@@ -23,19 +23,18 @@ namespace jaspl {
 
 namespace ocl {
 
-class JLinearConvolve : public OpenCLBase {
-
+class JFilter : public OpenCLBase {
   public:
-    JLinearConvolve( uint device_number = 0 );
-    ~JLinearConvolve();
-    template <class T> JVector<T> Convolve(JVector<T>& signal, JVector<T>& kernel);
-
+    JFilter( uint device_number = 0 );
     void TearDown();
 
-  private:
+  protected:
+    void EstablishKernelPath( std::string kernel_source_path );
+    std::string GetOpenCLSource( std::string file_name );
 
-    std::string GetOpenCLKernel();
-    template <class T> void LoadCLKernel(T type);
+    template <class T> void LoadCLKernel( T type, std::string kernel_name );
+
+    std::string kernel_path;
 
     size_t global_size, local_size;
     cl::Program::Sources sources;
@@ -54,4 +53,4 @@ class JLinearConvolve : public OpenCLBase {
 
 }
 
-#endif // OCL_JFITTER_H
+#endif // OCL_JFILTER_H

@@ -10,3 +10,6 @@
 #include <boost/lexical_cast.hpp>
 // Miscellaneous Headers
 //
+namespace jaspl {
+
+}

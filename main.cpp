@@ -2,6 +2,7 @@
 
 //C System-Headers
 #include <math.h>
+#include <stdio.h>
 //C++ System headers
 #include <iostream>
 #include <chrono>
@@ -14,12 +15,14 @@
 #include "jFFT/ocl_jfft.h"
 #include "jFFT/jfft.h"
 #include "jFFT/jfft_unit_test.h"
-#include "jFilter/ocl_jfilter.h"
+#include "jFilter/ocl_jlinearfilter.h"
 #include "jPlot/jplot.h"
-#include "jFilter/jfilter.h"
+#include "jFilter/jlinearfilter.h"
 #include "jAlgorithm/jalgorithm.h"
 #include "jFilter/jfilter_unit_test.h"
+#include "jFilter/ocl_jfilter.h"
 #include "OpenCLBase/openclbase.h"
+#include "TaskQueue/taskqueue.h"
 
 #define TEST_POINTS 1e7
 
@@ -27,24 +30,27 @@
  *
  * \section intro_sec Introduction
  *
- * JASPL is designed to perform basic operations on one dimensional signals.
+ * JASPL is designed to perform signal processing operations on 1 dimensional signals.
  *
  * \section Dependencies
  *      \li Boost libraries >= 1.62
  *      \li gnuplot-iostream
  *      \li OpenCL installation
  *
+ * \section Special Considerations if compling from source
+ *      \li OpenMP Installation and compilier that supports OpenMP pragmas
+ *
  */
 
 int main() {
 
-    jaspl::JFFTUnitTest<float> fft_test;
-    fft_test.TestCPUFFT( TEST_POINTS );
-    fft_test.TestGPUFFT( TEST_POINTS );
+//    jaspl::JFFTUnitTest<float> fft_test;
+//    fft_test.TestCPUFFT( TEST_POINTS );
+//    fft_test.TestGPUFFT( TEST_POINTS );
 
-    jaspl::jFilterUnitTest<float> filter_test;
-    filter_test.CheckFilterCPU( TEST_POINTS );
-    filter_test.CheckFilterGPU( TEST_POINTS );
+//    jaspl::jFilterUnitTest<float> filter_test;
+//    filter_test.CheckFilterCPU( TEST_POINTS );
+//    filter_test.CheckFilterGPU( TEST_POINTS );
 
     return 0;
 }
