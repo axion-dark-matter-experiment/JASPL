@@ -9,6 +9,8 @@
 #include <boost/lexical_cast.hpp>  //lexical cast (unsurprisingly)
 // Miscellaneous Headers
 //
+//Headers for this project
+#include "jAlgorithm/jalgorithm.h"
 
 std::vector<cl::Platform> OpenCLBase::all_platforms;
 cl::Platform OpenCLBase::default_platform;
@@ -16,6 +18,7 @@ std::vector<cl::Device> OpenCLBase::all_devices;
 cl::Device OpenCLBase::current_device;
 cl::Context OpenCLBase::context;
 cl::CommandQueue OpenCLBase::command_queue;
+bool OpenCLBase::initalized = false;
 
 void OpenCLBase::SetUp( uint device_number ) {
     //Force kernels to be compiled each time
@@ -51,12 +54,26 @@ void OpenCLBase::SetUp( uint device_number ) {
 
     OpenCLBase::current_device = OpenCLBase::all_devices[ device_number ];
     OpenCLBase::context = cl::Context ({OpenCLBase::current_device});
-    OpenCLBase::command_queue = cl::CommandQueue (OpenCLBase::context,OpenCLBase::current_device);
+
+    cl_int err;
+    OpenCLBase::command_queue = cl::CommandQueue (OpenCLBase::context,OpenCLBase::current_device, err);
+    std::cout << __func__ << " OpenCL Status: " << jaspl::ocl::CLErrorString( err ) << std::endl;
 }
 
 OpenCLBase::OpenCLBase( uint device_number ) {
-    SetUp( device_number );
+
+    std::cout << __func__ << "Constructor called: " << initalized << std::endl;
+
+    //Static variables are initalized once and only once
+    //these variables need to be consistent across all derived classes
+    if( initalized != true ) {
+        SetUp( device_number );
+    }
+
+    initalized |= true;
 }
+
+OpenCLBase::~OpenCLBase() {}
 
 void OpenCLBase::PrintDebugInfo() {
     //get all platforms (drivers)

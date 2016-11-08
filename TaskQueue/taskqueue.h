@@ -15,34 +15,23 @@
 //OpenMP Headers
 //
 //Project specific headers
-#include "OpenCLBase/openclbase.h"
+#include "TaskQueue/taskqueuebase.h"
 #include "jAlgorithm/jalgorithm.h"
 
 namespace jaspl {
 
 namespace ocl {
 
-class TaskQueueBase : public OpenCLBase {
-
-  protected:
-    cl::Buffer signal_input;
-    cl::Buffer output;
-
-    uint signal_size;
-    size_t signal_bytes;
-
-    bool on_device = false;
-
-};
-
 template <typename T>
 class TaskQueue : public TaskQueueBase {
 
   public:
     TaskQueue();
+    ~TaskQueue();
 
     void Load(T signal);
     T Recall();
+
 };
 
 template< class T>

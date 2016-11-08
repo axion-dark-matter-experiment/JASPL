@@ -1,4 +1,5 @@
 #include "ocl_jfilter.h"
+#include <boost/filesystem.hpp>
 
 namespace jaspl {
 
@@ -32,7 +33,11 @@ void JFilter::EstablishKernelPath( std::string kernel_source_path ) {
 
 std::string JFilter::GetOpenCLSource( std::string file_name ) {
 
-    std::string kernel_path = std::string( __FILE__ );
+    boost::filesystem::path p( __FILE__ );
+    boost::filesystem::path dir = p.parent_path();
+
+    std::string kernel_path = dir.string();
+    kernel_path += "/";
     kernel_path += file_name;
 
     std::string kernel_str = FastRead( kernel_path );

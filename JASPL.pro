@@ -1,7 +1,10 @@
+INCLUDEPATH += ../../../include
+LIBS += -L$$OUT_PWD/../../../lib
+
 TEMPLATE = app
-CONFIG += console c++11
-CONFIG -= app_bundle
-CONFIG -= qt
+
+QT += charts
+QT += core gui widgets
 
 CONFIG += c++11
 
@@ -38,10 +41,16 @@ SOURCES += main.cpp \
     jFilter/ocl_jfilter.cpp \
     jFilter/ocl_jfilter_templates.tpp \
     TaskQueue/taskqueue.cpp \
-    TaskQueue/taskqueue_templates.tpp
+    TaskQueue/taskqueue_templates.tpp \
+    TaskItem/taskitem.cpp \
+    TaskItem/taskitem_templates.tpp \
+    jChart/jchart.cpp \
+    jChart/jchart_templates.tpp \
+    TaskQueue/taskqueuebase.cpp \
+    Convolution/convolution.cpp \
+    Convolution/convolution.tpp
 
 HEADERS += \
-    includes/gnuplot-iostream.h \
     jAlgorithm/jalgorithm.h \
     jFFT/jfft.h \
     jFFT/ocl_jfft.h \
@@ -55,10 +64,15 @@ HEADERS += \
     jFilter/ocl_jlinearfilter.h \
     jFilter/jlinearfilter.h \
     jFilter/ocl_jfilter.h \
-    TaskQueue/taskqueue.h
+    TaskQueue/taskqueue.h \
+    TaskItem/taskitem.h \
+    jChart/jchart.h \
+    TaskQueue/taskqueuebase.h \
+    Convolution/convolution.h
 
 DISTFILES += \
     jFilter/jfilter_linearconvolve.cl \
     jFilter/jfilter_nonlinearconvolve.cl \
-    jFilter/jfilter_templated_linearconvolve.cl
+    jFilter/jfilter_templated_linearconvolve.cl \
+    Convolution/linearconvolve.cl
 

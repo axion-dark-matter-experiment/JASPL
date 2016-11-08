@@ -22,12 +22,14 @@ class OpenCLBase {
   public:
 
     OpenCLBase( uint device_number = 0 );
+    virtual ~OpenCLBase() = 0;
     void PrintDebugInfo();
 
-  private:
+  protected:
 
     void SetUp(uint device_number);
 
+    static bool initalized;
     static std::vector<cl::Platform> all_platforms;
     static cl::Platform default_platform;
     static std::vector<cl::Device> all_devices;

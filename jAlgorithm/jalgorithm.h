@@ -11,6 +11,9 @@
 #include <fstream>
 #include <typeinfo>  // typeid, typeof
 #include <cxxabi.h>// abi::__cxa_demangle
+//OpenCL Headers
+#include <CL/cl.h>
+#include <CL/cl.hpp>
 // Boost Headers
 #include <boost/lexical_cast.hpp>
 // Miscellaneous Headers
@@ -95,14 +98,13 @@ class has_size {
 
 //Check for data() method, even if it is overloaded
 template <typename T, typename... Args>
-class has_data2
-{
+class has_data2 {
     template <typename C,typename = decltype( std::declval<C>().data (std::declval<Args>()...) )>
     static std::true_type test(int);
     template <typename C>
     static std::false_type test(...);
 
-public:
+  public:
     static constexpr bool value = decltype(test<T>(0))::value;
 
 };
@@ -110,31 +112,31 @@ public:
 //Part of cxx-prettyprint by Louis Delacroix @https://github.com/louisdx/cxx-prettyprint
 
 template<typename T>
-struct has_const_iterator
-{
-private:
+struct has_const_iterator {
+  private:
     typedef char                      yes;
-    typedef struct { char array[2]; } no;
+    typedef struct {
+        char array[2];
+    } no;
 
     template<typename C> static yes test(typename C::const_iterator*);
     template<typename C> static no  test(...);
-public:
+  public:
     static const bool value = sizeof(test<T>(0)) == sizeof(yes);
     typedef T type;
 };
 
 template <typename T>
-struct has_begin_end
-{
+struct has_begin_end {
     template<typename C> static char (&f(typename std::enable_if<
-      std::is_same<decltype(static_cast<typename C::const_iterator (C::*)() const>(&C::begin)),
-      typename C::const_iterator(C::*)() const>::value, void>::type*))[1];
+                                         std::is_same<decltype(static_cast<typename C::const_iterator (C::*)() const>(&C::begin)),
+                                         typename C::const_iterator(C::*)() const>::value, void>::type*))[1];
 
     template<typename C> static char (&f(...))[2];
 
     template<typename C> static char (&g(typename std::enable_if<
-      std::is_same<decltype(static_cast<typename C::const_iterator (C::*)() const>(&C::end)),
-      typename C::const_iterator(C::*)() const>::value, void>::type*))[1];
+                                         std::is_same<decltype(static_cast<typename C::const_iterator (C::*)() const>(&C::end)),
+                                         typename C::const_iterator(C::*)() const>::value, void>::type*))[1];
 
     template<typename C> static char (&g(...))[2];
 
@@ -148,9 +150,10 @@ template <typename T>
 struct is_stdlib_container {
 
     enum { value = has_const_iterator<T>::value &&\
-           has_begin_end<T>::beg_value &&\
-           has_begin_end<T>::end_value &&\
-           has_size<T>::value };
+                   has_begin_end<T>::beg_value &&\
+                   has_begin_end<T>::end_value &&\
+                   has_size<T>::value
+         };
 };
 
 //Check a class for the [] operator
@@ -159,10 +162,17 @@ template <typename T> void check_for_accesor ( T& to_check ) {
     if( !has_accessor< T >::value ) {
         std::string err_mesg = __FUNCTION__;
         err_mesg += "\nType ";
-        err_mesg += get_type_name( to_check );
+        err_mesg += get_type_name<T>();
         err_mesg += " lacks accessor operator, []";
         throw std::invalid_argument(err_mesg);
     }
+}
+
+namespace ocl {
+
+std::string CLErrorString(cl_int error);
+std::string CLErrorString(cl_int* error);
+
 }
 
 }

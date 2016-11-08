@@ -32,7 +32,7 @@ class JFilter : public OpenCLBase {
     void EstablishKernelPath( std::string kernel_source_path );
     std::string GetOpenCLSource( std::string file_name );
 
-    template <class T> void LoadCLKernel( T type, std::string kernel_name );
+    template <class T> void LoadCLKernel( std::string kernel_name );
 
     std::string kernel_path;
 

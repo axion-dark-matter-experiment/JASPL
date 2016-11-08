@@ -1,21 +1,21 @@
 template <typename T>
-std::string FakeKernelTemplating( std::string kernel_source ) {;
+std::string TaskItem::FakeKernelTemplating( std::string kernel_source ) {
 
-    std::string type_str = get_type_name<T>();
+    std::string type_str = get_type_name<typename T::value_type>();
     boost::replace_all(kernel_source, "TYPE", type_str );
 
     return kernel_source;
 }
 
 template <typename T>
-void JFilter::LoadCLKernel( std::string kernel_name) {
+void TaskItem::LoadCLKernel( std::string kernel_name ) {
 
     sources.clear();
-    std::string kernel_source = GetOpenCLSource( "jfilter_templated_linearconvolve.cl" );
 
+    std::string kernel_source = GetOpenCLSource( kernel_path );
     std::string local_kernel = FakeKernelTemplating<T>( kernel_source );
 
-    sources.push_back( {local_kernel.c_str(),local_kernel.length()} );
+    sources.push_back({local_kernel.c_str(),local_kernel.length()});
 
     program = cl::Program (context,sources);
 
@@ -29,6 +29,8 @@ void JFilter::LoadCLKernel( std::string kernel_name) {
         throw std::runtime_error( err_str );
     }
 
+    cl_int err = 0;
     kernel = cl::Kernel(program, kernel_name.c_str() );
+    std::cout << __func__ << " OpenCL Status: " << CLErrorString( err ) << std::endl;
 
 }

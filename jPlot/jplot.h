@@ -35,6 +35,14 @@ template <class T> void plot ( JVector<T>& vec ){
     gp.send1d(vec.underlying_vector);
 }
 
+template <class T> void plot ( const T& vec ){
+
+    Gnuplot gp;
+
+    gp << "plot '-' with lines notitle\n";
+    gp.send1d( vec );
+}
+
 //friend function of JVector
 template <class T> void plot ( JVector<T>& vec, uint num_plot_points ){
 

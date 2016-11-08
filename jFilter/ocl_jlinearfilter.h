@@ -30,21 +30,6 @@ class JLinearConvolve : public JFilter {
     JLinearConvolve( uint device_number = 0 );
     template <class T> JVector<T> Convolve(JVector<T>& signal, JVector<T>& kernel);
 
-  private:
-    //
-
-//    std::string GetOpenCLKernel();
-//    template <class T> void LoadCLKernel(T type);
-
-//    size_t global_size, local_size;
-//    cl::Program::Sources sources;
-//    std::string kernel_source;
-//    cl::Program program;
-//    cl::Kernel kernel;
-//    cl::Buffer inputCL;
-//    cl::Buffer kernelCL;
-//    cl::Buffer outputCL;
-
 };
 
 #include <jFilter/ocl_jlinearfilter_templates.tpp>
