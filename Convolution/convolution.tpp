@@ -3,8 +3,11 @@ Convolution<T>::Convolution( T& convolution_kernel ) {
 
     static_assert( is_stdlib_container< T >::value, "Convolution can only accept container-like objects." );
 
-    EstablishKernelPath( "/home/bephillips2/Qt-Projects/JASPL/Convolution/linearconvolve.cl" );
-    kernel_source = GetOpenCLSource( "/home/bephillips2/Qt-Projects/JASPL/Convolution/linearconvolve.cl" );
+    std::string source_directory = SOURCE_DIR;
+    std::string kernel_name = "/linearconvolve.cl";
+
+    kernel_path = source_directory + kernel_name;
+//    kernel_source = GetOpenCLSource( path );
 
     LoadCLKernel<T>( "LinearConvolve" );
 

@@ -4,9 +4,9 @@ namespace jaspl {
 
 namespace ocl {
 
-JNonLinearFilter::JNonLinearFilter(uint device_number) {
+//JNonLinearFilter::JNonLinearFilter(uint device_number) {
 
-}
+//}
 
 }
 

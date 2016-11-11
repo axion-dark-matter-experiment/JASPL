@@ -59,6 +59,9 @@ int main(int argc, char *argv[]) {
         sin_vect.push_back( sinf( 2*i *2*M_PI/N) + sinf( 5*i*2*M_PI/N) + sinf( 25*i*2*M_PI/N ) );
     }
 
+    JChart test_chart_2;
+    test_chart_2.Plot( sin_vect );
+
     jaspl::ocl::TaskQueue< std::vector< float > >  test_q;
     test_q.Load( sin_vect );
 
@@ -72,10 +75,8 @@ int main(int argc, char *argv[]) {
 
     std::vector< float > processed = test_q.Recall();
 
-    jaspl::plot( sin_vect );
-    jaspl::plot( processed );
-//    JChart test_chart;
-//    test_chart.Plot( processed );
+    JChart test_chart;
+    test_chart.Plot( processed );
 
     return a.exec();
 

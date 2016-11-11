@@ -32,8 +32,7 @@ class TaskQueueBase : public OpenCLBase {
     void AddTaskItem( TaskItem& item );
 
   protected:
-    std::vector<cl::Kernel> kernel_queue;
-    std::vector< TaskItem > task_queue;
+    std::list< TaskItem > task_queue;
 
     cl::Buffer signal_input;
     cl::Buffer scratch_space;

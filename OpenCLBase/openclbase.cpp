@@ -12,6 +12,10 @@
 //Headers for this project
 #include "jAlgorithm/jalgorithm.h"
 
+namespace jaspl {
+
+namespace ocl {
+
 std::vector<cl::Platform> OpenCLBase::all_platforms;
 cl::Platform OpenCLBase::default_platform;
 std::vector<cl::Device> OpenCLBase::all_devices;
@@ -110,4 +114,8 @@ void OpenCLBase::PrintDebugInfo() {
 
     cl::Device default_device=devices[0];
     std::cout<< "Using device: "<<default_device.getInfo<CL_DEVICE_NAME>()<<std::endl;
+}
+
+}
+
 }

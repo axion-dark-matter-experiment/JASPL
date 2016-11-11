@@ -160,6 +160,36 @@ std::string CLErrorString(cl_int* error) {
     return CLErrorString( (intptr_t)error );
 }
 
+void PrintOCLDebugInfo() {
+    //get all platforms (drivers)
+    std::vector<cl::Platform> platforms;
+    cl::Platform::get(&platforms);
+    if(platforms.size()==0) {
+        std::cout<<" No platforms found. Check OpenCL installation." << std::endl;
+    }
+
+    std::cout << "Available Platforms:" << std::endl;
+    for( uint i = 0 ; i < platforms.size() ; i++ ) {
+
+        std::cout << "Platform number " << i << " " << platforms[i].getInfo<CL_PLATFORM_NAME>() << std::endl;
+        cl::Platform platform = platforms[i];
+        std::cout << "Platform Info: "<<platform.getInfo<CL_PLATFORM_NAME>()<< std::endl;
+
+        //get default device of the default platform
+        std::vector<cl::Device> devices;
+        platform.getDevices(CL_DEVICE_TYPE_ALL, &devices);
+        if(devices.size() == 0) {
+            std::cout<<" No devices found. Check OpenCL installation!\n";
+        }
+
+        std::cout<<"Available devices: "<<devices.size()<<std::endl;
+
+        for( uint i = 0 ; i < devices.size() ; i++ ) {
+            std::cout << "Device number " << i << " " << devices[i].getInfo<CL_DEVICE_NAME>() << std::endl;
+        }
+    }
+
+}
 
 }
 

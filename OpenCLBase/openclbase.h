@@ -17,6 +17,10 @@
 //Project specific headers
 //
 
+namespace jaspl {
+
+namespace ocl {
+
 class OpenCLBase {
 
   public:
@@ -37,6 +41,10 @@ class OpenCLBase {
     static cl::Context context;
     static cl::CommandQueue command_queue;
 };
+
+}
+
+}
 
 
 #endif // OPENCLBASE_H

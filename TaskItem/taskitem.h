@@ -28,7 +28,6 @@ class TaskItem : public OpenCLBase {
   public:
 
 //    TaskItem( uint device_number = 0 );
-    cl::Kernel &PullKernel();
     virtual void Trigger();
     virtual void SetSignal(cl::Buffer& signal_buff , uint sig_size);
 
@@ -36,7 +35,7 @@ class TaskItem : public OpenCLBase {
     template <typename T> std::string FakeKernelTemplating( std::string kernel_source );
     template <typename T> void LoadCLKernel( std::string kernel_name );
 
-    void EstablishKernelPath( std::string kernel_source_path );
+    void CheckKernelPath( std::string kernel_source_path );
     std::string GetOpenCLSource(std::string kernel_path );
 
     std::string kernel_path;
@@ -48,7 +47,7 @@ class TaskItem : public OpenCLBase {
     uint signal_size;
 
   private:
-    std::string FastRead( std::string file_name );
+    std::string FastRead(std::__cxx11::string file_name );
 
 };
 

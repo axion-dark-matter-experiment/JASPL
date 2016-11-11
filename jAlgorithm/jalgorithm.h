@@ -16,6 +16,7 @@
 #include <CL/cl.hpp>
 // Boost Headers
 #include <boost/lexical_cast.hpp>
+#include <boost/filesystem.hpp>
 // Miscellaneous Headers
 //
 
@@ -26,6 +27,16 @@
     std::stringstream buffer;\
     buffer << file_stream.rdbuf();\
     buffer.str();\
+})\
+
+#define\
+    SOURCE_DIR \
+({\
+    std::string current_path = __FILE__;\
+    boost::filesystem::path p( current_path );\
+    boost::filesystem::path dir = p.parent_path();\
+    auto full_path = boost::filesystem::canonical( dir );\
+    full_path.string();\
 })\
 
 namespace jaspl {
@@ -172,6 +183,7 @@ namespace ocl {
 
 std::string CLErrorString(cl_int error);
 std::string CLErrorString(cl_int* error);
+void PrintOCLDebugInfo();
 
 }
 

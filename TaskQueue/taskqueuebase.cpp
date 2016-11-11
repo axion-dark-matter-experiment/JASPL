@@ -5,7 +5,7 @@ namespace jaspl {
 namespace ocl {
 
 TaskQueueBase::TaskQueueBase() : OpenCLBase() {
-    SetUp( 0 );
+//    SetUp( 0 );
     //
 }
 
@@ -13,9 +13,6 @@ TaskQueueBase::~TaskQueueBase() {}
 
 void TaskQueueBase::Execute(){
 
-//    for( const auto& kernel : kernel_queue ) {
-//        command_queue.enqueueNDRangeKernel( kernel,cl::NullRange, cl::NDRange( signal_size ) );
-//    }
     for( auto& task : task_queue ) {
         task.Trigger();
     }

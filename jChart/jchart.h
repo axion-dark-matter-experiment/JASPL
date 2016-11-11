@@ -1,6 +1,17 @@
 #ifndef JCHART_H
 #define JCHART_H
 
+//Header for this file
+//
+//C System-Headers
+#include <cxxabi.h> //abi::__cxa_demangle
+//C++ System headers
+#include <typeinfo> //typeid(T).name()
+//OpenCL Headers
+//
+//Boost Headers
+//
+//Qt Headers
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include <QtCharts/QChartView>
@@ -12,6 +23,8 @@
 #include <QtCore/QDebug>
 #include <QtCharts/QValueAxis>
 #include <QTimer>
+//Project specific headers
+#include "jAlgorithm/jalgorithm.h"
 
 QT_CHARTS_USE_NAMESPACE
 
