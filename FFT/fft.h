@@ -1,18 +1,18 @@
-#ifndef CONVOLUTION_H
-#define CONVOLUTION_H
+#ifndef FFT_H
+#define FFT_H
 
 //Header for this file
 //
 //C System-Headers
 //
 //C++ System headers
-//
+#include <boost/type_traits.hpp>
 //OpenCL Headers
-//
+#include <clFFT.h>
 //Boost Headers
 //
 //Project specific headers
-#include "jAlgorithm/jalgorithm.h"
+#include "jVector/jvector.h"
 #include "TaskItem/taskitem.h"
 
 namespace jaspl {
@@ -20,14 +20,13 @@ namespace jaspl {
 namespace ocl {
 
 template <class T>
-class Convolution : public TaskItem {
+class FFT : public TaskItem {
 
 //    friend class TaskQueueBase;
 
   public:
-    Convolution( T& convolution_kernel );
-    Convolution( T* convolution_kernel );
-    ~Convolution();
+    FFT();
+    ~FFT();
 //    void Trigger();
 //    void SetSignal(cl::Buffer& signal_buff , uint sig_size);
 
@@ -36,6 +35,7 @@ class Convolution : public TaskItem {
 //    size_t ProcessedSignalSize();
 
   private:
+
     void Trigger();
     void SetSignal(cl::Buffer& signal_buff , uint sig_size);
 
@@ -43,15 +43,23 @@ class Convolution : public TaskItem {
     size_t ProcessedSignalBytes();
     size_t ProcessedSignalSize();
 
-    cl::Buffer kernel_buff;
-    cl::Buffer scratch_buff;
+    void TearDown();
+
+    cl::Buffer local_buff;
+    cl::Buffer output_buff;
+
+    cl_int err;
+
+    clfftPlanHandle planHandle;
+    clfftSetupData fftSetup;
+    clfftDim dim = CLFFT_1D ;
 
 };
 
-#include "Convolution/convolution.tpp"
+#include "FFT/fft.tpp"
 
 }
 
 }
 
-#endif // CONVOLUTION_H
+#endif // FFT_H

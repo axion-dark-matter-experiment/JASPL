@@ -38,7 +38,6 @@ JChart::JChart(QWidget *parent) : QMainWindow( parent ) {
 
     chart->addSeries(time_series);
     chart->legend()->hide();
-    chart->setTitle("Time Series");
 
     chart->createDefaultAxes();
     chart->setAxisX(x_axis, time_series);

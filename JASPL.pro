@@ -6,7 +6,7 @@ TEMPLATE = app
 QT += charts
 QT += core gui widgets
 
-CONFIG += c++11
+CONFIG += c++14
 
 LIBS += -L/usr/local/lib -L/usr/lib -lboost_iostreams -lboost_system -lboost_filesystem
 
@@ -48,7 +48,9 @@ SOURCES += main.cpp \
     jChart/jchart_templates.tpp \
     TaskQueue/taskqueuebase.cpp \
     Convolution/convolution.cpp \
-    Convolution/convolution.tpp
+    Convolution/convolution.tpp \
+    FFT/fft.cpp \
+    FFT/fft.tpp
 
 HEADERS += \
     jAlgorithm/jalgorithm.h \
@@ -68,11 +70,13 @@ HEADERS += \
     TaskItem/taskitem.h \
     jChart/jchart.h \
     TaskQueue/taskqueuebase.h \
-    Convolution/convolution.h
+    Convolution/convolution.h \
+    FFT/fft.h
 
 DISTFILES += \
     jFilter/jfilter_linearconvolve.cl \
     jFilter/jfilter_nonlinearconvolve.cl \
     jFilter/jfilter_templated_linearconvolve.cl \
-    Convolution/linearconvolve.cl
+    Convolution/linearconvolve.cl \
+    FFT/fft.cl
 

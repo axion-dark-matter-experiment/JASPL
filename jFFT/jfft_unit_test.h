@@ -45,7 +45,7 @@ class JFFTUnitTest {
 
         fft_er.TearDown();
 
-        plot( vec, "FFT (CPU)", 500 );
+        plot( vec, "FFT (CPU)" );
 
     }
 
@@ -69,7 +69,7 @@ class JFFTUnitTest {
 
         std::cout<<"GPU took "<<time_taken_gpu<<" ms."<<std::endl;
 
-        plot( vec, "FFT (GPU)", 500 );
+        plot( vec, "FFT (GPU)" );
 
     }
 
@@ -80,7 +80,7 @@ class JFFTUnitTest {
 
         for ( uint i = 0; i < N ; i++ ) {
 
-            sin_vect.push_back( sinf( 2*i *2*M_PI/N) + sinf( 25*i*2*M_PI/N) + sinf( 100*i*2*M_PI/N ) );
+            sin_vect.push_back( sinf( (N/8)*i *2*M_PI/N) + 2*sinf( (N/4)*i*2*M_PI/N) + 3*sinf( (3*N/8)*i*2*M_PI/N ) );
         }
 
         return sin_vect;

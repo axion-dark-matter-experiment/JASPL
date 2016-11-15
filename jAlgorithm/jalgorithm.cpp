@@ -14,7 +14,7 @@ namespace jaspl {
 
 namespace ocl {
 
-std::string CLErrorString(cl_int error) {
+std::string CLErrorToString(cl_int error) {
     switch(error) {
     // run-time and JIT compiler errors
     case 0:
@@ -152,12 +152,12 @@ std::string CLErrorString(cl_int error) {
     case -1005:
         return "CL_D3D10_RESOURCE_NOT_ACQUIRED_KHR";
     default:
-        return "Unknown OpenCL error";
+        return "Unknown OpenCL error #" + boost::lexical_cast<std::string>( error );
     }
 }
 
-std::string CLErrorString(cl_int* error) {
-    return CLErrorString( (intptr_t)error );
+std::string CLErrorToString(cl_int* error) {
+    return CLErrorToString( (intptr_t)error );
 }
 
 void PrintOCLDebugInfo() {

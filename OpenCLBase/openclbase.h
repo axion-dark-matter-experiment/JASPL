@@ -27,7 +27,6 @@ class OpenCLBase {
 
     OpenCLBase( uint device_number = 0 );
     virtual ~OpenCLBase() = 0;
-    void PrintDebugInfo();
 
   protected:
 

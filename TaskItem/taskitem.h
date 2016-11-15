@@ -25,15 +25,25 @@ namespace ocl {
 
 class TaskItem : public OpenCLBase {
 
-  public:
+    friend class TaskQueueBase;
 
-//    TaskItem( uint device_number = 0 );
-    virtual void Trigger();
-    virtual void SetSignal(cl::Buffer& signal_buff , uint sig_size);
+  public:
+    virtual ~TaskItem() {}
+//    virtual void Trigger();
+//    virtual void SetSignal( cl::Buffer& signal_buff , uint sig_size );
+//    virtual cl::Buffer& ProcessedSignal();
+//    virtual size_t ProcessedSignalBytes();
+//    virtual size_t ProcessedSignalSize();
 
   protected:
-    template <typename T> std::string FakeKernelTemplating( std::string kernel_source );
-    template <typename T> void LoadCLKernel( std::string kernel_name );
+    template <typename F> std::string FakeKernelTemplating( std::string kernel_source );
+    template <typename F> void LoadCLKernel( std::string kernel_name );
+
+    virtual void Trigger();
+    virtual void SetSignal( cl::Buffer& signal_buff , uint sig_size );
+    virtual cl::Buffer& ProcessedSignal();
+    virtual size_t ProcessedSignalBytes();
+    virtual size_t ProcessedSignalSize();
 
     void CheckKernelPath( std::string kernel_source_path );
     std::string GetOpenCLSource(std::string kernel_path );
@@ -44,7 +54,7 @@ class TaskItem : public OpenCLBase {
     cl::Program program;
     cl::Kernel kernel;
 
-    uint signal_size;
+    size_t signal_size;
 
   private:
     std::string FastRead(std::__cxx11::string file_name );

@@ -37,6 +37,7 @@ class JChart : QMainWindow {
     ~JChart();
 
     template <class T> void Plot( T time_series );
+    template <class T> void Plot( T time_series, std::string chart_title );
 
   private:
 

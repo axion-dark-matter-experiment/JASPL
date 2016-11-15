@@ -7,6 +7,7 @@
 //
 //C++ System headers
 #include <iostream>
+#include <memory>
 //OpenCL Headers
 #include <CL/cl.h>
 #include <CL/cl.hpp>
@@ -25,20 +26,22 @@ namespace ocl {
 
 class TaskQueueBase : public OpenCLBase {
 
+    friend class TaskItem;
+
   public:
     TaskQueueBase();
     virtual ~TaskQueueBase() = 0;
     void Execute();
-    void AddTaskItem( TaskItem& item );
+    void AddTaskItem(TaskItem &item );
+    void ReknewSignal(cl::Buffer& processed_buff , size_t processed_bytes, size_t processed_size);
 
   protected:
-    std::list< TaskItem > task_queue;
+    std::list< TaskItem* > task_queue;
 
     cl::Buffer signal_input;
-    cl::Buffer scratch_space;
     cl::Buffer output;
 
-    uint signal_size;
+    size_t signal_size;
     size_t signal_bytes;
 
     bool on_device = false;

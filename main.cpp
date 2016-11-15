@@ -28,8 +28,10 @@
 #include "TaskQueue/taskqueue.h"
 #include "Convolution/convolution.h"
 #include "jChart/jchart.h"
+#include "FFT/fft.h"
 
-#define TEST_POINTS 1e3
+#define TEST_POINTS 1e5
+#define TEST_TYPE float
 
 /*! \mainpage J.A.S.P.L. (Just Another Signal Processing Library)
  *
@@ -51,32 +53,38 @@ int main(int argc, char *argv[]) {
 
     QApplication a(argc, argv);
 
-    uint N = 1604;
-    std::vector< float > sin_vect;
+    uint N = TEST_POINTS;
+    std::vector< TEST_TYPE > sin_vect;
 
     for ( uint i = 0; i < N ; i++ ) {
 
-        sin_vect.push_back( sinf( 2*i *2*M_PI/N) + sinf( 5*i*2*M_PI/N) + sinf( 25*i*2*M_PI/N ) );
+        sin_vect.push_back( sinf( (N/8)*i *2*M_PI/N) + 2*sinf( (N/4)*i*2*M_PI/N) + 3*sinf( (3*N/8)*i*2*M_PI/N ) );
     }
 
-    JChart test_chart_2;
-    test_chart_2.Plot( sin_vect );
+//    JChart test_chart_2;
+//    test_chart_2.Plot( sin_vect, "Time Series" );
 
-    jaspl::ocl::TaskQueue< std::vector< float > >  test_q;
+    jaspl::ocl::TaskQueue< std::vector< TEST_TYPE > > test_q;
     test_q.Load( sin_vect );
 
-    float fact = static_cast<float>( 1.0f / 100.0f );
+//    TEST_TYPE fact = static_cast< TEST_TYPE >( 1.0f / 100.0f );
 
-    std::vector< float > box_vec(100, fact );
-    auto conv_task = jaspl::ocl::Convolution< std::vector<float> > ( box_vec );
-    test_q.AddTaskItem( conv_task );
+//    std::vector< TEST_TYPE > box_vec( 100, fact );
+//    auto conv_task = jaspl::ocl::Convolution< std::vector< TEST_TYPE > >( box_vec );
+//    test_q.AddTaskItem( conv_task );
+
+    auto fft = jaspl::ocl::FFT< std::vector< TEST_TYPE > >();
+    test_q.AddTaskItem( fft );
 
     test_q.Execute();
 
-    std::vector< float > processed = test_q.Recall();
+    std::vector< TEST_TYPE > processed = test_q.Recall();
 
-    JChart test_chart;
-    test_chart.Plot( processed );
+    jaspl::plot( sin_vect );
+    jaspl::plot( processed );
+
+//    JChart test_chart;
+//    test_chart.Plot( processed, "Frequency Domain" );
 
     return a.exec();
 

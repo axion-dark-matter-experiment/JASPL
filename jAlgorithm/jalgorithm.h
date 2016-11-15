@@ -39,6 +39,12 @@
     full_path.string();\
 })\
 
+#define\
+    __CLASS__ \
+({\
+    abi::__cxa_demangle(typeid(*this).name(), 0, 0, NULL);\
+})\
+
 namespace jaspl {
 
 //Get the name of a type as it would appear in source code
@@ -181,8 +187,8 @@ template <typename T> void check_for_accesor ( T& to_check ) {
 
 namespace ocl {
 
-std::string CLErrorString(cl_int error);
-std::string CLErrorString(cl_int* error);
+std::string CLErrorToString(cl_int error);
+std::string CLErrorToString(cl_int* error);
 void PrintOCLDebugInfo();
 
 }

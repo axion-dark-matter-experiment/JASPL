@@ -57,11 +57,17 @@ void OpenCLBase::SetUp( uint device_number ) {
     }
 
     OpenCLBase::current_device = OpenCLBase::all_devices[ device_number ];
-    OpenCLBase::context = cl::Context ({OpenCLBase::current_device});
 
-    cl_int err;
+    cl_context_properties props[] ={ CL_CONTEXT_PLATFORM, (cl_context_properties)(default_platform)(), 0};
+//    cl_int err_0 = 0;
+//    OpenCLBase::context = cl::Context( clCreateContext( props, 1, &current_device(), NULL, NULL, &err_0 ); )
+
+//    OpenCLBase::context = cl::Context ( {OpenCLBase::current_device} );
+    OpenCLBase::context = cl::Context ( {OpenCLBase::current_device}, props );
+
+    cl_int err = 0;
     OpenCLBase::command_queue = cl::CommandQueue (OpenCLBase::context,OpenCLBase::current_device, err);
-    std::cout << __func__ << " OpenCL Status: " << jaspl::ocl::CLErrorString( err ) << std::endl;
+    std::cout << __func__ << " OpenCL Status: " << jaspl::ocl::CLErrorToString( err ) << std::endl;
 }
 
 OpenCLBase::OpenCLBase( uint device_number ) {
@@ -78,43 +84,6 @@ OpenCLBase::OpenCLBase( uint device_number ) {
 }
 
 OpenCLBase::~OpenCLBase() {}
-
-void OpenCLBase::PrintDebugInfo() {
-    //get all platforms (drivers)
-    std::vector<cl::Platform> platforms;
-    cl::Platform::get(&platforms);
-    if(platforms.size()==0) {
-        std::cout<<" No platforms found. Check OpenCL installation." << std::endl;
-    }
-
-    std::cout << "Available Platforms:" << std::endl;
-    for( uint i = 0 ; i < platforms.size() ; i++ ) {
-
-        std::cout << "Platform number " << i << " " << platforms[i].getInfo<CL_PLATFORM_NAME>() << std::endl;
-    }
-
-    cl::Platform default_platform = platforms[0];
-    std::cout << "Using platform: "<<default_platform.getInfo<CL_PLATFORM_NAME>()<<"\n";
-
-    //get default device of the default platform
-    std::vector<cl::Device> devices;
-    default_platform.getDevices(CL_DEVICE_TYPE_ALL, &devices);
-    if(devices.size()==0) {
-        std::cout<<" No devices found. Check OpenCL installation!\n";
-        exit(1);
-    }
-
-    std::cout<<"Available devices: "<<devices.size()<<std::endl;
-
-    for( uint i = 0 ; i < devices.size() ; i++ ) {
-
-        std::cout << "Device number " << i << " " << devices[i].getInfo<CL_DEVICE_NAME>() << std::endl;
-
-    }
-
-    cl::Device default_device=devices[0];
-    std::cout<< "Using device: "<<default_device.getInfo<CL_DEVICE_NAME>()<<std::endl;
-}
 
 }
 

@@ -1,8 +1,8 @@
 template <typename T>
 std::string TaskItem::FakeKernelTemplating( std::string kernel_source ) {
 
-    std::string type_str = get_type_name<typename T::value_type>();
-    boost::replace_all(kernel_source, "TYPE", type_str );
+    std::string type_str = get_type_name<T>();
+    boost::replace_all( kernel_source, "TYPE", type_str );
 
     return kernel_source;
 }
@@ -31,6 +31,6 @@ void TaskItem::LoadCLKernel( std::string kernel_name ) {
 
     cl_int err = 0;
     kernel = cl::Kernel(program, kernel_name.c_str() );
-    std::cout << __func__ << " OpenCL Status: " << CLErrorString( err ) << std::endl;
+    std::cout << __func__ << " OpenCL Status: " << CLErrorToString( err ) << std::endl;
 
 }

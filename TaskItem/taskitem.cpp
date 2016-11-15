@@ -16,19 +16,6 @@ std::string TaskItem::FastRead( std::string file_name ) {
     return buffer.str();
 }
 
-//void TaskItem::EstablishKernelPath( std::string kernel_source_path ) {
-
-//    std::ifstream test_stream( kernel_source_path.c_str() );
-//    if ( test_stream.good() ) {
-//        kernel_path = kernel_source_path;
-//    } else {
-//        std::string err_str = __FUNCTION__;
-//        err_str += "\nCould not locate OpenCL kernel source file @";
-//        err_str += kernel_source_path;
-//        throw std::ios_base::failure( err_str );
-//    }
-//}
-
 void TaskItem::CheckKernelPath( std::string kernel_source_path ) {
 
     std::ifstream test_stream( kernel_source_path.c_str() );
@@ -64,7 +51,7 @@ void TaskItem::Trigger() {
     cl_int err;
     err = command_queue.enqueueNDRangeKernel( kernel,cl::NullRange, cl::NDRange( signal_size ) );
 
-    std::cout << __func__ << " OpenCL Status: " << CLErrorString( err ) << std::endl;
+    std::cout << __func__ << " (TaskItem) OpenCL Status: " << CLErrorToString( err ) << std::endl;
 }
 
 void TaskItem::SetSignal( cl::Buffer& signal_buff, uint sig_size  ) {
@@ -74,8 +61,12 @@ void TaskItem::SetSignal( cl::Buffer& signal_buff, uint sig_size  ) {
     cl_int err;
     err = kernel.setArg( 0, signal_buff );
 
-    std::cout << __func__ << " OpenCL Status: " << CLErrorString( err ) << std::endl;
+    std::cout << __func__ << " OpenCL Status: " << CLErrorToString( err ) << std::endl;
 }
+
+cl::Buffer &TaskItem::ProcessedSignal(){}
+size_t TaskItem::ProcessedSignalBytes(){}
+size_t TaskItem::ProcessedSignalSize(){}
 
 }
 
