@@ -10,7 +10,7 @@
 // Miscellaneous Headers
 //
 //Headers for this project
-#include "jAlgorithm/jalgorithm.h"
+#include "jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 

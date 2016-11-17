@@ -8,12 +8,12 @@ FFT<T>::FFT() {
     err = clfftInitSetupData(&fftSetup);
     err = clfftSetup(&fftSetup);
 
-    std::string source_directory = SOURCE_DIR;
-    std::string kernel_name = "/fft.cl";
+//    std::string source_directory = SOURCE_DIR;
+//    std::string kernel_name = "/fft.cl";
 
-    kernel_path = source_directory + kernel_name;
+//    kernel_path = source_directory + kernel_name;
 
-    LoadCLKernel< typename T::value_type >( "PowerSpectrum" );
+//    LoadCLKernel< typename T::value_type >( "PowerSpectrum" );
 }
 
 template<typename T>
@@ -28,26 +28,27 @@ void FFT<T>::Trigger() {
     err = clfftEnqueueTransform(planHandle, CLFFT_FORWARD, 1, &command_queue(), 0, NULL, NULL, &local_buff(), NULL, NULL);
     std::cout << __func__ << "(clfftEnqueueTransform) OpenCL Status: " << CLErrorToString( err ) << std::endl;
 
-    err = command_queue.enqueueNDRangeKernel( kernel,cl::NullRange, cl::NDRange( signal_size ) );
-    signal_size = (signal_size%2 == 0)?( signal_size/2 ):( (signal_size - 1)/2 );
-    std::cout << __func__ << "(enqueueNDRangeKernel) OpenCL Status: " << CLErrorToString( err ) << std::endl;
+//    err = command_queue.enqueueNDRangeKernel( kernel,cl::NullRange, cl::NDRange( signal_size ) );
+//    signal_size = (signal_size%2 == 0)?( signal_size/2 ):( (signal_size - 1)/2 );
+//    std::cout << __func__ << "(enqueueNDRangeKernel) OpenCL Status: " << CLErrorToString( err ) << std::endl;
 
 }
 
 template <typename T>
 void FFT<T>::SetSignal( cl::Buffer& signal_buff, uint sig_size ) {
 
-    err = kernel.setArg(0, signal_buff);
-    std::cout << __func__ << "(setKernelArgs[0]) OpenCL Status: " << CLErrorToString( err ) << std::endl;
+//    err = kernel.setArg(0, signal_buff);
+//    std::cout << __func__ << "(setKernelArgs[0]) OpenCL Status: " << CLErrorToString( err ) << std::endl;
 
     signal_size = sig_size;
     local_buff = signal_buff;
 
-    size_t scratch_bytes = (sig_size%2 == 0)?( sig_size*sizeof(typename T::value_type)/2 ):( (sig_size*sizeof(typename T::value_type) - 1)/2 );
-    output_buff = cl::Buffer ( context, CL_MEM_READ_WRITE, scratch_bytes );
+//    size_t scratch_bytes = (sig_size%2 == 0)?( sig_size*sizeof(typename T::value_type)/2 ):( (sig_size*sizeof(typename T::value_type) - 1)/2 );
+//    size_t scratch_bytes = sig_size*sizeof( typename T::value_type );
+//    output_buff = cl::Buffer ( context, CL_MEM_READ_WRITE, scratch_bytes );
 
-    err = kernel.setArg(1, output_buff);
-    std::cout << __func__ << "(setKernelArgs[1]) OpenCL Status: " << CLErrorToString( err ) << std::endl;
+//    err = kernel.setArg(1, output_buff);
+//    std::cout << __func__ << "(setKernelArgs[1]) OpenCL Status: " << CLErrorToString( err ) << std::endl;
 
     size_t clLengths[1] = { sig_size };
 
@@ -65,7 +66,7 @@ void FFT<T>::SetSignal( cl::Buffer& signal_buff, uint sig_size ) {
     }
 
     std::cout << __func__ << "(clfftSetPlanPrecision) OpenCL Status: " << CLErrorToString( err ) << std::endl;
-    err = clfftSetLayout(planHandle,  CLFFT_REAL,  CLFFT_HERMITIAN_INTERLEAVED );
+    err = clfftSetLayout(planHandle,  CLFFT_REAL, CLFFT_HERMITIAN_INTERLEAVED );
     std::cout << __func__ << "(clfftSetLayout) OpenCL Status: " << CLErrorToString( err ) << std::endl;
     err = clfftSetResultLocation(planHandle, CLFFT_INPLACE);
     std::cout << __func__ << "(clfftSetResultLocation) OpenCL Status: " << CLErrorToString( err ) << std::endl;
@@ -77,7 +78,8 @@ void FFT<T>::SetSignal( cl::Buffer& signal_buff, uint sig_size ) {
 template <typename T>
 cl::Buffer& FFT<T>::ProcessedSignal() {
     std::cout << __func__ << "FFT" << std::endl;
-    return output_buff;
+    return local_buff;
+//    return output_buff;
 }
 
 template <typename T>

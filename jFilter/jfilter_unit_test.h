@@ -19,7 +19,7 @@
 #include "jFilter/ocl_jlinearfilter.h"
 #include "jPlot/jplot.h"
 #include "jFilter/jlinearfilter.h"
-#include "jAlgorithm/jalgorithm.h"
+#include "jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 

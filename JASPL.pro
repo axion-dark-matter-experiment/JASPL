@@ -23,7 +23,7 @@ QMAKE_CXXFLAGS+= -fopenmp
 QMAKE_LFLAGS +=  -fopenmp
 
 SOURCES += main.cpp \
-    jAlgorithm/jalgorithm.cpp \
+    jTypeTraits/jalgorithm.cpp \
     jFFT/jfft.cpp \
     jFFT/jfft_templates.tpp \
     jFFT/ocl_jfft.cpp \
@@ -47,13 +47,14 @@ SOURCES += main.cpp \
     jChart/jchart.cpp \
     jChart/jchart_templates.tpp \
     TaskQueue/taskqueuebase.cpp \
-    Convolution/convolution.cpp \
-    Convolution/convolution.tpp \
-    FFT/fft.cpp \
-    FFT/fft.tpp
+    TaskItems/Convolution/convolution.cpp \
+    TaskItems/Convolution/convolution.tpp \
+    TaskItems/FFT/fft.cpp \
+    TaskItems/FFT/fft.tpp \
+    TaskItems/PowerSpectrum/powerspectrum.cpp \
+    TaskItems/PowerSpectrum/powerspectrum.tpp
 
 HEADERS += \
-    jAlgorithm/jalgorithm.h \
     jFFT/jfft.h \
     jFFT/ocl_jfft.h \
     jPlot/jplot.h \
@@ -70,13 +71,16 @@ HEADERS += \
     TaskItem/taskitem.h \
     jChart/jchart.h \
     TaskQueue/taskqueuebase.h \
-    Convolution/convolution.h \
-    FFT/fft.h
+    TaskItems/Convolution/convolution.h \
+    TaskItems/FFT/fft.h \
+    TaskItems/PowerSpectrum/powerspectrum.h \
+    jTypeTraits/jtypetraits.h
 
 DISTFILES += \
     jFilter/jfilter_linearconvolve.cl \
     jFilter/jfilter_nonlinearconvolve.cl \
     jFilter/jfilter_templated_linearconvolve.cl \
-    Convolution/linearconvolve.cl \
-    FFT/fft.cl
+    TaskItems/Convolution/linearconvolve.cl \
+    TaskItems/FFT/fft.cl \
+    TaskItems/PowerSpectrum/powerspectrum.cl
 

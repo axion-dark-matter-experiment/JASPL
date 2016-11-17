@@ -16,7 +16,7 @@
 //
 //Project specific headers
 #include "TaskQueue/taskqueuebase.h"
-#include "jAlgorithm/jalgorithm.h"
+#include "jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 

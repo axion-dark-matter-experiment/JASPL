@@ -24,7 +24,7 @@
 #include <QtCharts/QValueAxis>
 #include <QTimer>
 //Project specific headers
-#include "jAlgorithm/jalgorithm.h"
+#include "jTypeTraits/jtypetraits.h"
 
 QT_CHARTS_USE_NAMESPACE
 

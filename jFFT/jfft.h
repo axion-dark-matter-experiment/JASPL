@@ -8,7 +8,7 @@
 
 #include<omp.h>
 #include<iostream>
-#include <jAlgorithm/jalgorithm.h>
+#include <jTypeTraits/jtypetraits.h>
 
 namespace jaspl {
 

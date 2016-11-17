@@ -17,7 +17,7 @@
 //Project specific headers
 #include "OpenCLBase/openclbase.h"
 #include "jVector/jvector.h"
-#include "jAlgorithm/jalgorithm.h"
+#include "jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 

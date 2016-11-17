@@ -22,31 +22,24 @@ namespace ocl {
 template <class T>
 class FFT : public TaskItem {
 
-//    friend class TaskQueueBase;
-
   public:
+
     FFT();
     ~FFT();
-//    void Trigger();
-//    void SetSignal(cl::Buffer& signal_buff , uint sig_size);
 
-//    cl::Buffer& ProcessedSignal();
-//    size_t ProcessedSignalBytes();
-//    size_t ProcessedSignalSize();
-
-  private:
+  protected:
 
     void Trigger();
-    void SetSignal(cl::Buffer& signal_buff , uint sig_size);
+    virtual void SetSignal(cl::Buffer& signal_buff , uint sig_size);
 
-    cl::Buffer& ProcessedSignal();
-    size_t ProcessedSignalBytes();
-    size_t ProcessedSignalSize();
+    virtual cl::Buffer& ProcessedSignal();
+    virtual size_t ProcessedSignalBytes();
+    virtual size_t ProcessedSignalSize();
 
     void TearDown();
 
     cl::Buffer local_buff;
-    cl::Buffer output_buff;
+//    cl::Buffer output_buff;
 
     cl_int err;
 
@@ -56,7 +49,7 @@ class FFT : public TaskItem {
 
 };
 
-#include "FFT/fft.tpp"
+#include "TaskItems/FFT/fft.tpp"
 
 }
 

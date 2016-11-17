@@ -12,7 +12,7 @@
 //Boost Headers
 //
 //Project specific headers
-#include "jAlgorithm/jalgorithm.h"
+#include "jTypeTraits/jtypetraits.h"
 #include "TaskItem/taskitem.h"
 
 namespace jaspl {
@@ -22,18 +22,11 @@ namespace ocl {
 template <class T>
 class Convolution : public TaskItem {
 
-//    friend class TaskQueueBase;
 
   public:
     Convolution( T& convolution_kernel );
     Convolution( T* convolution_kernel );
     ~Convolution();
-//    void Trigger();
-//    void SetSignal(cl::Buffer& signal_buff , uint sig_size);
-
-//    cl::Buffer& ProcessedSignal();
-//    size_t ProcessedSignalBytes();
-//    size_t ProcessedSignalSize();
 
   private:
     void Trigger();
@@ -48,7 +41,7 @@ class Convolution : public TaskItem {
 
 };
 
-#include "Convolution/convolution.tpp"
+#include "TaskItems/Convolution/convolution.tpp"
 
 }
 

@@ -18,7 +18,7 @@
 #include "OpenCLBase/openclbase.h"
 #include "jVector/jvector.h"
 #include "jFilter/ocl_jfilter.h"
-#include "jAlgorithm/jalgorithm.h"
+#include "jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 

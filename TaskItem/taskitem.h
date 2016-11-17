@@ -17,7 +17,7 @@
 //Project specific headers
 #include "OpenCLBase/openclbase.h"
 #include "jVector/jvector.h"
-#include "jAlgorithm/jalgorithm.h"
+#include "jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 
@@ -29,11 +29,6 @@ class TaskItem : public OpenCLBase {
 
   public:
     virtual ~TaskItem() {}
-//    virtual void Trigger();
-//    virtual void SetSignal( cl::Buffer& signal_buff , uint sig_size );
-//    virtual cl::Buffer& ProcessedSignal();
-//    virtual size_t ProcessedSignalBytes();
-//    virtual size_t ProcessedSignalSize();
 
   protected:
     template <typename F> std::string FakeKernelTemplating( std::string kernel_source );
@@ -57,7 +52,7 @@ class TaskItem : public OpenCLBase {
     size_t signal_size;
 
   private:
-    std::string FastRead(std::__cxx11::string file_name );
+    std::string FastRead(std::string file_name );
 
 };
 

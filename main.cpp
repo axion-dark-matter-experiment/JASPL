@@ -21,14 +21,15 @@
 #include "jFilter/ocl_jlinearfilter.h"
 #include "jPlot/jplot.h"
 #include "jFilter/jlinearfilter.h"
-#include "jAlgorithm/jalgorithm.h"
+#include "jTypeTraits/jtypetraits.h"
 #include "jFilter/jfilter_unit_test.h"
 #include "jFilter/ocl_jfilter.h"
 #include "OpenCLBase/openclbase.h"
 #include "TaskQueue/taskqueue.h"
-#include "Convolution/convolution.h"
+#include "TaskItems/Convolution/convolution.h"
 #include "jChart/jchart.h"
-#include "FFT/fft.h"
+#include "TaskItems/FFT/fft.h"
+#include "TaskItems/PowerSpectrum/powerspectrum.h"
 
 #define TEST_POINTS 1e5
 #define TEST_TYPE float
@@ -67,13 +68,13 @@ int main(int argc, char *argv[]) {
     jaspl::ocl::TaskQueue< std::vector< TEST_TYPE > > test_q;
     test_q.Load( sin_vect );
 
-//    TEST_TYPE fact = static_cast< TEST_TYPE >( 1.0f / 100.0f );
+    TEST_TYPE fact = static_cast< TEST_TYPE >( 1.0f / 100.0f );
 
-//    std::vector< TEST_TYPE > box_vec( 100, fact );
-//    auto conv_task = jaspl::ocl::Convolution< std::vector< TEST_TYPE > >( box_vec );
-//    test_q.AddTaskItem( conv_task );
+    std::vector< TEST_TYPE > box_vec( 100, fact );
+    auto conv_task = jaspl::ocl::Convolution< std::vector< TEST_TYPE > >( box_vec );
+    test_q.AddTaskItem( conv_task );
 
-    auto fft = jaspl::ocl::FFT< std::vector< TEST_TYPE > >();
+    auto fft = jaspl::ocl::PowerSpectrum< std::vector< TEST_TYPE > >();
     test_q.AddTaskItem( fft );
 
     test_q.Execute();
