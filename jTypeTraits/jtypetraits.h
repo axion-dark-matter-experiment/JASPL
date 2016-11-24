@@ -45,6 +45,31 @@
     abi::__cxa_demangle(typeid(*this).name(), 0, 0, NULL);\
 })\
 
+/*
+#define\
+    OCL_DEBUG(err) \
+({\
+    if( debug ){\
+        std::cout << __func__ <<" OpenCL Status: " << jaspl::ocl::CLErrorToString( err ) << std::endl;\
+    }\
+})\
+*/
+
+#ifdef QT_DEBUG
+#define DEBUG 1
+#else
+#define DEBUG 0
+#endif
+
+#define OCL_DEBUG(err, ...) \
+            do { if (DEBUG) std::cout << __func__ <<\
+        __FILE__ <<\
+        " Line# "<<\
+        __LINE__ <<\
+        " OpenCL Status: " <<\
+        jaspl::ocl::CLErrorToString( err ) << std::endl; } while (0)
+
+
 namespace jaspl {
 
 //Get the name of a type as it would appear in source code
@@ -177,7 +202,7 @@ struct is_stdlib_container {
 template <typename T> void check_for_accesor ( T& to_check ) {
 
     if( !has_accessor< T >::value ) {
-        std::string err_mesg = __FUNCTION__;
+        std::string err_mesg = __func__;
         err_mesg += "\nType ";
         err_mesg += get_type_name<T>();
         err_mesg += " lacks accessor operator, []";

@@ -1,4 +1,4 @@
-#include "taskitem.h"
+#include "TaskItem/taskitem.h"
 
 namespace jaspl {
 
@@ -60,13 +60,17 @@ void TaskItem::SetSignal( cl::Buffer& signal_buff, uint sig_size  ) {
 
     cl_int err;
     err = kernel.setArg( 0, signal_buff );
+    OCL_DEBUG( err );
 
-    std::cout << __func__ << " OpenCL Status: " << CLErrorToString( err ) << std::endl;
+    //std::cout << __func__ << " OpenCL Status: " << CLErrorToString( err ) << std::endl;
 }
 
 cl::Buffer &TaskItem::ProcessedSignal(){}
 size_t TaskItem::ProcessedSignalBytes(){}
 size_t TaskItem::ProcessedSignalSize(){}
+bool TaskItem::NeedsToReknew(){
+    return false;
+}
 
 }
 

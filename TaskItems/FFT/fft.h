@@ -39,7 +39,6 @@ class FFT : public TaskItem {
     void TearDown();
 
     cl::Buffer local_buff;
-//    cl::Buffer output_buff;
 
     cl_int err;
 

@@ -29,7 +29,7 @@ class TaskQueueBase : public OpenCLBase {
     friend class TaskItem;
 
   public:
-    TaskQueueBase();
+    TaskQueueBase( uint device_number = 0 );
     virtual ~TaskQueueBase() = 0;
     void Execute();
     void AddTaskItem(TaskItem &item );

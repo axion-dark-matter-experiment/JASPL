@@ -4,10 +4,7 @@ namespace jaspl {
 
 namespace ocl {
 
-TaskQueueBase::TaskQueueBase() : OpenCLBase() {
-//    SetUp( 0 );
-    //
-}
+TaskQueueBase::TaskQueueBase(uint device_number) : OpenCLBase( device_number ) {}
 
 TaskQueueBase::~TaskQueueBase() {}
 
@@ -39,10 +36,10 @@ void TaskQueueBase::ReknewSignal(cl::Buffer& processed_buff, size_t processed_by
 
     cl_int* err_ptr = NULL;
     signal_input = cl::Buffer ( context, CL_MEM_READ_WRITE, processed_bytes, err_ptr );
-    std::cout << __func__ << "( cl::Buffer (TaskQueueBase) ) OpenCL Status: " << CLErrorToString( err_ptr ) << std::endl;
+    OCL_DEBUG( err_ptr );
 
     cl_int err = command_queue.enqueueCopyBuffer( processed_buff, signal_input, 0, 0, processed_bytes );
-    std::cout << __func__ << "(enqueueCopyBuffer (TaskQueueBase) ) OpenCL Status: " << CLErrorToString( err ) << std::endl;
+    OCL_DEBUG( err );
 
     signal_bytes = processed_bytes;
     signal_size = processed_size;

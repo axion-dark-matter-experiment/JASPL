@@ -5,10 +5,9 @@ void JChart::Plot( T input ) {
 
     time_series->clear();
 
-    uint k = static_cast<uint>( ceil( static_cast<double>(N) / 1000.0f ) );
-    std::cout << k << std::endl;
+    uint k = static_cast<uint>( ceil( static_cast<double>(N) / 2048.0f ) );
 
-    for ( uint i = 0; i < N - k ; i += k ) {
+    for ( uint i = 0; i < N ; i += k ) {
         time_series->append(i, input[i]);
     }
 

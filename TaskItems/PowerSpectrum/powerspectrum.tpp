@@ -16,7 +16,7 @@ void PowerSpectrum<T>::Trigger() {
 
     FFT<T>::err = TaskItem::command_queue.enqueueNDRangeKernel( TaskItem::kernel,cl::NullRange, cl::NDRange( TaskItem::signal_size ) );
     TaskItem::signal_size = (TaskItem::signal_size%2 == 0)?( TaskItem::signal_size/2 ):( (TaskItem::signal_size - 1)/2 );
-    std::cout << __func__ << "(enqueueNDRangeKernel) OpenCL Status: " << CLErrorToString( FFT<T>::err ) << std::endl;
+    OCL_DEBUG( FFT<T>::err );
 
 }
 
@@ -24,7 +24,8 @@ template <typename T>
 void PowerSpectrum<T>::SetSignal( cl::Buffer& signal_buff, uint sig_size ) {
 
     FFT<T>::err = TaskItem::kernel.setArg(0, signal_buff);
-    std::cout << __func__ << "(setKernelArgs[0]) OpenCL Status: " << CLErrorToString( FFT<T>::err ) << std::endl;
+    OCL_DEBUG( FFT<T>::err );
+    //std::cout << __func__ << "(setKernelArgs[0]) OpenCL Status: " << CLErrorToString( FFT<T>::err ) << std::endl;
 
     TaskItem::signal_size = sig_size;
     FFT<T>::local_buff = signal_buff;
@@ -33,28 +34,28 @@ void PowerSpectrum<T>::SetSignal( cl::Buffer& signal_buff, uint sig_size ) {
     output_buff = cl::Buffer ( OpenCLBase::context, CL_MEM_READ_WRITE, scratch_bytes );
 
     FFT<T>::err = TaskItem::kernel.setArg(1, output_buff);
-    std::cout << __func__ << "(setKernelArgs[1]) OpenCL Status: " << CLErrorToString(  FFT<T>::err ) << std::endl;
+    OCL_DEBUG( FFT<T>::err );
 
     size_t clLengths[1] = { sig_size };
 
     /* Create a default plan for a complex FFT. */
     FFT<T>::err = clfftCreateDefaultPlan(&(FFT<T>::planHandle), OpenCLBase::context(), FFT<T>::dim, clLengths);
-    std::cout << __func__ << "(clfftCreateDefaultPlan) OpenCL Status: " << CLErrorToString( FFT<T>::err ) << std::endl;
+    OCL_DEBUG( FFT<T>::err );
 
     /* Set plan parameters. */
     if ( boost::is_same< typename T::value_type, float>::value ) {
-        std::cout << __func__ << __CLASS__ << "Single Precision" << std::endl;
         FFT<T>::err = clfftSetPlanPrecision(FFT<T>::planHandle, CLFFT_SINGLE);
     } else {
-        std::cout << __func__ << __CLASS__ << "Double Precision" << std::endl;
         FFT<T>::err = clfftSetPlanPrecision(FFT<T>::planHandle, CLFFT_DOUBLE);
     }
 
-    std::cout << __func__ << "(clfftSetPlanPrecision) OpenCL Status: " << CLErrorToString(  FFT<T>::err ) << std::endl;
+    OCL_DEBUG( FFT<T>::err );
+
     FFT<T>::err = clfftSetLayout(FFT<T>::planHandle,  CLFFT_REAL,  CLFFT_HERMITIAN_INTERLEAVED );
-    std::cout << __func__ << "(clfftSetLayout) OpenCL Status: " << CLErrorToString( FFT<T>::err ) << std::endl;
+    OCL_DEBUG( FFT<T>::err );
+
     FFT<T>::err = clfftSetResultLocation(FFT<T>::planHandle, CLFFT_INPLACE);
-    std::cout << __func__ << "(clfftSetResultLocation) OpenCL Status: " << CLErrorToString( FFT<T>::err ) << std::endl;
+    OCL_DEBUG( FFT<T>::err );
 
     /* Bake the plan. */
     FFT<T>::err = clfftBakePlan(FFT<T>::planHandle, 1, &OpenCLBase::command_queue(), NULL, NULL);
@@ -63,13 +64,11 @@ void PowerSpectrum<T>::SetSignal( cl::Buffer& signal_buff, uint sig_size ) {
 
 template <typename T>
 cl::Buffer& PowerSpectrum<T>::ProcessedSignal() {
-    std::cout << __func__ << __CLASS__ << std::endl;
     return output_buff;
 }
 
 template <typename T>
 size_t PowerSpectrum<T>::ProcessedSignalBytes() {
-    std::cout << __func__ << __CLASS__ << std::endl;
     return TaskItem::signal_size*sizeof( typename T::value_type );
 }
 

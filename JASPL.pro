@@ -47,12 +47,15 @@ SOURCES += main.cpp \
     jChart/jchart.cpp \
     jChart/jchart_templates.tpp \
     TaskQueue/taskqueuebase.cpp \
-    TaskItems/Convolution/convolution.cpp \
-    TaskItems/Convolution/convolution.tpp \
+    TaskItems/LinearConvolution/linearconvolution.cpp \
+    TaskItems/LinearConvolution/linearconvolution.tpp \
     TaskItems/FFT/fft.cpp \
     TaskItems/FFT/fft.tpp \
     TaskItems/PowerSpectrum/powerspectrum.cpp \
-    TaskItems/PowerSpectrum/powerspectrum.tpp
+    TaskItems/PowerSpectrum/powerspectrum.tpp \
+#    TaskItems/NonLinearConvolution/nonlinearconvolution.cpp \
+#    TaskItems/NonLinearConvolution/nonlinearconvolution.tpp \
+    TaskItems/Rebin/rebin.cpp
 
 HEADERS += \
     jFFT/jfft.h \
@@ -71,16 +74,20 @@ HEADERS += \
     TaskItem/taskitem.h \
     jChart/jchart.h \
     TaskQueue/taskqueuebase.h \
-    TaskItems/Convolution/convolution.h \
+    TaskItems/LinearConvolution/linearconvolution.h \
     TaskItems/FFT/fft.h \
     TaskItems/PowerSpectrum/powerspectrum.h \
-    jTypeTraits/jtypetraits.h
+    jTypeTraits/jtypetraits.h \
+#    TaskItems/NonLinearConvolution/nonlinearconvolution.h \
+    TaskItems/Rebin/rebin.h
 
 DISTFILES += \
     jFilter/jfilter_linearconvolve.cl \
     jFilter/jfilter_nonlinearconvolve.cl \
     jFilter/jfilter_templated_linearconvolve.cl \
-    TaskItems/Convolution/linearconvolve.cl \
+    TaskItems/LinearConvolution/linearconvolve.cl \
     TaskItems/FFT/fft.cl \
-    TaskItems/PowerSpectrum/powerspectrum.cl
+    TaskItems/PowerSpectrum/powerspectrum.cl \
+#    TaskItems/NonLinearConvolution/nonlinearconvolve.cl \
+    TaskItems/Rebin/rebin.cl
 

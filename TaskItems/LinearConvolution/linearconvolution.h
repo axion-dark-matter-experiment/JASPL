@@ -1,5 +1,5 @@
-#ifndef CONVOLUTION_H
-#define CONVOLUTION_H
+#ifndef LINEARCONVOLUTION_H
+#define LINEARCONVOLUTION_H
 
 //Header for this file
 //
@@ -20,13 +20,13 @@ namespace jaspl {
 namespace ocl {
 
 template <class T>
-class Convolution : public TaskItem {
+class LinearConvolution : public TaskItem {
 
 
   public:
-    Convolution( T& convolution_kernel );
-    Convolution( T* convolution_kernel );
-    ~Convolution();
+    LinearConvolution( T& convolution_kernel );
+    LinearConvolution( T* convolution_kernel );
+    ~LinearConvolution();
 
   private:
     void Trigger();
@@ -41,10 +41,10 @@ class Convolution : public TaskItem {
 
 };
 
-#include "TaskItems/Convolution/convolution.tpp"
+#include "TaskItems/LinearConvolution/linearconvolution.tpp"
 
 }
 
 }
 
-#endif // CONVOLUTION_H
+#endif // LINEARCONVOLUTION_H

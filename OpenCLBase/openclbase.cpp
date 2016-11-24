@@ -26,53 +26,44 @@ bool OpenCLBase::initalized = false;
 
 void OpenCLBase::SetUp( uint device_number ) {
     //Force kernels to be compiled each time
-    setenv("CUDA_CACHE_DISABLE", "1", 1);
+//    setenv("CUDA_CACHE_DISABLE", "1", 1);
 
-    //get all platforms (drivers)
-    cl::Platform::get( &OpenCLBase::all_platforms) ;
+    cl::Platform::get( &OpenCLBase::all_platforms ) ;
 
     if( OpenCLBase::all_platforms.size() == 0  ) {
-        std::string err_str = __FUNCTION__;
+        std::string err_str = __func__;
         err_str += "No OpenCL platforms found, check OpenCL installation";
         throw std::runtime_error( err_str );
     }
 
-    OpenCLBase::default_platform = OpenCLBase::all_platforms[0];
-    OpenCLBase::default_platform.getDevices(CL_DEVICE_TYPE_GPU, &OpenCLBase::all_devices);
-
-    if( OpenCLBase::all_devices.size() == 0 ) {
-        std::string err_str = __FUNCTION__;
-        err_str += "No OpenCL devices found, check OpenCL installation";
-        throw std::runtime_error( err_str );
-    }
-
-    if( device_number + 1 > OpenCLBase::all_devices.size() ) {
-        std::string err_str = __FUNCTION__;
+    if( device_number > OpenCLBase::all_devices.size() ) {
+        std::string err_str = __func__;
         err_str += "\nRequested device number of ";
         err_str += boost::lexical_cast<std::string>( device_number );
         err_str += " does not correspond to any device.\n";
         err_str +="Largest device number is ";
-        err_str += boost::lexical_cast<std::string>( OpenCLBase::all_devices.size() - 1 );
+        err_str += boost::lexical_cast<std::string>( OpenCLBase::all_devices.size() );
         throw std::runtime_error( err_str );
     }
+
+    OpenCLBase::default_platform = OpenCLBase::all_platforms[0];
+    OpenCLBase::default_platform.getDevices(CL_DEVICE_TYPE_ALL, &OpenCLBase::all_devices);
 
     OpenCLBase::current_device = OpenCLBase::all_devices[ device_number ];
 
     cl_context_properties props[] ={ CL_CONTEXT_PLATFORM, (cl_context_properties)(default_platform)(), 0};
-//    cl_int err_0 = 0;
-//    OpenCLBase::context = cl::Context( clCreateContext( props, 1, &current_device(), NULL, NULL, &err_0 ); )
 
+//    OpenCLBase::context = cl::Context( clCreateContext( props, 1, &current_device(), NULL, NULL, &err_0 ); )
 //    OpenCLBase::context = cl::Context ( {OpenCLBase::current_device} );
     OpenCLBase::context = cl::Context ( {OpenCLBase::current_device}, props );
 
     cl_int err = 0;
     OpenCLBase::command_queue = cl::CommandQueue (OpenCLBase::context,OpenCLBase::current_device, err);
-    std::cout << __func__ << " OpenCL Status: " << jaspl::ocl::CLErrorToString( err ) << std::endl;
+    OCL_DEBUG( err );
+
 }
 
 OpenCLBase::OpenCLBase( uint device_number ) {
-
-    std::cout << __func__ << "Constructor called: " << initalized << std::endl;
 
     //Static variables are initalized once and only once
     //these variables need to be consistent across all derived classes
@@ -83,7 +74,9 @@ OpenCLBase::OpenCLBase( uint device_number ) {
     initalized |= true;
 }
 
-OpenCLBase::~OpenCLBase() {}
+OpenCLBase::~OpenCLBase() {
+    std::cout << __func__ << std::endl;
+}
 
 }
 
