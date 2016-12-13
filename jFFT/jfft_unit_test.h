@@ -14,7 +14,6 @@
 //
 //Project specific headers
 #include "jVector/jvector.h"
-#include "jFFT/ocl_jfft.h"
 #include "jFFT/jfft.h"
 #include "jPlot/jplot.h"
 
@@ -51,25 +50,15 @@ class JFFTUnitTest {
 
     void TestGPUFFT( uint num_points ) {
 
-        JVector<T> vec = SineSignal( num_points );
-
-        auto ocl_fft_er = jaspl::ocl::JFFT();
-
-        ocl_fft_er.Setup();
-
         auto start_gpu = std::chrono::high_resolution_clock::now();
 
-        ocl_fft_er.PowerSpectrum( vec );
+        //Test GPU FFT
 
         auto end_gpu = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> gpu_ms = end_gpu - start_gpu;
         auto time_taken_gpu = gpu_ms.count();
 
-        ocl_fft_er.Teardown();
-
         std::cout<<"GPU took "<<time_taken_gpu<<" ms."<<std::endl;
-
-        plot( vec, "FFT (GPU)" );
 
     }
 

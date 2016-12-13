@@ -73,3 +73,6 @@ Thumbs.db
 
 #docs
 /docs
+
+#legacy code
+/legacy

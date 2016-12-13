@@ -2,7 +2,7 @@ float gaussian( float x, float sigma ) {
     return (float)1.0f/(sqrt(M_PI_2)*sigma)*exp( -0.5 *pow(x/sigma,2.0));
 }
 
-__kernel void NonLinearConvolve( const __global float* input, __constant float* filter_kernel, __global float* output, const int signal_size, const int kernel_size)
+__kernel void NonLinearConvolve( const __global TYPE* input, __constant TYPE* filter_kernel, __global TYPE* output, const int signal_size, const int kernel_size)
 {
 
     int half_k_size = (kernel_size - 1)/2;
@@ -10,18 +10,18 @@ __kernel void NonLinearConvolve( const __global float* input, __constant float* 
 
     int i = get_global_id(0);
 
-    float conv_elem = 0.0;
-    float norm_factor = 0.0;
+    TYPE conv_elem = 0.0;
+    TYPE norm_factor = 0.0;
 
     int k_max = ( ( i + half_k_size ) > signal_max_index )?( signal_max_index + half_k_size - i ):(kernel_size);
     int k_min = ( ( i - half_k_size ) < 0 )?( half_k_size - i ):(0);
 
     for ( int j = k_min ; j < k_max ; j++ ) {
 
-        float spatial_weight = abs( i - j );
-        float range_weight = input[ i ] - input [ j ];
-        float spatial_function_val = gaussian( spatial_weight, spatial_sigma );
-        float range_function_val = gaussian( range_weight, range_sigma );
+        TYPE spatial_weight = abs( i - j );
+        TYPE range_weight = input[ i ] - input [ j ];
+        TYPE spatial_function_val = gaussian( spatial_weight, spatial_sigma );
+        TYPE range_function_val = gaussian( range_weight, range_sigma );
 
         norm_factor += spatial_function_val*range_function_val;
         conv_elem += input[ i + j - half_k_size ]*spatial_function_val*range_function_val;

@@ -39,7 +39,6 @@ class TaskItem : public OpenCLBase {
     virtual cl::Buffer& ProcessedSignal();
     virtual size_t ProcessedSignalBytes();
     virtual size_t ProcessedSignalSize();
-    virtual bool NeedsToReknew();
 
     void CheckKernelPath( std::string kernel_source_path );
     std::string GetOpenCLSource(std::string kernel_path );

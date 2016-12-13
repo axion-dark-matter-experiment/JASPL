@@ -32,6 +32,5 @@ void TaskItem::LoadCLKernel( std::string kernel_name ) {
     cl_int err = 0;
     kernel = cl::Kernel(program, kernel_name.c_str() );
     OCL_DEBUG( err );
-    //std::cout << __func__ << " OpenCL Status: " << CLErrorToString( err ) << std::endl;
 
 }

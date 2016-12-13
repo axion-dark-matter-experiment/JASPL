@@ -32,7 +32,7 @@ void OpenCLBase::SetUp( uint device_number ) {
 
     if( OpenCLBase::all_platforms.size() == 0  ) {
         std::string err_str = __func__;
-        err_str += "No OpenCL platforms found, check OpenCL installation";
+        err_str += "\nNo OpenCL platforms found, check OpenCL installation";
         throw std::runtime_error( err_str );
     }
 
@@ -55,7 +55,7 @@ void OpenCLBase::SetUp( uint device_number ) {
 
 //    OpenCLBase::context = cl::Context( clCreateContext( props, 1, &current_device(), NULL, NULL, &err_0 ); )
 //    OpenCLBase::context = cl::Context ( {OpenCLBase::current_device} );
-    OpenCLBase::context = cl::Context ( {OpenCLBase::current_device}, props );
+    OpenCLBase::context = cl::Context ( OpenCLBase::current_device, props );
 
     cl_int err = 0;
     OpenCLBase::command_queue = cl::CommandQueue (OpenCLBase::context,OpenCLBase::current_device, err);

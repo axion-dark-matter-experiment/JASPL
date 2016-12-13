@@ -1,8 +1,6 @@
 #ifndef JCHART_H
 #define JCHART_H
 
-//Header for this file
-//
 //C System-Headers
 #include <cxxabi.h> //abi::__cxa_demangle
 //C++ System headers

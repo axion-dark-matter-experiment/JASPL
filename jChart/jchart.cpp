@@ -46,14 +46,6 @@ JChart::JChart(QWidget *parent) : QMainWindow( parent ) {
     chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
 
-//    auto_timer = new QTimer(this);
-//    QObject::connect(auto_timer, SIGNAL(timeout()), this, SLOT(UpdateSignal()));
-//    auto_timer->setInterval(50);
-//    auto_timer->start();
-
-//    connect(auto_timer, SIGNAL(timeout()), this, SLOT(UpdateSignal()));
-//    auto_timer->start(0);
-
     setCentralWidget(chartView);
     resize(1280, 720);
     show();

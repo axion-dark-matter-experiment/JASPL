@@ -1,3 +1,4 @@
+
 //C System-Headers
 #include <math.h>
 #include <stdio.h>
@@ -13,15 +14,12 @@
 #include <QApplication>
 //Project specific headers
 #include "jVector/jvector.h"
-#include "jFFT/ocl_jfft.h"
 #include "jFFT/jfft.h"
 #include "jFFT/jfft_unit_test.h"
-#include "jFilter/ocl_jlinearfilter.h"
 #include "jPlot/jplot.h"
 #include "jFilter/jlinearfilter.h"
 #include "jTypeTraits/jtypetraits.h"
 #include "jFilter/jfilter_unit_test.h"
-#include "jFilter/ocl_jfilter.h"
 #include "OpenCLBase/openclbase.h"
 #include "TaskQueue/taskqueue.h"
 #include "TaskItems/LinearConvolution/linearconvolution.h"
@@ -52,7 +50,7 @@
 
 int main(int argc, char *argv[]) {
 
-    QApplication a(argc, argv);
+  QApplication a(argc, argv);
 
     uint N = TEST_POINTS;
     std::vector< TEST_TYPE > sin_vect;
@@ -67,7 +65,7 @@ int main(int argc, char *argv[]) {
     test_chart_2.Plot( sin_vect, "Time Domain" );
 
     auto test_q = jaspl::ocl::TaskQueue< std::vector< TEST_TYPE > > ( 0 );
-//    test_q.Load( sin_vect );
+    test_q.Load( sin_vect );
 
     TEST_TYPE fact = static_cast< TEST_TYPE >( 1.0f / 100.0f );
 
@@ -78,19 +76,14 @@ int main(int argc, char *argv[]) {
     auto fft = jaspl::ocl::PowerSpectrum< std::vector< TEST_TYPE > >();
     test_q.AddTaskItem( fft );
 
-    test_q.Load( sin_vect );
-
     test_q.Execute();
 
 
     std::vector< TEST_TYPE > processed = test_q.Recall();
 
-//    jaspl::plot( sin_vect );
-//    jaspl::plot( processed );
-
     JChart test_chart;
     test_chart.Plot( processed, "Frequency Domain" );
 
-    return a.exec();
+  return a.exec();
 
 }

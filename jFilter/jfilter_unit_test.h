@@ -14,9 +14,7 @@
 //
 //Project specific headers
 #include "jVector/jvector.h"
-#include "jFFT/ocl_jfft.h"
 #include "jFFT/jfft.h"
-#include "jFilter/ocl_jlinearfilter.h"
 #include "jPlot/jplot.h"
 #include "jFilter/jlinearfilter.h"
 #include "jTypeTraits/jtypetraits.h"
@@ -146,34 +144,15 @@ class jFilterUnitTest {
 
     void TestGPUConvolve ( jaspl::JVector<T>&vec, int kernel_radius ) {
 
-        plot( vec, "Original", 500 );
-
-        auto convolver = jaspl::ocl::JLinearConvolve();
-
-        jaspl::JVector<T> kernel;
-
-        int r = kernel_radius;
-        double sigma = static_cast<double>(r)/2.0;
-
-        for( int i = -r; i<= r ; i ++) {
-            kernel.push_back(gaussian(i,sigma));
-        }
-
-        kernel.Normalize();
-
         auto start_gpu = std::chrono::high_resolution_clock::now();
 
-        auto convolved_vect = convolver.Convolve( vec, kernel );
-
-        plot( convolved_vect, "Convolved (GPU)", 500 );
+        //Test GPU linear convolve
 
         auto end_gpu = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> gpu_ms = end_gpu - start_gpu;
         auto time_taken_gpu = gpu_ms.count();
 
         std::cout<<"GPU took "<<time_taken_gpu<<" ms."<<std::endl;
-
-        convolver.TearDown();
 
     }
 };
