@@ -21,7 +21,7 @@ void TaskItem::LoadCLKernel( std::string kernel_name ) {
 
     if( program.build({current_device}) != CL_SUCCESS ) {
 
-        std::string err_str = __FUNCTION__;
+        std::string err_str = __func__;
         err_str += "\nError Building OpenCL Program\n ";
         err_str += "Compilier Output:\n ";
         err_str += program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(current_device);

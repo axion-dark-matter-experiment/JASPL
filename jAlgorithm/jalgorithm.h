@@ -21,19 +21,20 @@ template < typename T >
 class RecurseMean {
 
   public:
-    RecurseMean( T& initial_value );
-    RecurseMean( T initial_value );
 
-    void operator()( T&  next_value );
-    void operator()( T  next_value );
+    RecurseMean( uint num_samples );
+
+    void operator()( const T&  next_value );
+
+    void Reset();
     T ReturnValue();
 
   private:
-    T current;
+
     T last;
-//    long unsigned int index = 1;
-    double index = 1.0f;
+    typename T::value_type index = static_cast< typename T::value_type >( 0 );
 };
+
 
 #include "jAlgorithm/jalgorithm.tpp"
 

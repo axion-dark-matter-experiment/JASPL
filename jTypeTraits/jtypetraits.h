@@ -1,5 +1,5 @@
-#ifndef JALGORITHM_H
-#define JALGORITHM_H
+#ifndef JTYPETRAITS_H
+#define JTYPETRAITS_H
 
 // C System-Headers
 #include <stdio.h>
@@ -76,6 +76,17 @@ namespace jaspl {
 template <typename T> std::string get_type_name () {
     int status;
     char* type_name = abi::__cxa_demangle(typeid(T).name(), 0, 0, &status);
+    std::string type_str = std::string( type_name );
+
+    free (type_name);
+
+    return type_str;
+}
+
+//Get the name of a type as it would appear in source code
+template <typename T> std::string get_type_name ( T& to_check ) {
+    int status;
+    char* type_name = abi::__cxa_demangle(typeid(*to_check).name(), 0, 0, &status);
     std::string type_str = std::string( type_name );
 
     free (type_name);
@@ -220,4 +231,4 @@ void PrintOCLDebugInfo();
 
 }
 
-#endif // JALGORITHM_H
+#endif // JTYPETRAITS_H

@@ -50,13 +50,15 @@ class JFFTUnitTest {
 
     void TestGPUFFT( uint num_points ) {
 
+        JVector<T> vec = SineSignal( num_points );
+
         auto start_gpu = std::chrono::high_resolution_clock::now();
 
-        //Test GPU FFT
 
         auto end_gpu = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> gpu_ms = end_gpu - start_gpu;
         auto time_taken_gpu = gpu_ms.count();
+
 
         std::cout<<"GPU took "<<time_taken_gpu<<" ms."<<std::endl;
 

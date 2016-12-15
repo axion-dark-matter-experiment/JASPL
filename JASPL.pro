@@ -22,7 +22,6 @@ QMAKE_CXXFLAGS+= -fopenmp
 QMAKE_LFLAGS +=  -fopenmp
 
 SOURCES += main.cpp \
-    jTypeTraits/jalgorithm.cpp \
     jFFT/jfft.cpp \
     jFFT/jfft_templates.tpp \
     jPlot/jplot.cpp \
@@ -48,6 +47,11 @@ SOURCES += main.cpp \
     TaskItems/NonLinearConvolution/nonlinearconvolution.cpp \
     TaskItems/NonLinearConvolution/nonlinearconvolution.tpp \
     TaskItems/Rebin/rebin.cpp \
+    jAlgorithm/jalgorithm.cpp \
+    jAlgorithm/jalgorithm.tpp \
+    jTypeTraits/jtypetraits.cpp \
+    TaskItems/Arithmetic/ScalarAdd/scalaradd.tpp \
+    TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.tpp
 
 HEADERS += \
     jFFT/jfft.h \
@@ -68,15 +72,20 @@ HEADERS += \
     jTypeTraits/jtypetraits.h \
     TaskItems/NonLinearConvolution/nonlinearconvolution.h \
     TaskItems/Rebin/rebin.h \
+    jAlgorithm/jalgorithm.h \
+    TaskItems/Arithmetic/ScalarAdd/scalaradd.h \
+    TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.h
 
 DISTFILES += \
-    jFilter/jfilter_linearconvolve.cl \
-    jFilter/jfilter_nonlinearconvolve.cl \
-    jFilter/jfilter_templated_linearconvolve.cl \
     TaskItems/LinearConvolution/linearconvolve.cl \
     TaskItems/FFT/fft.cl \
     TaskItems/PowerSpectrum/powerspectrum.cl \
     TaskItems/NonLinearConvolution/nonlinearconvolve.cl \
-    TaskItems/Rebin/rebin.cl
+    TaskItems/Rebin/rebin.cl \
+    jFilter/jfilter_linearconvolve.cl \
+    jFilter/jfilter_nonlinearconvolve.cl \
+    jFilter/jfilter_templated_linearconvolve.cl \
+    TaskItems/Arithmetic/ScalarAdd/scalaradd.cl \
+    TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.cl
 
 

@@ -36,6 +36,9 @@ void PowerSpectrum<T>::SetSignal( cl::Buffer& signal_buff, uint sig_size ) {
     FFT<T>::err = TaskItem::kernel.setArg(1, output_buff);
     OCL_DEBUG( FFT<T>::err );
 
+    FFT<T>::err = TaskItem::kernel.setArg(2, sig_size);
+    OCL_DEBUG( FFT<T>::err );
+
     size_t clLengths[1] = { sig_size };
 
     /* Create a default plan for a complex FFT. */

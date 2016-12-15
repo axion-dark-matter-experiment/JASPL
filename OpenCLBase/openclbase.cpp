@@ -25,8 +25,12 @@ cl::CommandQueue OpenCLBase::command_queue;
 bool OpenCLBase::initalized = false;
 
 void OpenCLBase::SetUp( uint device_number ) {
-    //Force kernels to be compiled each time
-//    setenv("CUDA_CACHE_DISABLE", "1", 1);
+
+    if( DEBUG ) {
+        //Force kernels to be compiled each time
+        setenv("CUDA_CACHE_DISABLE", "1", 1);
+        std::cout << "OpenCL caching disabled" << std::endl;
+    }
 
     cl::Platform::get( &OpenCLBase::all_platforms ) ;
 
@@ -51,7 +55,7 @@ void OpenCLBase::SetUp( uint device_number ) {
 
     OpenCLBase::current_device = OpenCLBase::all_devices[ device_number ];
 
-    cl_context_properties props[] ={ CL_CONTEXT_PLATFORM, (cl_context_properties)(default_platform)(), 0};
+    cl_context_properties props[] = { CL_CONTEXT_PLATFORM, (cl_context_properties)(default_platform)(), 0};
 
 //    OpenCLBase::context = cl::Context( clCreateContext( props, 1, &current_device(), NULL, NULL, &err_0 ); )
 //    OpenCLBase::context = cl::Context ( {OpenCLBase::current_device} );
@@ -75,7 +79,8 @@ OpenCLBase::OpenCLBase( uint device_number ) {
 }
 
 OpenCLBase::~OpenCLBase() {
-    std::cout << __func__ << std::endl;
+    if( DEBUG )
+        std::cout << __func__ << std::endl;
 }
 
 }

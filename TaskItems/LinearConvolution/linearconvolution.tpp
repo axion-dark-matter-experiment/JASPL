@@ -37,7 +37,7 @@ LinearConvolution<T>::LinearConvolution( T* convolution_kernel ) {
     LoadCLKernel<T>( "LinearConvolve" );
 
     uint kernel_size = convolution_kernel.size();
-    size_t kernel_bytes = kernel_size*sizeof( typename T::value_type );
+    size_t kernel_bytes = kernel_size*sizeof( T );
     auto kernel_ptr = convolution_kernel.data();
 
     kernel_buff = cl::Buffer ( context, CL_MEM_READ_ONLY, kernel_bytes );

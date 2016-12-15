@@ -144,9 +144,21 @@ class jFilterUnitTest {
 
     void TestGPUConvolve ( jaspl::JVector<T>&vec, int kernel_radius ) {
 
-        auto start_gpu = std::chrono::high_resolution_clock::now();
+        plot( vec, "Original", 500 );
 
-        //Test GPU linear convolve
+
+        jaspl::JVector<T> kernel;
+
+        int r = kernel_radius;
+        double sigma = static_cast<double>(r)/2.0;
+
+        for( int i = -r; i<= r ; i ++) {
+            kernel.push_back(gaussian(i,sigma));
+        }
+
+        kernel.Normalize();
+
+        auto start_gpu = std::chrono::high_resolution_clock::now();
 
         auto end_gpu = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> gpu_ms = end_gpu - start_gpu;

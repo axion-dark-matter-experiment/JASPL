@@ -31,9 +31,13 @@ class TaskQueueBase : public OpenCLBase {
   public:
     TaskQueueBase( uint device_number = 0 );
     virtual ~TaskQueueBase() = 0;
+
     void Execute();
-    void AddTaskItem(TaskItem &item );
-    void ReknewSignal(cl::Buffer& processed_buff , size_t processed_bytes, size_t processed_size);
+    void AddTaskItem( TaskItem &item );
+    bool RemoveTaskItem( TaskItem& item );
+    void PrintContents();
+
+    void ReknewSignal( cl::Buffer& processed_buff , size_t processed_bytes, size_t processed_size );
 
   protected:
     std::list< TaskItem* > task_queue;
