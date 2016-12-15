@@ -22,6 +22,7 @@ namespace jaspl {
 
 namespace ocl {
 
+
 template <typename T>
 class TaskQueue : public TaskQueueBase {
 
@@ -29,7 +30,7 @@ class TaskQueue : public TaskQueueBase {
     TaskQueue( uint device_number );
     ~TaskQueue();
 
-    void Load(T signal);
+    void Load( T signal );
     T Recall();
 
 };
