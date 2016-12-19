@@ -29,7 +29,7 @@
 #include "TaskItems/Arithmetic/ScalarAdd/scalaradd.h"
 #include "TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.h"
 
-#define TEST_POINTS 1e5
+#define TEST_POINTS 1e7
 #define TEST_TYPE float
 
 /*! \mainpage J.A.S.P.L. (Just Another Signal Processing Library)
@@ -41,15 +41,15 @@
  *
  * \section Base Dependencies
  *      \li Boost libraries >= 1.62
- *      \li gnuplot-iostream
- *      \li fftw >= 3.3.5
+ *      \li gnuplot-iostream ( included with source files )
+ *      \li fftw >= 3.3.5 http://www.fftw.org/download.html
  *
  * \section GPU-acceleration Dependencies
  *      \li OpenCL installation (e.g. Nvidia CUDA, AMD-APP, Intel)
- *      \li clFFT
+ *      \li clFFT https://github.com/clMathLibraries/clFFT.git
  *
  * \section Special Considerations if compling from source
- *      \li OpenMP Installation and compilier that supports OpenMP pragmas
+ *      \li OpenMP Installation and compilier that supports OpenMP pragmas ( GCC )
  *      \li C++11 Compliant Compilier ( GCC >= 4.8.2 )
  *
  */
@@ -58,6 +58,8 @@ int main(int argc, char *argv[]) {
 
 //  QApplication a(argc, argv);
 
+//    jaspl::ocl::PrintOCLDebugInfo();
+
     uint N = TEST_POINTS;
 
     std::vector< TEST_TYPE > sin_vect;
@@ -65,14 +67,16 @@ int main(int argc, char *argv[]) {
 
     for ( uint i = 0; i < N ; i++ ) {
 
-//        sin_vect.push_back( sinf( (N/8)*i *2*M_PI/N) + 2*sinf( (N/4)*i*2*M_PI/N) + 3*sinf( (3*N/8)*i*2*M_PI/N ) );
-        uint M = 500;
-        sin_vect.push_back( sinf( (M)*i *2*M_PI/N) + 2*sinf( (2*M)*i*2*M_PI/N) + 3*sinf( (3*M)*i*2*M_PI/N ) );
+        sin_vect.push_back( sinf( (N/8)*i *2*M_PI/N) + 2*sinf( (N/4)*i*2*M_PI/N) + 3*sinf( (3*N/8)*i*2*M_PI/N ) );
+//        uint M = 500;
+//        sin_vect.push_back( sinf( (M)*i *2*M_PI/N) + 2*sinf( (2*M)*i*2*M_PI/N) + 3*sinf( (3*M)*i*2*M_PI/N ) );
     }
 
 //    jaspl::plot( sin_vect );
 
-    auto test_q = jaspl::ocl::TaskQueue< std::vector< TEST_TYPE > > ( 0 );
+    auto start_cpu = std::chrono::high_resolution_clock::now();
+
+    auto test_q = jaspl::ocl::TaskQueue< std::vector< TEST_TYPE > > ( 1, 1 );
     test_q.Load( sin_vect );
 
     TEST_TYPE fact = static_cast< TEST_TYPE >( 1.0f / 100.0f );
@@ -81,7 +85,7 @@ int main(int argc, char *argv[]) {
     auto conv_task = jaspl::ocl::LinearConvolution< std::vector< TEST_TYPE > >( box_vec );
     test_q.AddTaskItem( conv_task );
 
-    auto fft = jaspl::ocl::PowerSpectrum< std::vector< TEST_TYPE > >();
+    auto fft = jaspl::ocl::FFT< std::vector< TEST_TYPE > >();
     test_q.AddTaskItem( fft );
 
     auto mult_task = jaspl::ocl::ScalarMultiply< std::vector< TEST_TYPE > >( 2.0f );
@@ -96,7 +100,13 @@ int main(int argc, char *argv[]) {
 
     std::vector< TEST_TYPE > processed = test_q.Recall();
 
-    jaspl::plot( processed );
+    auto end_cpu = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> cpu_ms = end_cpu - start_cpu;
+    auto time_taken_cpu = cpu_ms.count();
+
+//    jaspl::plot( processed );
+
+    std::cout<<"Took "<<time_taken_cpu<<" ms."<<std::endl;
 
 //  return a.exec();
 

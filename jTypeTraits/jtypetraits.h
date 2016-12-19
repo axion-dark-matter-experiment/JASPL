@@ -55,14 +55,26 @@
 })\
 */
 
-#ifdef QT_DEBUG
-#define DEBUG 1
+//#ifdef QT_DEBUG
+//#define DEBUG_ON 1
+//#else
+//#define DEBUG_ON 0
+//#endif
+
+#ifdef DEBUG
+#define DEBUG_ON 1
 #else
-#define DEBUG 0
+#define DEBUG_ON 0
+#endif
+
+#ifdef NDEBUG
+#define NDEBUG_ON 1
+#else
+#define NDEBUG_ON 0
 #endif
 
 #define OCL_DEBUG(err, ...) \
-            do { if (DEBUG) std::cout << __func__ <<\
+            do { if (DEBUG_ON) std::cout << __func__ <<\
         __FILE__ <<\
         " Line# "<<\
         __LINE__ <<\

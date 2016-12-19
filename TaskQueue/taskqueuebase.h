@@ -44,7 +44,7 @@ class TaskQueueBase : public OpenCLBase {
      * Note that this will be the device that every TaskItem
      * will be executed on.
      */
-    TaskQueueBase( uint device_number = 0 );
+    TaskQueueBase( uint platform_number = 0, uint device_number = 0 );
     virtual ~TaskQueueBase() = 0;
 
     /*!

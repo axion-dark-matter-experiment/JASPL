@@ -4,6 +4,12 @@ QT += core gui widgets charts
 
 CONFIG += c++11
 
+CONFIG(debug, debug|release) {
+    DEFINES += "DEBUG"
+} else {
+    DEFINES += "NDEBUG"
+}
+
 INCLUDEPATH += ../../../include
 LIBS += -L$$OUT_PWD/../../../lib
 

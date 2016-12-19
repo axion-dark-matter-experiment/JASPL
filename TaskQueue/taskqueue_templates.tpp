@@ -1,5 +1,5 @@
 template <typename T>
-TaskQueue<T>::TaskQueue( uint device_number ) : TaskQueueBase( device_number ) {
+TaskQueue<T>::TaskQueue( uint platform_number, uint device_number ) : TaskQueueBase( platform_number, device_number ) {
     std::cout << "Built using something else" << std::endl;
     if ( is_stdlib_container< T >::value )
         std::cout<< "It was a container-like object" << std::endl;
@@ -46,7 +46,7 @@ T TaskQueue<T>::Recall() {
 
 
 template <typename T>
-TaskQueue<T*>::TaskQueue( uint device_number ) : TaskQueueBase( device_number ) {
+TaskQueue<T*>::TaskQueue( uint platform_number, uint device_number ) : TaskQueueBase( platform_number, device_number ) {
     std::cout << "Built using pointer" << std::endl;
     static_assert( std::is_arithmetic< T >::value, "TaskQueue can only accept arithemic types." );
 }

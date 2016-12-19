@@ -1,0 +1,88 @@
+\hypertarget{classjaspl_1_1ocl_1_1_task_item}{}\section{jaspl\+:\+:ocl\+:\+:Task\+Item Class Reference}
+\label{classjaspl_1_1ocl_1_1_task_item}\index{jaspl\+::ocl\+::\+Task\+Item@{jaspl\+::ocl\+::\+Task\+Item}}
+
+
+Inheritance diagram for jaspl\+:\+:ocl\+:\+:Task\+Item\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classjaspl_1_1ocl_1_1_task_item__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for jaspl\+:\+:ocl\+:\+:Task\+Item\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=200pt]{classjaspl_1_1ocl_1_1_task_item__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename F $>$ }\\std\+::string {\bfseries Fake\+Kernel\+Templating} (std\+::string kernel\+\_\+source)\hypertarget{classjaspl_1_1ocl_1_1_task_item_aebceb791e8b1dbe70af39047d8fdae21}{}\label{classjaspl_1_1ocl_1_1_task_item_aebceb791e8b1dbe70af39047d8fdae21}
+
+\item 
+{\footnotesize template$<$typename F $>$ }\\void {\bfseries Load\+C\+L\+Kernel} (std\+::string kernel\+\_\+name)\hypertarget{classjaspl_1_1ocl_1_1_task_item_a800ffc9212ce8c25771e21b22ae867ce}{}\label{classjaspl_1_1ocl_1_1_task_item_a800ffc9212ce8c25771e21b22ae867ce}
+
+\item 
+virtual void {\bfseries Trigger} ()\hypertarget{classjaspl_1_1ocl_1_1_task_item_a186aa96ac98ce8bb8c63818e8b33e3fa}{}\label{classjaspl_1_1ocl_1_1_task_item_a186aa96ac98ce8bb8c63818e8b33e3fa}
+
+\item 
+virtual void {\bfseries Set\+Signal} (cl\+::\+Buffer \&signal\+\_\+buff, uint sig\+\_\+size)\hypertarget{classjaspl_1_1ocl_1_1_task_item_a906407a36a6dfb930b37eabaa612cea3}{}\label{classjaspl_1_1ocl_1_1_task_item_a906407a36a6dfb930b37eabaa612cea3}
+
+\item 
+virtual cl\+::\+Buffer \& {\bfseries Processed\+Signal} ()\hypertarget{classjaspl_1_1ocl_1_1_task_item_af607becf93865c5d3d8f3df6ef87f867}{}\label{classjaspl_1_1ocl_1_1_task_item_af607becf93865c5d3d8f3df6ef87f867}
+
+\item 
+virtual size\+\_\+t {\bfseries Processed\+Signal\+Bytes} ()\hypertarget{classjaspl_1_1ocl_1_1_task_item_ac82006308e53c6e42144d253bde9b535}{}\label{classjaspl_1_1ocl_1_1_task_item_ac82006308e53c6e42144d253bde9b535}
+
+\item 
+virtual size\+\_\+t {\bfseries Processed\+Signal\+Size} ()\hypertarget{classjaspl_1_1ocl_1_1_task_item_aface585662048bfa00cda3292e9d9273}{}\label{classjaspl_1_1ocl_1_1_task_item_aface585662048bfa00cda3292e9d9273}
+
+\item 
+virtual bool {\bfseries Needs\+To\+Reknew} ()\hypertarget{classjaspl_1_1ocl_1_1_task_item_a20e681f2c7b9930f99fc73ece96cb67c}{}\label{classjaspl_1_1ocl_1_1_task_item_a20e681f2c7b9930f99fc73ece96cb67c}
+
+\item 
+void {\bfseries Check\+Kernel\+Path} (std\+::string kernel\+\_\+source\+\_\+path)\hypertarget{classjaspl_1_1ocl_1_1_task_item_af048f07b953902e9ac048fb32dc86535}{}\label{classjaspl_1_1ocl_1_1_task_item_af048f07b953902e9ac048fb32dc86535}
+
+\item 
+std\+::string {\bfseries Get\+Open\+C\+L\+Source} (std\+::string kernel\+\_\+path)\hypertarget{classjaspl_1_1ocl_1_1_task_item_a015a0fc3c5fe671b6f9d529a77cb4132}{}\label{classjaspl_1_1ocl_1_1_task_item_a015a0fc3c5fe671b6f9d529a77cb4132}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries kernel\+\_\+path}\hypertarget{classjaspl_1_1ocl_1_1_task_item_aa08a1b3eaff97acd4083d81de0d78de9}{}\label{classjaspl_1_1ocl_1_1_task_item_aa08a1b3eaff97acd4083d81de0d78de9}
+
+\item 
+cl\+::\+Program\+::\+Sources {\bfseries sources}\hypertarget{classjaspl_1_1ocl_1_1_task_item_acf5a7b33791d535255f524dd7bdafa2d}{}\label{classjaspl_1_1ocl_1_1_task_item_acf5a7b33791d535255f524dd7bdafa2d}
+
+\item 
+std\+::string {\bfseries kernel\+\_\+source}\hypertarget{classjaspl_1_1ocl_1_1_task_item_a90439204dd331c6a4f488e3c6016ddfa}{}\label{classjaspl_1_1ocl_1_1_task_item_a90439204dd331c6a4f488e3c6016ddfa}
+
+\item 
+cl\+::\+Program {\bfseries program}\hypertarget{classjaspl_1_1ocl_1_1_task_item_afd9f6878a4a075d6fbc9cb2a74f3ac2e}{}\label{classjaspl_1_1ocl_1_1_task_item_afd9f6878a4a075d6fbc9cb2a74f3ac2e}
+
+\item 
+cl\+::\+Kernel {\bfseries kernel}\hypertarget{classjaspl_1_1ocl_1_1_task_item_ab628ae818420624811dee92ce68615fd}{}\label{classjaspl_1_1ocl_1_1_task_item_ab628ae818420624811dee92ce68615fd}
+
+\item 
+size\+\_\+t {\bfseries signal\+\_\+size}\hypertarget{classjaspl_1_1ocl_1_1_task_item_a8a21af3a15a0010ae139cc6b0555c380}{}\label{classjaspl_1_1ocl_1_1_task_item_a8a21af3a15a0010ae139cc6b0555c380}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries Task\+Queue\+Base}\hypertarget{classjaspl_1_1ocl_1_1_task_item_a7cef05d602ede8ae7e967835f6965bc7}{}\label{classjaspl_1_1ocl_1_1_task_item_a7cef05d602ede8ae7e967835f6965bc7}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 26 of file taskitem.\+h.
+

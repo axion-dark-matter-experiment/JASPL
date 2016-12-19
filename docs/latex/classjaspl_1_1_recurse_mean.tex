@@ -1,0 +1,58 @@
+\hypertarget{classjaspl_1_1_recurse_mean}{}\section{jaspl\+:\+:Recurse\+Mean$<$ T $>$ Class Template Reference}
+\label{classjaspl_1_1_recurse_mean}\index{jaspl\+::\+Recurse\+Mean$<$ T $>$@{jaspl\+::\+Recurse\+Mean$<$ T $>$}}
+
+
+Average together a (nearly) arbitrary number of container-\/like objects using the recursive definition of the expected value defined by\+:  
+
+
+
+
+{\ttfamily \#include $<$jalgorithm.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Recurse\+Mean} (uint num\+\_\+samples)\hypertarget{classjaspl_1_1_recurse_mean_abbcaa2624b48de1a68407cc44ca9068d}{}\label{classjaspl_1_1_recurse_mean_abbcaa2624b48de1a68407cc44ca9068d}
+
+\item 
+void \hyperlink{classjaspl_1_1_recurse_mean_a5c65990ad47245fcf866ad811cd340c3}{operator()} (const T \&next\+\_\+value)
+\begin{DoxyCompactList}\small\item\em Average together a new value. \end{DoxyCompactList}\item 
+void {\bfseries Reset} ()\hypertarget{classjaspl_1_1_recurse_mean_ac661dff7908c06fe1701feb7d0d07af5}{}\label{classjaspl_1_1_recurse_mean_ac661dff7908c06fe1701feb7d0d07af5}
+
+\item 
+T {\bfseries Return\+Value} ()\hypertarget{classjaspl_1_1_recurse_mean_ad9ec10f40cbfdc5f9799be43e0855572}{}\label{classjaspl_1_1_recurse_mean_ad9ec10f40cbfdc5f9799be43e0855572}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\\*
+class jaspl\+::\+Recurse\+Mean$<$ T $>$}
+
+Average together a (nearly) arbitrary number of container-\/like objects using the recursive definition of the expected value defined by\+: 
+
+\[ \mu_i = \frac{ i - 1 }{ i } \mu_{ i - 1 } + \frac{1}{i} x_i\\ \text{ for } x_i \in \mathbb{R}^n \ \mu_i \in \mathcal{R} \\ \text{ and running index } i \in \mathbb{N} \]
+
+Template parameter needs to be a container-\/liker object filled with floating-\/point values. 
+
+Definition at line 33 of file jalgorithm.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\index{jaspl\+::\+Recurse\+Mean@{jaspl\+::\+Recurse\+Mean}!operator()@{operator()}}
+\index{operator()@{operator()}!jaspl\+::\+Recurse\+Mean@{jaspl\+::\+Recurse\+Mean}}
+\subsubsection[{\texorpdfstring{operator()(const T \&next\+\_\+value)}{operator()(const T &next_value)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ void {\bf jaspl\+::\+Recurse\+Mean}$<$ T $>$\+::operator() (
+\begin{DoxyParamCaption}
+\item[{const T \&}]{next\+\_\+value}
+\end{DoxyParamCaption}
+)}\hypertarget{classjaspl_1_1_recurse_mean_a5c65990ad47245fcf866ad811cd340c3}{}\label{classjaspl_1_1_recurse_mean_a5c65990ad47245fcf866ad811cd340c3}
+
+
+Average together a new value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em next\+\_\+value} & The container to be averaged \\
+\hline
+\end{DoxyParams}

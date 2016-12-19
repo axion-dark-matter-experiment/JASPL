@@ -27,7 +27,7 @@ template <typename T>
 class TaskQueue : public TaskQueueBase {
 
   public:
-    TaskQueue( uint device_number );
+    TaskQueue( uint platform_number, uint device_number );
     ~TaskQueue();
 
     void Load( T signal );
@@ -40,7 +40,7 @@ class TaskQueue<T*>: public TaskQueueBase {
 
   public:
 
-    TaskQueue( uint device_number );
+    TaskQueue( uint platform_number, uint device_number );
 
     void Load( T* signal_ptr );
     T* Recall();

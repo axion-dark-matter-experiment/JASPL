@@ -46,12 +46,12 @@ class OpenCLBase {
      * Number of the OpenCL device to use
      * as described by cl::Platform::getDevices(CL_DEVICE_TYPE_ALL)
      */
-    OpenCLBase( uint device_number = 0 );
+    OpenCLBase( uint platform_number = 0, uint device_number = 0 );
     virtual ~OpenCLBase() = 0;
 
   protected:
 
-    void SetUp(uint device_number);
+    void SetUp( uint platform_number, uint device_number );
 
     static bool initalized;
     static std::vector<cl::Platform> all_platforms;

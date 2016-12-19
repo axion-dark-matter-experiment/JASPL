@@ -15,7 +15,7 @@ namespace jaspl {
 
 namespace ocl {
 
-TaskQueueBase::TaskQueueBase(uint device_number) : OpenCLBase( device_number ) {}
+TaskQueueBase::TaskQueueBase(uint platform_number, uint device_number) : OpenCLBase( platform_number, device_number ) {}
 
 TaskQueueBase::~TaskQueueBase() {}
 

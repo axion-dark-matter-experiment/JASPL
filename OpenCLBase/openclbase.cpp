@@ -24,12 +24,12 @@ cl::Context OpenCLBase::context;
 cl::CommandQueue OpenCLBase::command_queue;
 bool OpenCLBase::initalized = false;
 
-void OpenCLBase::SetUp( uint device_number ) {
+void OpenCLBase::SetUp( uint platform_number, uint device_number ) {
 
-    if( DEBUG ) {
+    if( DEBUG_ON ) {
         //Force kernels to be compiled each time
         setenv("CUDA_CACHE_DISABLE", "1", 1);
-        std::cout << "OpenCL caching disabled" << std::endl;
+        std::cout << "OpenCL Kernel caching disabled." << std::endl;
     }
 
     cl::Platform::get( &OpenCLBase::all_platforms ) ;
@@ -40,7 +40,10 @@ void OpenCLBase::SetUp( uint device_number ) {
         throw std::runtime_error( err_str );
     }
 
-    if( device_number > OpenCLBase::all_devices.size() ) {
+    OpenCLBase::default_platform = OpenCLBase::all_platforms[ platform_number ];
+    OpenCLBase::default_platform.getDevices(CL_DEVICE_TYPE_ALL, &OpenCLBase::all_devices);
+
+    if( device_number >= OpenCLBase::all_devices.size() ) {
         std::string err_str = __func__;
         err_str += "\nRequested device number of ";
         err_str += boost::lexical_cast<std::string>( device_number );
@@ -49,9 +52,6 @@ void OpenCLBase::SetUp( uint device_number ) {
         err_str += boost::lexical_cast<std::string>( OpenCLBase::all_devices.size() );
         throw std::runtime_error( err_str );
     }
-
-    OpenCLBase::default_platform = OpenCLBase::all_platforms[0];
-    OpenCLBase::default_platform.getDevices(CL_DEVICE_TYPE_ALL, &OpenCLBase::all_devices);
 
     OpenCLBase::current_device = OpenCLBase::all_devices[ device_number ];
 
@@ -65,21 +65,29 @@ void OpenCLBase::SetUp( uint device_number ) {
     OpenCLBase::command_queue = cl::CommandQueue (OpenCLBase::context,OpenCLBase::current_device, err);
     OCL_DEBUG( err );
 
+    if( DEBUG_ON ) {
+
+        std::cout << "OpenCL Platform & Device info:" << std::endl;
+        std::cout << "Platform Info: " <<default_platform.getInfo<CL_PLATFORM_NAME>() << std::endl;
+        std::cout << "Device Info: " << current_device.getInfo<CL_DEVICE_NAME>() << std::endl;
+
+    }
+
 }
 
-OpenCLBase::OpenCLBase( uint device_number ) {
+OpenCLBase::OpenCLBase(uint platform_number, uint device_number ) {
 
     //Static variables are initalized once and only once
     //these variables need to be consistent across all derived classes
     if( initalized != true ) {
-        SetUp( device_number );
+        SetUp( platform_number, device_number );
     }
 
     initalized |= true;
 }
 
 OpenCLBase::~OpenCLBase() {
-    if( DEBUG )
+    if( DEBUG_ON )
         std::cout << __func__ << std::endl;
 }
 
