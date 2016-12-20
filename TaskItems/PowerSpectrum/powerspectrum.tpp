@@ -1,18 +1,39 @@
+
 template<typename T>
 PowerSpectrum<T>::PowerSpectrum() {
 
-    std::string source_directory = SOURCE_DIR;
-    std::string kernel_name = "/powerspectrum.cl";
 
-    FFT<T>::kernel_path = source_directory + kernel_name;
+    std::string kernel_str = R"END(
+         __kernel void PowerSpectrum( __global TYPE* input, __global TYPE* scratch, const unsigned int signal_size )
+         {
 
-    TaskItem::LoadCLKernel< typename T::value_type >( "PowerSpectrum" );
+             int i = get_global_id(0);
+             //Do not use sqrt(), you -will- get round-off errors for large FFT sizes
+             scratch[i] = input[2*i]*input[2*i] + input[2*i+1]*input[2*i+1];
+             //Normalize by number of elements
+             scratch[i] /= (TYPE)signal_size * (TYPE)signal_size;
+
+         }
+    )END";
+
+    std::string kernel_name = "PowerSpectrum";
+
+//    std::string source_directory = SOURCE_DIR;
+//    std::string kernel_name = "/powerspectrum.cl";
+
+//    FFT<T>::kernel_path = source_directory + kernel_name;
+
+//    TaskItem::LoadCLKernel< typename T::value_type >( "PowerSpectrum" );
+
+    TaskItem::LoadCLKernel<typename T::value_type>( kernel_str, kernel_name );
 }
 
 template<typename T>
 void PowerSpectrum<T>::Trigger() {
 
     FFT<T>::Trigger();
+    //Since this is a two-step process we need to explictly call CommandQueue::finish() between steps
+    TaskItem::command_queue.finish();
 
     FFT<T>::err = TaskItem::command_queue.enqueueNDRangeKernel( TaskItem::kernel,cl::NullRange, cl::NDRange( TaskItem::signal_size ) );
     TaskItem::signal_size = (TaskItem::signal_size%2 == 0)?( TaskItem::signal_size/2 ):( (TaskItem::signal_size - 1)/2 );

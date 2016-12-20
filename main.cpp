@@ -29,7 +29,7 @@
 #include "TaskItems/Arithmetic/ScalarAdd/scalaradd.h"
 #include "TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.h"
 
-#define TEST_POINTS 1e7
+#define TEST_POINTS 1e5
 #define TEST_TYPE float
 
 /*! \mainpage J.A.S.P.L. (Just Another Signal Processing Library)
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
     auto conv_task = jaspl::ocl::LinearConvolution< std::vector< TEST_TYPE > >( box_vec );
     test_q.AddTaskItem( conv_task );
 
-    auto fft = jaspl::ocl::FFT< std::vector< TEST_TYPE > >();
+    auto fft = jaspl::ocl::PowerSpectrum< std::vector< TEST_TYPE > >();
     test_q.AddTaskItem( fft );
 
     auto mult_task = jaspl::ocl::ScalarMultiply< std::vector< TEST_TYPE > >( 2.0f );
@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
 
     test_q.Execute();
 
-    test_q.PrintContents();
+//    test_q.PrintContents();
 
     std::vector< TEST_TYPE > processed = test_q.Recall();
 
@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
     std::chrono::duration<double, std::milli> cpu_ms = end_cpu - start_cpu;
     auto time_taken_cpu = cpu_ms.count();
 
-//    jaspl::plot( processed );
+    jaspl::plot( processed );
 
     std::cout<<"Took "<<time_taken_cpu<<" ms."<<std::endl;
 

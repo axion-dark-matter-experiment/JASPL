@@ -1,3 +1,7 @@
+std::string kernel_str = R"END(
+        //
+)END";
+
 template <typename T>
 NonLinearConvolution<T>::NonLinearConvolution( T& convolution_kernel ) {
 

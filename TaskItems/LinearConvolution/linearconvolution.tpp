@@ -1,15 +1,58 @@
+
 template <typename T>
 LinearConvolution<T>::LinearConvolution( T& convolution_kernel ) {
 
     static_assert( is_stdlib_container< T >::value, "LinearConvolution can only accept pointers or container-like objects." );
     static_assert( std::is_arithmetic<typename T::value_type>::value, "LinearConvolution must be made with arithmetic type" );
 
-    std::string source_directory = SOURCE_DIR;
-    std::string kernel_name = "/linearconvolve.cl";
+    //    std::string source_directory = SOURCE_DIR;
+    //    std::string kernel_name = "/linearconvolve.cl";
 
-    kernel_path = source_directory + kernel_name;
+    //    kernel_path = source_directory + kernel_name;
 
-    LoadCLKernel<typename T::value_type>( "LinearConvolve" );
+    //    LoadCLKernel<typename T::value_type>( "LinearConvolve" );
+    std::string kernel_str = R"END(
+         __kernel void LinearConvolve( __global TYPE* input, __constant TYPE* filter_kernel, __global TYPE* output, const uint signal_size, const uint kernel_size )
+         {
+
+             int half_k_size = (signal_size%2 == 0)?( kernel_size/2 ):( (kernel_size - 1)/2 );
+             int signal_max_index = signal_size - 1;
+
+             int i = get_global_id(0);
+
+             TYPE conv_elem = 0.0;
+
+             int k_max = ( ( i + half_k_size ) > signal_max_index )?( signal_max_index + half_k_size - i ):(kernel_size);
+             int k_min = ( ( i - half_k_size ) < 0 )?( half_k_size - i ):(0);
+
+             for ( int j = k_min ; j < k_max ; j++ ) {
+
+                 conv_elem += input[ i + j - half_k_size ]*filter_kernel[ j ];
+
+             }
+
+             //Left side mirroring
+             for ( int j = 0 ; j < k_min ; j++ ) {
+
+                 conv_elem += input[ -i - j + half_k_size ]*filter_kernel[ j ];
+             }
+
+             //Right side mirroring
+             for ( int j = k_max ; j < kernel_size ; j++ ) {
+
+                 conv_elem += input[ 2*signal_max_index - i - j + half_k_size ]*filter_kernel[ j ];
+
+             }
+
+             output[i] = conv_elem;
+
+         }
+
+    )END";
+
+    std::string kernel_name = "LinearConvolve";
+
+    LoadCLKernel<typename T::value_type>( kernel_str, kernel_name );
 
     uint kernel_size = convolution_kernel.size();
     size_t kernel_bytes = kernel_size*sizeof( typename T::value_type );
@@ -62,7 +105,7 @@ void LinearConvolution<T>::Trigger() {
 }
 
 template <typename T>
-void LinearConvolution<T>::SetSignal( cl::Buffer& signal_buff, uint sig_size ){
+void LinearConvolution<T>::SetSignal( cl::Buffer& signal_buff, uint sig_size ) {
 
     signal_size = sig_size;
 
@@ -89,6 +132,6 @@ size_t LinearConvolution<T>::ProcessedSignalBytes() {
 }
 
 template <typename T>
-size_t LinearConvolution<T>::ProcessedSignalSize(){
+size_t LinearConvolution<T>::ProcessedSignalSize() {
     return signal_size;
 }

@@ -32,7 +32,7 @@ class TaskItem : public OpenCLBase {
 
   protected:
     template <typename F> std::string FakeKernelTemplating( std::string kernel_source );
-    template <typename F> void LoadCLKernel( std::string kernel_name );
+    template <typename F> void LoadCLKernel( std::string kernel_name, std::string kernel_src );
 
     virtual void Trigger();
     virtual void SetSignal( cl::Buffer& signal_buff , uint sig_size );

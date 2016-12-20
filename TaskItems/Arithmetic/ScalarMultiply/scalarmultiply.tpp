@@ -1,15 +1,32 @@
+
+
 template <typename T>
 ScalarMultiply<T>::ScalarMultiply( typename T::value_type scalar_value ) {
 
     static_assert( is_stdlib_container< T >::value, "ScalarMultiply can only accept pointers or container-like objects." );
     static_assert( std::is_arithmetic< typename T::value_type >::value, "ScalarMultiply must be made with arithmetic type" );
 
-    std::string source_directory = SOURCE_DIR;
-    std::string kernel_name = "/scalarmultiply.cl";
+//    std::string source_directory = SOURCE_DIR;
+//    std::string kernel_name = "/scalarmultiply.cl";
 
-    kernel_path = source_directory + kernel_name;
+//    kernel_path = source_directory + kernel_name;
 
-    LoadCLKernel<typename T::value_type>( "ScalarMultiply" );
+//    LoadCLKernel<typename T::value_type>( "ScalarMultiply" );
+    std::string kernel_str = R"END(
+         __kernel void ScalarMultiply( __global TYPE* input, TYPE scalar )
+         {
+
+             int i = get_global_id(0);
+
+             input[i] *= scalar;
+
+         }
+
+    )END";
+
+    std::string kernel_name = "ScalarMultiply";
+
+    LoadCLKernel<typename T::value_type>( kernel_str, kernel_name );
 
     cl_int err;
     err = kernel.setArg(1, scalar_value);

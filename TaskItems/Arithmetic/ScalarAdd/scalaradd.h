@@ -35,6 +35,7 @@ class ScalarAdd : public TaskItem {
     bool NeedsToReknew();
 
     cl_int err;
+
 };
 
 #include "TaskItems/Arithmetic/ScalarAdd/scalaradd.tpp"

@@ -1,15 +1,29 @@
+
 template <typename T>
 ScalarAdd<T>::ScalarAdd( typename T::value_type scalar_value ) {
 
     static_assert( is_stdlib_container< T >::value, "ScalarAdd can only accept pointers or container-like objects." );
     static_assert( std::is_arithmetic< typename T::value_type >::value, "ScalarAdd must be made with arithmetic type" );
 
-    std::string source_directory = SOURCE_DIR;
-    std::string kernel_name = "/scalaradd.cl";
+//    std::string source_directory = SOURCE_DIR;
+//    std::string kernel_name = "/scalaradd.cl";
 
-    kernel_path = source_directory + kernel_name;
+//    kernel_path = source_directory + kernel_name;
 
-    LoadCLKernel<typename T::value_type>( "ScalarAdd" );
+//    LoadCLKernel<typename T::value_type>( "ScalarAdd" );
+    std::string kernel_str = R"END(
+         __kernel void ScalarAdd( __global TYPE* input, const TYPE scalar )
+         {
+
+             int i = get_global_id(0);
+
+             input[i] += scalar;
+         }
+    )END";
+
+    std::string kernel_name = "ScalarAdd";
+
+    LoadCLKernel<typename T::value_type>( kernel_str, kernel_name );
 
     cl_int err;
     err = kernel.setArg( 1, scalar_value );

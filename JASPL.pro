@@ -57,7 +57,8 @@ SOURCES += main.cpp \
     jAlgorithm/jalgorithm.tpp \
     jTypeTraits/jtypetraits.cpp \
     TaskItems/Arithmetic/ScalarAdd/scalaradd.tpp \
-    TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.tpp
+    TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.tpp \
+    TaskItems/Rebin/rebin.tpp
 
 HEADERS += \
     jFFT/jfft.h \
