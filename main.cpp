@@ -29,7 +29,7 @@
 #include "TaskItems/Arithmetic/ScalarAdd/scalaradd.h"
 #include "TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.h"
 
-#define TEST_POINTS 1e5
+#define TEST_POINTS 1e6
 #define TEST_TYPE float
 
 /*! \mainpage J.A.S.P.L. (Just Another Signal Processing Library)
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 
     auto start_cpu = std::chrono::high_resolution_clock::now();
 
-    auto test_q = jaspl::ocl::TaskQueue< std::vector< TEST_TYPE > > ( 1, 1 );
+    auto test_q = jaspl::ocl::TaskQueue< std::vector< TEST_TYPE > > ( 1, 0 );
     test_q.Load( sin_vect );
 
     TEST_TYPE fact = static_cast< TEST_TYPE >( 1.0f / 100.0f );

@@ -12,7 +12,7 @@
 //Boost Headers
 //
 //Project specific headers
-#include "TaskItem/taskitem.h"
+#include "../JASPL/TaskItem/taskitem.h"
 
 namespace jaspl {
 

@@ -13,7 +13,7 @@
 //Boost Headers
 //
 //Project specific headers
-#include "jTypeTraits/jtypetraits.h"
+#include "../JASPL/jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 
@@ -55,7 +55,7 @@ class RecurseMean {
 };
 
 
-#include "jAlgorithm/jalgorithm.tpp"
+#include "../JASPL/jAlgorithm/jalgorithm.tpp"
 
 }
 

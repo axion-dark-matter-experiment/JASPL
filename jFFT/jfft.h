@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include<omp.h>
-#include<iostream>
-#include <jTypeTraits/jtypetraits.h>
+#include <omp.h>
+#include <iostream>
+#include "../JASPL/jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 

@@ -14,7 +14,7 @@
 //OpenMP Headers
 #include<omp.h>
 //Project specific headers
-#include "jVector/jvector.h"
+#include "../JASPL/jVector/jvector.h"
 
 namespace jaspl {
 

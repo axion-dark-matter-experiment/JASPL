@@ -15,9 +15,9 @@
 //OpenMP Headers
 #include<omp.h>
 //Project specific headers
-#include "OpenCLBase/openclbase.h"
-#include "jVector/jvector.h"
-#include "jTypeTraits/jtypetraits.h"
+#include "../JASPL/OpenCLBase/openclbase.h"
+#include "../JASPL/jVector/jvector.h"
+#include "../JASPL/jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 

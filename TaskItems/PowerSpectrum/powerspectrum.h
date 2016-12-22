@@ -12,8 +12,8 @@
 //Boost Headers
 //
 //Project specific headers
-#include "TaskItems/FFT/fft.h"
-#include "jTypeTraits/jtypetraits.h"
+#include "../JASPL/TaskItems/FFT/fft.h"
+#include "../JASPL/jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 

@@ -12,9 +12,9 @@
 //Boost Headers
 
 //GnuPlot Headers
-#include "includes/gnuplot-iostream.h"
+#include "../JASPL/includes/gnuplot-iostream.h"
 //Project specific headers
-#include "jTypeTraits/jtypetraits.h"
+#include "../JASPL/jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 

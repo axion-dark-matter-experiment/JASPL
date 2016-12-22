@@ -12,8 +12,8 @@
 //Boost Headers
 //
 //Project specific headers
-#include "jVector/jvector.h"
-#include "TaskItem/taskitem.h"
+#include "../JASPL/jVector/jvector.h"
+#include "../JASPL/TaskItem/taskitem.h"
 
 namespace jaspl {
 

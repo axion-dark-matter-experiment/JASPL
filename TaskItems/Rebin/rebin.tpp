@@ -1,3 +1,3 @@
-std::string kernel_str = R"END(
-        //
-)END";
+//std::string kernel_str = R"END(
+//        //
+//)END";

@@ -12,8 +12,8 @@
 //Boost Headers
 //
 //Project specific headers
-#include "jTypeTraits/jtypetraits.h"
-#include "TaskItem/taskitem.h"
+#include "../JASPL/jTypeTraits/jtypetraits.h"
+#include "../JASPL/TaskItem/taskitem.h"
 
 namespace jaspl {
 

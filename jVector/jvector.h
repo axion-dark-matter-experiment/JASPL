@@ -12,7 +12,7 @@
 //Miscellaneous Headers
 //
 //Project specific headers
-#include "jTypeTraits/jtypetraits.h"
+#include "../JASPL/jTypeTraits/jtypetraits.h"
 
 namespace jaspl {
 

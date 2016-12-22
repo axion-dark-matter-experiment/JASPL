@@ -22,7 +22,7 @@
 #include <QtCharts/QValueAxis>
 #include <QTimer>
 //Project specific headers
-#include "jTypeTraits/jtypetraits.h"
+#include "../JASPL/jTypeTraits/jtypetraits.h"
 
 QT_CHARTS_USE_NAMESPACE
 
