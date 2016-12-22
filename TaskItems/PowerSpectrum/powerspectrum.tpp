@@ -36,8 +36,10 @@ void PowerSpectrum<T>::Trigger() {
     TaskItem::command_queue.finish();
 
     FFT<T>::err = TaskItem::command_queue.enqueueNDRangeKernel( TaskItem::kernel,cl::NullRange, cl::NDRange( TaskItem::signal_size ) );
-    TaskItem::signal_size = (TaskItem::signal_size%2 == 0)?( TaskItem::signal_size/2 ):( (TaskItem::signal_size - 1)/2 );
     OCL_DEBUG( FFT<T>::err );
+    TaskItem::command_queue.finish();
+
+    TaskItem::signal_size = (TaskItem::signal_size%2 == 0)?( TaskItem::signal_size/2 ):( (TaskItem::signal_size - 1)/2 );
 
 }
 
@@ -51,7 +53,7 @@ void PowerSpectrum<T>::SetSignal( cl::Buffer& signal_buff, uint sig_size ) {
     TaskItem::signal_size = sig_size;
     FFT<T>::local_buff = signal_buff;
 
-    size_t scratch_bytes = (sig_size%2 == 0)?( sig_size*sizeof(typename T::value_type)/2 ):( (sig_size*sizeof(typename T::value_type) - 1)/2 );
+    size_t scratch_bytes = (sig_size%2 == 0)?( sizeof(typename T::value_type)*sig_size/2 ):( sizeof(typename T::value_type)*(sig_size - 1)/2 );
     output_buff = cl::Buffer ( OpenCLBase::context, CL_MEM_READ_WRITE, scratch_bytes );
 
     FFT<T>::err = TaskItem::kernel.setArg(1, output_buff);

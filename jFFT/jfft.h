@@ -22,8 +22,10 @@ class JFFT {
 
   private:
     uint N;
+    float N_f;
     fftw_plan p;
-    fftw_complex *in = NULL, *out = NULL;
+    fftw_complex *in = NULL;
+    fftw_complex *out = NULL;
 };
 
 #include "jfft_templates.tpp"

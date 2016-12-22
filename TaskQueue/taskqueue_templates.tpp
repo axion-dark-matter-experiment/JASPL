@@ -1,9 +1,5 @@
 template <typename T>
 TaskQueue<T>::TaskQueue( uint platform_number, uint device_number ) : TaskQueueBase( platform_number, device_number ) {
-    std::cout << "Built using something else" << std::endl;
-    if ( is_stdlib_container< T >::value )
-        std::cout<< "It was a container-like object" << std::endl;
-
     static_assert( is_stdlib_container< T >::value, "TaskQueue can only accept pointer or container-like objects." );
 }
 

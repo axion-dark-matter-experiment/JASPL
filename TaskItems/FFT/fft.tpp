@@ -19,6 +19,15 @@ void FFT<T>::Trigger() {
 
     /* Execute the plan. */
     err = clfftEnqueueTransform(planHandle, CLFFT_FORWARD, 1, &command_queue(), 0, NULL, NULL, &local_buff(), NULL, NULL);
+    if ( err == 4097 ) {
+        //Signal size must be divisible by 2, 3, 5 or 7
+        // and total size must be less than 2^24 for
+        // single-precision real 1D transforms
+        std::string err_str = "clFFT cannot support signal of size ";
+        err_str += boost::lexical_cast<std::string>( signal_size );
+        throw std::runtime_error( err_str );
+    }
+
     OCL_DEBUG( err );
 
 }

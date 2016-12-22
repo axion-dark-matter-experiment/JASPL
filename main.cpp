@@ -29,7 +29,7 @@
 #include "TaskItems/Arithmetic/ScalarAdd/scalaradd.h"
 #include "TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.h"
 
-#define TEST_POINTS 1e6
+#define TEST_POINTS pow( 2, 24 )
 #define TEST_TYPE float
 
 /*! \mainpage J.A.S.P.L. (Just Another Signal Processing Library)
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
 //    jaspl::ocl::PrintOCLDebugInfo();
 
-    uint N = TEST_POINTS;
+    uint N = (uint)TEST_POINTS;
 
     std::vector< TEST_TYPE > sin_vect;
     sin_vect.reserve( N );
@@ -74,25 +74,28 @@ int main(int argc, char *argv[]) {
 
 //    jaspl::plot( sin_vect );
 
-    auto start_cpu = std::chrono::high_resolution_clock::now();
+//    auto start_opencl = std::chrono::high_resolution_clock::now();
 
     auto test_q = jaspl::ocl::TaskQueue< std::vector< TEST_TYPE > > ( 1, 0 );
-    test_q.Load( sin_vect );
 
-    TEST_TYPE fact = static_cast< TEST_TYPE >( 1.0f / 100.0f );
+//    TEST_TYPE fact = static_cast< TEST_TYPE >( 1.0f / 100.0f );
 
-    std::vector< TEST_TYPE > box_vec( 100, fact );
-    auto conv_task = jaspl::ocl::LinearConvolution< std::vector< TEST_TYPE > >( box_vec );
-    test_q.AddTaskItem( conv_task );
+//    std::vector< TEST_TYPE > box_vec( 100, fact );
+//    auto conv_task = jaspl::ocl::LinearConvolution< std::vector< TEST_TYPE > >( box_vec );
+//    test_q.AddTaskItem( conv_task );
 
     auto fft = jaspl::ocl::PowerSpectrum< std::vector< TEST_TYPE > >();
     test_q.AddTaskItem( fft );
 
-    auto mult_task = jaspl::ocl::ScalarMultiply< std::vector< TEST_TYPE > >( 2.0f );
-    test_q.AddTaskItem( mult_task );
+//    auto mult_task = jaspl::ocl::ScalarMultiply< std::vector< TEST_TYPE > >( 2.0f );
+//    test_q.AddTaskItem( mult_task );
 
-    auto addition_task = jaspl::ocl::ScalarAdd< std::vector< TEST_TYPE > >( 5.0f );
-    test_q.AddTaskItem( addition_task );
+//    auto addition_task = jaspl::ocl::ScalarAdd< std::vector< TEST_TYPE > >( 5.0f );
+//    test_q.AddTaskItem( addition_task );
+
+    auto start_opencl = std::chrono::high_resolution_clock::now();
+
+    test_q.Load( sin_vect );
 
     test_q.Execute();
 
@@ -100,14 +103,37 @@ int main(int argc, char *argv[]) {
 
     std::vector< TEST_TYPE > processed = test_q.Recall();
 
-    auto end_cpu = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> cpu_ms = end_cpu - start_cpu;
-    auto time_taken_cpu = cpu_ms.count();
+    auto end_opencl = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> opencl_ms = end_opencl - start_opencl;
+    auto time_taken_opencl = opencl_ms.count();
 
-    jaspl::plot( processed );
+    std::cout<<"OpenCL Took "<<time_taken_opencl<<" ms."<<std::endl;
 
-    std::cout<<"Took "<<time_taken_cpu<<" ms."<<std::endl;
+//    jaspl::plot( processed );
 
 //  return a.exec();
 
+    jaspl::JFFT fft_er;
+
+    auto time_series = sin_vect;
+
+    auto start_cpu = std::chrono::high_resolution_clock::now();
+
+    fft_er.Setup( TEST_POINTS );
+
+    fft_er.PowerSpectrum( time_series );
+
+    uint spectrum_size = time_series.size();
+    uint n_half = (spectrum_size % 2 == 0) ? (spectrum_size / 2) : ((
+                    spectrum_size - 1) / 2);
+
+    time_series.erase(time_series.end() - n_half , time_series.end());
+
+    auto end_cpu = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> cpu_ms = start_cpu - end_cpu;
+    auto time_taken_cpu = cpu_ms.count();
+
+    std::cout << "CPU Took" << time_taken_cpu << " ms." << std::endl;
+
+//    jaspl::plot( time_series );
 }
