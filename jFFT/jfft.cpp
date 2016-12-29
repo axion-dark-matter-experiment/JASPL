@@ -13,26 +13,30 @@
 
 namespace jaspl {
 
-JFFT::JFFT() {
+JFFT::JFFT(bool use_threads) : threading( use_threads  ) {
 
 }
 
-void JFFT::Setup( uint size ) {
+void JFFT::SetUp( uint size ) {
 
     N = size;
     N_f = static_cast<float>( N );
     //Setup multi-threading
-    int val = fftw_init_threads();
+    if ( threading ) {
 
-    //if val is not equal to zero multithreading cannot be setup
-    if( val == 0 ) {
-        std::string err_mesg = __func__;
-        err_mesg += "Could not setup multithreading.";
-        throw std::runtime_error(err_mesg);
+        int val = fftw_init_threads();
+
+        //if val is not equal to zero multithreading cannot be setup
+        if( val == 0 ) {
+            std::string err_mesg = __func__;
+            err_mesg += "Could not setup multithreading.";
+            throw std::runtime_error(err_mesg);
+        }
+        //set plans to use what OpenMP has decided is a good number of
+        //threads (usually the number of processor cores)
+        fftw_plan_with_nthreads(omp_get_max_threads());
+
     }
-    //set plans to use what OpenMP has decided is a good number of
-    //threads (usually the number of processor cores)
-    fftw_plan_with_nthreads(omp_get_max_threads());
 
     if( in != NULL ) {
         fftw_free( in );

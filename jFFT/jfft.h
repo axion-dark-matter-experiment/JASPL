@@ -14,13 +14,15 @@ namespace jaspl {
 
 class JFFT {
   public:
-    JFFT();
+    JFFT( bool use_threads = true );
 
-    void Setup(uint size);
+    void SetUp(uint size);
     template <typename T> void PowerSpectrum( T &input );
     void TearDown();
 
   private:
+    bool threading = true;
+
     uint N;
     float N_f;
     fftw_plan p;

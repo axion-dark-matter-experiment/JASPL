@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
 
 //  QApplication a(argc, argv);
 
-//    jaspl::ocl::PrintOCLDebugInfo();
+    jaspl::ocl::PrintOCLDebugInfo();
 
     uint N = (uint)TEST_POINTS;
 
@@ -119,7 +119,7 @@ int main(int argc, char *argv[]) {
 
     auto start_cpu = std::chrono::high_resolution_clock::now();
 
-    fft_er.Setup( TEST_POINTS );
+    fft_er.SetUp( TEST_POINTS );
 
     fft_er.PowerSpectrum( time_series );
 

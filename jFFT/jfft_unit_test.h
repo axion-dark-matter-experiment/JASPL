@@ -30,7 +30,7 @@ class JFFTUnitTest {
 
         auto fft_er = jaspl::JFFT();
 
-        fft_er.Setup( vec.size() );
+        fft_er.SetUp( vec.size() );
 
         auto start_cpu = std::chrono::high_resolution_clock::now();
 

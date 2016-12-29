@@ -7,7 +7,7 @@
 //C System-Headers
 //
 //C++ System headers
-//
+#include <mutex>
 //OpenCL Headers
 //
 //Boost Headers
@@ -34,6 +34,8 @@ class RecurseMean {
 
   public:
 
+    typedef std::lock_guard<std::mutex> lock;
+
     RecurseMean( uint num_samples );
 
     /*!
@@ -46,12 +48,15 @@ class RecurseMean {
     void operator()( const T&  next_value );
 
     void Reset();
+    typename T::value_type Index();
+
     T ReturnValue();
 
   private:
 
     T last;
     typename T::value_type index = static_cast< typename T::value_type >( 0 );
+    std::mutex mux;
 };
 
 
