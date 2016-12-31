@@ -2,10 +2,6 @@ template <typename T> void JFFT::PowerSpectrum( T&input ) {
 
     static_assert( std::is_pointer<T>::value || is_stdlib_container<T>::value, "JFFT::Input must be pointer of container-like object.");
 
-//    for( const auto& elem: input ) {
-//        std::cout << elem << ",";
-//    }
-//    std::cout << std::endl;
     // get upgradable access
     boost::upgrade_lock<boost::shared_mutex> lock( monitor );
     // get exclusive access
@@ -23,9 +19,5 @@ template <typename T> void JFFT::PowerSpectrum( T&input ) {
         input[i] /= N_f * N_f;
 
     }
-//    for( uint i = 0 ; i <input.size() - 1e6 ; i += 1e6 ) {
-//        std::cout << input[i] << ",";
-//    }
-//    std::cout << std::endl;
 
 }

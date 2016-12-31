@@ -23,12 +23,10 @@ void RecurseMean<T>::operator()(const T &next_value) {
     index += 1.0f;
 
     for ( uint i = 0; i < next_value.size() ; i++ ) {
-//        last[i] = ((index - 1.0f) / index) * last[i] + next_value[i] / index;
-        last[i] *= ((index - 1.0f) / index);
-        last[i] += next_value[i] / index;
+        last[i] = ((index - 1.0f) / index) * last[i] + next_value[i] / index;
     }
 
-//    std::cout << __CLASS__ << "index is currently: " << index << std::endl;
+    std::cout << __CLASS__ << "index is currently: " << index << std::endl;
 }
 
 template < typename T >
