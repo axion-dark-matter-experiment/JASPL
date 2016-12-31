@@ -50,6 +50,7 @@ void JFFT::SetUp( uint size ) {
 
     out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
 
+    fftw_make_planner_thread_safe();
     p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 
 }

@@ -11,25 +11,40 @@ RecurseMean<T>::RecurseMean(uint num_samples) {
 template < typename T >
 void RecurseMean<T>::operator()(const T &next_value) {
 
-    lock lk (mux);
-    index += 1.0f;
-    std::cout << __CLASS__ << "index is currently: " << index << std::endl;
-
-    for (uint i = 0; i < next_value.size() ; i++) {
-        last[i] = ((index - 1.0f) / index) * last[i] + next_value[i] / index;
+    if ( last.size() != next_value.size() ) {
+        return;
     }
+
+    // get upgradable access
+    boost::upgrade_lock<boost::shared_mutex> lock( monitor );
+    // get exclusive access
+    boost::upgrade_to_unique_lock<boost::shared_mutex> uniqueLock(lock);
+
+    index += 1.0f;
+
+    for ( uint i = 0; i < next_value.size() ; i++ ) {
+//        last[i] = ((index - 1.0f) / index) * last[i] + next_value[i] / index;
+        last[i] *= ((index - 1.0f) / index);
+        last[i] += next_value[i] / index;
+    }
+
+//    std::cout << __CLASS__ << "index is currently: " << index << std::endl;
 }
 
 template < typename T >
 typename T::value_type RecurseMean<T>::Index() {
-    lock lk (mux);
+    boost::shared_lock<boost::shared_mutex> lock( monitor );
     return index;
 }
 
 template < typename T >
 void RecurseMean<T>::Reset() {
 
-    lock lk (mux);
+    // get upgradable access
+    boost::upgrade_lock<boost::shared_mutex> lock( monitor );
+    // get exclusive access
+    boost::upgrade_to_unique_lock<boost::shared_mutex> uniqueLock(lock);
+
     last = T(last.size() , static_cast< typename T::value_type >(0.0f));
     index = 0.0f;
 
@@ -37,6 +52,8 @@ void RecurseMean<T>::Reset() {
 
 template < typename T >
 T RecurseMean<T>::ReturnValue() {
-    lock lk (mux);
+
+    boost::shared_lock<boost::shared_mutex> lock( monitor );
     return last;
+
 }

@@ -1,17 +1,18 @@
 #ifndef JALGORITHM_H
 #define JALGORITHM_H
 
-
-//Header for this file
-//
 //C System-Headers
 //
 //C++ System headers
 #include <mutex>
 //OpenCL Headers
 //
-//Boost Headers
-//
+// Boost Headers
+#include <boost/thread/condition.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/thread.hpp>
+#include <boost/circular_buffer.hpp>
+#include <boost/lexical_cast.hpp>
 //Project specific headers
 #include "../JASPL/jTypeTraits/jtypetraits.h"
 
@@ -34,8 +35,6 @@ class RecurseMean {
 
   public:
 
-    typedef std::lock_guard<std::mutex> lock;
-
     RecurseMean( uint num_samples );
 
     /*!
@@ -56,7 +55,7 @@ class RecurseMean {
 
     T last;
     typename T::value_type index = static_cast< typename T::value_type >( 0 );
-    std::mutex mux;
+    boost::shared_mutex monitor;
 };
 
 

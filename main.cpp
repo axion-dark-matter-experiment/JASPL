@@ -29,7 +29,7 @@
 #include "TaskItems/Arithmetic/ScalarAdd/scalaradd.h"
 #include "TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.h"
 
-#define TEST_POINTS pow( 2, 24 )
+#define TEST_POINTS pow( 2, 12 )
 #define TEST_TYPE float
 
 /*! \mainpage J.A.S.P.L. (Just Another Signal Processing Library)
@@ -57,8 +57,6 @@
 int main(int argc, char *argv[]) {
 
 //  QApplication a(argc, argv);
-
-    jaspl::ocl::PrintOCLDebugInfo();
 
     uint N = (uint)TEST_POINTS;
 
@@ -109,7 +107,7 @@ int main(int argc, char *argv[]) {
 
     std::cout<<"OpenCL Took "<<time_taken_opencl<<" ms."<<std::endl;
 
-//    jaspl::plot( processed );
+    jaspl::plot( processed, "OpenCL" );
 
 //  return a.exec();
 
@@ -135,5 +133,5 @@ int main(int argc, char *argv[]) {
 
     std::cout << "CPU Took" << time_taken_cpu << " ms." << std::endl;
 
-//    jaspl::plot( time_series );
+    jaspl::plot( time_series, "CPU" );
 }
