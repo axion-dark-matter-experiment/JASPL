@@ -78,6 +78,10 @@ size_t FFT<T>::ProcessedSignalSize() {
     return signal_size;
 }
 
+template <typename T>
+bool FFT<T>::NeedsToReknew() {
+    return true;
+}
 
 template <typename T>
 void FFT<T>::TearDown() {

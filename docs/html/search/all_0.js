@@ -1,7 +1,6 @@
 var searchData=
 [
   ['addtaskitem',['AddTaskItem',['../classjaspl_1_1ocl_1_1_task_queue_base.html#aa71fb29536edbed03a771e40b81ea741',1,'jaspl::ocl::TaskQueueBase']]],
-  ['alazar_5ferror',['alazar_error',['../classalazar__error.html',1,'']]],
   ['arraytraits',['ArrayTraits',['../classgnuplotio_1_1_array_traits.html',1,'gnuplotio']]],
   ['arraytraits_3c_20std_3a_3apair_3c_20t_2c_20u_20_3e_20_3e',['ArrayTraits&lt; std::pair&lt; T, U &gt; &gt;',['../classgnuplotio_1_1_array_traits_3_01std_1_1pair_3_01_t_00_01_u_01_4_01_4.html',1,'gnuplotio']]],
   ['arraytraits_3c_20std_3a_3apair_3c_20t_3a_3ahead_5ftype_2c_20t_3a_3atail_5ftype_20_3e_20_3e',['ArrayTraits&lt; std::pair&lt; T::head_type, T::tail_type &gt; &gt;',['../classgnuplotio_1_1_array_traits.html',1,'gnuplotio']]],
@@ -14,6 +13,5 @@ var searchData=
   ['arraytraits_3c_20t_5bn_5d_3e',['ArrayTraits&lt; T[N]&gt;',['../classgnuplotio_1_1_array_traits_3_01_t[_n]_4.html',1,'gnuplotio']]],
   ['arraytraitsdefaults',['ArrayTraitsDefaults',['../classgnuplotio_1_1_array_traits_defaults.html',1,'gnuplotio']]],
   ['arraytraitsdefaults_3c_20t_20_3e',['ArrayTraitsDefaults&lt; T &gt;',['../classgnuplotio_1_1_array_traits_defaults.html',1,'gnuplotio']]],
-  ['arraytraitsdefaults_3c_20t_3a_3avalue_5ftype_20_3e',['ArrayTraitsDefaults&lt; T::value_type &gt;',['../classgnuplotio_1_1_array_traits_defaults.html',1,'gnuplotio']]],
-  ['ats9462',['ATS9462',['../classalazar_1_1_a_t_s9462.html',1,'alazar']]]
+  ['arraytraitsdefaults_3c_20t_3a_3avalue_5ftype_20_3e',['ArrayTraitsDefaults&lt; T::value_type &gt;',['../classgnuplotio_1_1_array_traits_defaults.html',1,'gnuplotio']]]
 ];

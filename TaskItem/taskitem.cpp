@@ -64,12 +64,12 @@ void TaskItem::SetSignal( cl::Buffer& signal_buff, uint sig_size  ) {
 
 }
 
-cl::Buffer &TaskItem::ProcessedSignal(){}
-size_t TaskItem::ProcessedSignalBytes(){}
-size_t TaskItem::ProcessedSignalSize(){}
-bool TaskItem::NeedsToReknew() {
-    return true;
-}
+//cl::Buffer &TaskItem::ProcessedSignal(){}
+//size_t TaskItem::ProcessedSignalBytes(){}
+//size_t TaskItem::ProcessedSignalSize(){}
+//bool TaskItem::NeedsToReknew() {
+//    return true;
+//}
 
 }
 

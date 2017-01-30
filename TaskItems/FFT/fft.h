@@ -35,6 +35,7 @@ class FFT : public TaskItem {
     virtual cl::Buffer& ProcessedSignal();
     virtual size_t ProcessedSignalBytes();
     virtual size_t ProcessedSignalSize();
+    virtual bool NeedsToReknew();
 
     void TearDown();
 

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['qts9462',['QTS9462',['../class_q_t_s9462.html',1,'']]]
+  ['rebin',['Rebin',['../classjaspl_1_1ocl_1_1_rebin.html',1,'jaspl::ocl']]],
+  ['recursemean',['RecurseMean',['../classjaspl_1_1_recurse_mean.html',1,'jaspl']]]
 ];

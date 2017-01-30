@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['rebin',['Rebin',['../classjaspl_1_1ocl_1_1_rebin.html',1,'jaspl::ocl']]],
-  ['recursemean',['RecurseMean',['../classjaspl_1_1_recurse_mean.html',1,'jaspl']]]
+  ['scalaradd',['ScalarAdd',['../classjaspl_1_1ocl_1_1_scalar_add.html',1,'jaspl::ocl']]],
+  ['scalarmultiply',['ScalarMultiply',['../classjaspl_1_1ocl_1_1_scalar_multiply.html',1,'jaspl::ocl']]]
 ];

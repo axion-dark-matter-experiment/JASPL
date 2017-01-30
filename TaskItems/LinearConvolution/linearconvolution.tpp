@@ -135,3 +135,9 @@ template <typename T>
 size_t LinearConvolution<T>::ProcessedSignalSize() {
     return signal_size;
 }
+
+template <typename T>
+bool LinearConvolution<T>::NeedsToReknew() {
+    return true;
+}
+

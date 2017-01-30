@@ -43,7 +43,7 @@ void TaskQueueBase::AddTaskItem( TaskItem& item ) {
     task_queue.push_back( &item );
 }
 
-bool TaskQueueBase::RemoveTaskItem(TaskItem &item) {
+bool TaskQueueBase::RemoveTaskItem( TaskItem &item ) {
 
     if( std::find(task_queue.begin(), task_queue.end(), &item) != task_queue.end() ) {
         task_queue.erase(std::remove(task_queue.begin(), task_queue.end(), &item), task_queue.end());

@@ -16,7 +16,7 @@ template <typename T> void JFFT::PowerSpectrum( T&input ) {
 
     for ( uint i = 0; i < N ; i++ ) {
         input[i] = out[i][0]*out[i][0] + out[i][1]*out[i][1];
-        input[i] /= N_f * N_f;
+        input[i] *= N_f;
 
     }
 

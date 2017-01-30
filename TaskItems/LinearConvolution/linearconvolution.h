@@ -35,6 +35,7 @@ class LinearConvolution : public TaskItem {
     cl::Buffer& ProcessedSignal();
     size_t ProcessedSignalBytes();
     size_t ProcessedSignalSize();
+    bool NeedsToReknew();
 
     cl::Buffer kernel_buff;
     cl::Buffer scratch_buff;

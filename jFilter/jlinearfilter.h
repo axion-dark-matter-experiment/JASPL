@@ -14,6 +14,7 @@
 //OpenMP Headers
 #include<omp.h>
 //Project specific headers
+#include "../jTypeTraits/jtypetraits.h"
 #include "../JASPL/jVector/jvector.h"
 
 namespace jaspl {
@@ -25,7 +26,9 @@ class JFilter {
 };
 
 template <typename T>
-JVector<T> JLinearConvolve( JVector<T>& signal, JVector<T>& kernel) {
+T JLinearConvolve( T& signal, T& kernel) {
+
+    static_assert( std::is_pointer<T>::value || is_stdlib_container<T>::value, "JLinearConvolve:: signal and kernel must be pointer of container-like objects.");
 
     int kernel_size = kernel.size();
     int half_k_size = (kernel_size - 1 )/2;
@@ -33,7 +36,7 @@ JVector<T> JLinearConvolve( JVector<T>& signal, JVector<T>& kernel) {
     int signal_size = signal.size();
     int signal_max_index = signal_size - 1;
 
-    JVector<T> output( signal.size(), 0.0f );
+    T output( signal.size(), 0.0f );
 
     #pragma omp parallel for
     for ( int i = 0 ; i < signal_size ; i++ ) {
