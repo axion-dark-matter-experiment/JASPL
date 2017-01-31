@@ -28,20 +28,21 @@ class ouroborus {
     template < typename F >
     friend std::ostream& operator<< (std::ostream& stream, ouroborus<F>& buffer);
 
-//    void HeadInsert( T* to_insert, uint insert_size );
+    void HeadInsert( T* to_insert, uint insert_size );
     void TailInsert( T* to_insert, uint insert_size );
 
-//    std::vector<T> HeadRead( uint read_size );
-//    template < typename F >
-//    std::vector< F > HeadReadAndConvert( uint read_size );
-//    bool CheckHead( uint read_size );
+    std::vector<T> HeadRead( uint read_size );
+    template < typename F >
+    std::vector< F > HeadReadAndConvert( uint read_size );
+    bool CheckHead( uint read_size );
 
     std::vector<T> TailRead( uint read_size );
     template < typename F >
     std::vector< F > TailReadAndConvert( uint read_size );
     bool CheckTail( uint read_size );
 
-    uint index();
+    void Reset();
+
     uint size();
     bool overrun();
 
@@ -53,8 +54,6 @@ class ouroborus {
     boost::shared_mutex monitor;
 
     bool overrun_flag = false;
-
-    long int position_counter = 0;
 
 };
 
@@ -87,12 +86,6 @@ std::ostream& operator << (std::ostream& stream, ouroborus<T>& buffer) {
 }
 
 template < typename T >
-uint ouroborus<T>::index() {
-    boost::shared_lock<boost::shared_mutex> lock( monitor );
-    return position_counter;
-}
-
-template < typename T >
 bool ouroborus<T>::overrun() {
     boost::shared_lock<boost::shared_mutex> lock( monitor );
     return overrun_flag;
@@ -104,24 +97,34 @@ uint ouroborus<T>::size() {
     return internal_buffer.size();
 }
 
-//template < typename T >
-//void ouroborus<T>::HeadInsert( T* to_insert, uint insert_size ) {
+template < typename T >
+void ouroborus<T>::Reset() {
+    boost::shared_lock<boost::shared_mutex> lock( monitor );
 
-//    DEBUG_PRINT( "Inserting " << insert_size << " elements into ring buffer" );
+    internal_buffer.clear();
+    overrun_flag = false;
+}
 
-//    // get upgradable access
-//    boost::upgrade_lock<boost::shared_mutex> lock( monitor );
-//    // get exclusive access
-//    boost::upgrade_to_unique_lock<boost::shared_mutex> uniqueLock(lock);
+template < typename T >
+void ouroborus<T>::HeadInsert( T* to_insert, uint insert_size ) {
 
-//    auto head = to_insert;
-//    auto tail = head + insert_size;
+    DEBUG_PRINT( "Inserting " << insert_size << " elements into ring buffer" );
 
-//    internal_buffer.insert( internal_buffer.begin(), head, tail );
+    // get upgradable access
+    boost::upgrade_lock<boost::shared_mutex> lock( monitor );
+    // get exclusive access
+    boost::upgrade_to_unique_lock<boost::shared_mutex> uniqueLock(lock);
 
-//    update_counter( insert_size );
+    auto head = to_insert;
+    auto tail = head + insert_size;
 
-//}
+    if( (internal_buffer.size() + insert_size) >= internal_buffer.capacity() ) {
+        overrun_flag = true;
+    }
+
+    internal_buffer.insert( internal_buffer.begin(), head, tail );
+
+}
 
 template < typename T >
 void ouroborus<T>::TailInsert( T* to_insert, uint insert_size ) {
@@ -136,37 +139,37 @@ void ouroborus<T>::TailInsert( T* to_insert, uint insert_size ) {
     auto head = to_insert;
     auto tail = head + insert_size;
 
-    internal_buffer.insert( internal_buffer.end(), head, tail );
+    if( (internal_buffer.size() + insert_size) >= internal_buffer.capacity() ) {
+        overrun_flag = true;
+    }
 
-    update_counter( insert_size );
+    internal_buffer.insert( internal_buffer.end(), head, tail );
 
 }
 
-//template < typename T >
-//bool ouroborus<T>::CheckHead( uint data_size ) {
+template < typename T >
+bool ouroborus<T>::CheckHead( uint data_size ) {
 
-//    // get upgradable access
-//    boost::upgrade_lock<boost::shared_mutex> lock( monitor );
-//    // get exclusive access
-//    boost::upgrade_to_unique_lock<boost::shared_mutex> uniqueLock(lock);
+    // get upgradable access
+    boost::upgrade_lock<boost::shared_mutex> lock( monitor );
+    // get exclusive access
+    boost::upgrade_to_unique_lock<boost::shared_mutex> uniqueLock(lock);
 
-//    auto first = internal_buffer.begin();
-//    auto last = internal_buffer.begin() + data_size;
+    auto first = internal_buffer.begin();
+    auto last = internal_buffer.begin() + data_size;
 
-//    //Attempt to read more samples than are current stored in
-//    //the ring buffer
-//    bool check_condition = (std::distance(first, last) < data_size);
-//    //Attempt to read data that was read in last cycle ( eg. Old Data )
-//    check_condition |= ( static_cast<uint>( std::distance(first, last) ) > position_counter );
+    //Attempt to read more samples than are current stored in
+    //the ring buffer
+    bool check_condition = (std::distance(first, last) < data_size);
 
-//    if (check_condition) {
-//        DEBUG_PRINT( __func__ << " Unable to read, not enough samples in ring buffer" );
-//    } else {
-//        DEBUG_PRINT( __func__ << " Able to read." );
-//    }
+    if (check_condition) {
+        DEBUG_PRINT( __func__ << " Unable to read, not enough samples in ring buffer" );
+    } else {
+        DEBUG_PRINT( __func__ << " Able to read." );
+    }
 
-//    return !check_condition;
-//}
+    return !check_condition;
+}
 
 template < typename T >
 bool ouroborus<T>::CheckTail( uint data_size ) {
@@ -182,8 +185,6 @@ bool ouroborus<T>::CheckTail( uint data_size ) {
     //Attempt to read more samples than are current stored in
     //the ring buffer
     bool check_condition = (std::distance(first, last) < data_size);
-    //Attempt to read more sam
-    check_condition |= ( data_size > position_counter );
 
     if (check_condition) {
         DEBUG_PRINT( __func__ << " Unable to read, not enough samples in ring buffer" );
@@ -205,14 +206,12 @@ std::vector<T> ouroborus<T>::TailRead( uint read_size ) {
     //Attempt to read more samples than are current stored in
     //the ring buffer
     bool check_condition = (std::distance(first, last) < read_size);
-    //Attempt to read data that was read in last cycle ( eg. Old Data )
-    check_condition |= ( read_size > position_counter );
 
     if (check_condition) {
         DEBUG_PRINT( __func__ << " Unable to read, not enough samples in ring buffer" );
 
         std::string err_str = "Not enough new data in ring buffer: Have ";
-        err_str += boost::lexical_cast<std::string>( position_counter );
+        err_str += boost::lexical_cast<std::string>( internal_buffer.size() );
         err_str += " new data samples, but  ";
         err_str += boost::lexical_cast<std::string>( read_size );
         err_str += " were requested.";
@@ -224,8 +223,7 @@ std::vector<T> ouroborus<T>::TailRead( uint read_size ) {
 
     auto copy_vec = std::vector< T >( first, last );
 
-    int neg_read_size = -1*static_cast<int>( read_size );
-    update_counter( neg_read_size );
+    internal_buffer.erase ( first, last );
 
     return copy_vec;
 }
@@ -242,14 +240,12 @@ std::vector< F > ouroborus< T >::TailReadAndConvert( uint read_size ) {
     //Attempt to read more samples than are current stored in
     //the ring buffer
     bool check_condition = (std::distance(first, last) < read_size);
-    //Attempt to read data that was read in last cycle ( eg. Old Data )
-    check_condition |= ( (uint)std::distance(first, last) > position_counter );
 
     if (check_condition) {
         DEBUG_PRINT( __func__ << " Unable to read, not enough samples in ring buffer" );
 
         std::string err_str = "Not enough new data in ring buffer: Have ";
-        err_str += boost::lexical_cast<std::string>( position_counter );
+        err_str += boost::lexical_cast<std::string>( internal_buffer.size() );
         err_str += " new data samples, but  ";
         err_str += boost::lexical_cast<std::string>( read_size );
         err_str += " were requested.";
@@ -261,100 +257,78 @@ std::vector< F > ouroborus< T >::TailReadAndConvert( uint read_size ) {
 
     auto copy_vec = std::vector< F >( first, last );
 
-    int neg_read_size = -1*static_cast<int>( read_size );
-    update_counter( neg_read_size );
+    internal_buffer.erase ( first, last );
 
     return copy_vec;
 }
 
-//template < typename T >
-//std::vector<T> ouroborus<T>::HeadRead( uint read_size ) {
-
-//    // get shared access
-//    boost::shared_lock<boost::shared_mutex> lock( monitor );
-
-//    auto first = internal_buffer.begin() + 0;
-//    auto last = internal_buffer.begin() + read_size;
-
-//    //Attempt to read more samples than are current stored in
-//    //the ring buffer
-//    bool check_condition = (std::distance(first, last) < read_size);
-//    //Attempt to read data that was read in last cycle ( eg. Old Data )
-//    check_condition |= ( (uint)std::distance(first, last) > position_counter);
-
-//    if (check_condition) {
-//        DEBUG_PRINT( __func__ << " Unable to read, not enough samples in ring buffer" );
-
-//        std::string err_str = "Not enough new data in ring buffer: Have ";
-//        err_str += boost::lexical_cast<std::string>( position_counter );
-//        err_str += " new data samples, but  ";
-//        err_str += boost::lexical_cast<std::string>( read_size );
-//        err_str += " were requested.";
-//        throw std::ios_base::failure(err_str);
-//    } else {
-//        DEBUG_PRINT( __func__ << " Able to read." );
-//    }
-
-//    auto copy_vec = std::vector< T >( first, last );
-
-//    int neg_read_size = -1*static_cast<int>( read_size );
-//    update_counter( neg_read_size );
-
-//    return copy_vec;
-//}
-
-//template < typename T >
-//template < typename F >
-//std::vector< F > ouroborus<T>::HeadReadAndConvert ( uint read_size ) {
-
-//    // get shared access
-//    boost::shared_lock<boost::shared_mutex> lock( monitor );
-
-//    auto first = internal_buffer.begin() + 0;
-//    auto last = internal_buffer.begin() + read_size;
-
-//    //Attempt to read more samples than are current stored in
-//    //the ring buffer
-//    bool check_condition = (std::distance(first, last) < read_size);
-//    //Attempt to read data that was read in last cycle ( eg. Old Data )
-//    check_condition |= ( (uint)std::distance(first, last) > position_counter);
-
-//    if (check_condition) {
-//        DEBUG_PRINT( __func__ << " Unable to read, not enough samples in ring buffer" );
-
-//        std::string err_str = "Not enough new data in ring buffer: Have ";
-//        err_str += boost::lexical_cast<std::string>( position_counter);
-//        err_str += " new data samples, but  ";
-//        err_str += boost::lexical_cast<std::string>( read_size );
-//        err_str += " were requested.";
-//        throw std::ios_base::failure(err_str);
-//    } else {
-//        DEBUG_PRINT( __func__ << " Able to read." );
-//    }
-
-//    auto copy_vec = std::vector< F >( first, last );
-
-//    int neg_read_size = -1*static_cast<int>( read_size );
-//    update_counter( neg_read_size );
-
-//    return copy_vec;
-//}
-
 template < typename T >
-void ouroborus<T>::update_counter( int update_value ) {
+std::vector<T> ouroborus<T>::HeadRead( uint read_size ) {
 
-    if ( ( position_counter + update_value ) > internal_buffer.capacity() ) {
-        position_counter = internal_buffer.capacity();
-        overrun_flag = true;
-    } else if( ( position_counter + update_value ) <= 0 ) {
-        position_counter = 0;
+    // get shared access
+    boost::shared_lock<boost::shared_mutex> lock( monitor );
+
+    auto first = internal_buffer.begin() + 0;
+    auto last = internal_buffer.begin() + read_size;
+
+    //Attempt to read more samples than are current stored in
+    //the ring buffer
+    bool check_condition = (std::distance(first, last) < read_size);
+
+    if (check_condition) {
+        DEBUG_PRINT( __func__ << " Unable to read, not enough samples in ring buffer" );
+
+        std::string err_str = "Not enough new data in ring buffer: Have ";
+        err_str += boost::lexical_cast<std::string>( internal_buffer.size() );
+        err_str += " new data samples, but  ";
+        err_str += boost::lexical_cast<std::string>( read_size );
+        err_str += " were requested.";
+        throw std::ios_base::failure(err_str);
     } else {
-        position_counter += update_value;
+        DEBUG_PRINT( __func__ << " Able to read." );
     }
 
-    DEBUG_PRINT( "Current position counter (relative to tail): " << position_counter );
+    auto copy_vec = std::vector< T >( first, last );
 
+    internal_buffer.erase ( first, last );
+
+    return copy_vec;
 }
+
+template < typename T >
+template < typename F >
+std::vector< F > ouroborus<T>::HeadReadAndConvert ( uint read_size ) {
+
+    // get shared access
+    boost::shared_lock<boost::shared_mutex> lock( monitor );
+
+    auto first = internal_buffer.begin() + 0;
+    auto last = internal_buffer.begin() + read_size;
+
+    //Attempt to read more samples than are current stored in
+    //the ring buffer
+    bool check_condition = (std::distance(first, last) < read_size);
+
+    if (check_condition) {
+        DEBUG_PRINT( __func__ << " Unable to read, not enough samples in ring buffer" );
+
+        std::string err_str = "Not enough new data in ring buffer: Have ";
+        err_str += boost::lexical_cast<std::string>( internal_buffer.size());
+        err_str += " new data samples, but  ";
+        err_str += boost::lexical_cast<std::string>( read_size );
+        err_str += " were requested.";
+        throw std::ios_base::failure(err_str);
+    } else {
+        DEBUG_PRINT( __func__ << " Able to read." );
+    }
+
+    auto copy_vec = std::vector< F >( first, last );
+
+    internal_buffer.erase ( first, last );
+
+    return copy_vec;
+}
+
 
 }
 
