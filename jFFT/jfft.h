@@ -20,19 +20,22 @@
 
 namespace jaspl {
 
+template < typename T >
 class JFFT {
   public:
-    JFFT( bool use_threads = true );
+    JFFT( uint transform_size, bool use_threading = false );
+    ~JFFT();
 
-    void SetUp(uint size);
-    template <typename T> void PowerSpectrum( T &input );
-    void TearDown();
+    T PowerSpectrum( const T& input );
 
   private:
+    void SetUp( uint size );
+    void TearDown();
+
     bool threading = true;
 
-    uint N;
-    float N_f;
+    uint N, fft_size;
+    typename T::value_type norm_factor;
     fftw_plan p;
     fftw_complex *in = NULL;
     fftw_complex *out = NULL;
@@ -41,7 +44,7 @@ class JFFT {
 
 };
 
-#include "jfft_templates.tpp"
+#include "jfft.tpp"
 
 }
 #endif // JFFT_H

@@ -13,9 +13,10 @@
 //Qt Headers
 #include <QApplication>
 //Project specific headers
+#include "jFFT/test_jfft.h"
 #include "jVector/jvector.h"
 #include "jFFT/jfft.h"
-#include "jFFT/jfft_unit_test.h"
+#include "jFFT/perf_jfft.h"
 #include "jPlot/jplot.h"
 #include "jFilter/jlinearfilter.h"
 #include "jTypeTraits/jtypetraits.h"
@@ -112,13 +113,11 @@ void TimingTest() {
 
     //  return a.exec();
 
-    jaspl::JFFT fft_er;
+    jaspl::JFFT< std::vector < TEST_TYPE > > fft_er( TEST_POINTS, true );
 
     auto time_series = sin_vect;
 
     auto start_cpu = std::chrono::high_resolution_clock::now();
-
-    fft_er.SetUp( TEST_POINTS );
 
     fft_er.PowerSpectrum( time_series );
 
@@ -193,16 +192,14 @@ void fftTimingTest() {
 
         auto start_cpu = std::chrono::high_resolution_clock::now();
 
-        auto fft_er = std::unique_ptr< jaspl::JFFT >( new jaspl::JFFT() );
+        auto fft_er = std::unique_ptr< jaspl::JFFT< std::vector< TEST_TYPE > > >( new jaspl::JFFT< std::vector< TEST_TYPE > >( TEST_POINTS, true ) );
 
-        fft_er->SetUp( sin_vect.size() );
-
-        fft_er->PowerSpectrum( sin_vect );
+        auto power_spec = fft_er->PowerSpectrum( sin_vect );
 
         uint spectrum_size = sin_vect.size();
         uint n_half = (spectrum_size % 2 == 0) ? (spectrum_size / 2) : (( spectrum_size - 1) / 2);
 
-        sin_vect.erase( sin_vect.end() - n_half , sin_vect.end());
+        power_spec.erase( power_spec.end() - n_half , power_spec.end());
 
         auto end_cpu = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> cpu_ms = end_cpu - start_cpu;
@@ -301,6 +298,6 @@ int main(int argc, char *argv[]) {
 
 //    fftTimingTest();
 //    convolutionTimingTest();
-    jaspl::test_ouroboros();
+    jaspl::TestJFFT();
 
 }

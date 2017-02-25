@@ -31,13 +31,10 @@ QMAKE_CXXFLAGS+= -fopenmp
 QMAKE_LFLAGS +=  -fopenmp
 
 SOURCES += main.cpp \
-    jFFT/jfft.cpp \
-    jFFT/jfft_templates.tpp \
     jPlot/jplot.cpp \
     jVector/jvector.cpp \
     jVector/jvector_templates.tpp \
     OpenCLBase/openclbase.cpp \
-    jFFT/jfft_unit_test.cpp \
     jFilter/jnonlinearfilter.cpp \
     jFilter/jlinearfilter.cpp \
     TaskQueue/taskqueue.cpp \
@@ -62,6 +59,7 @@ SOURCES += main.cpp \
     TaskItems/Arithmetic/ScalarAdd/scalaradd.tpp \
     TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.tpp \
     #TaskItems/Rebin/rebin.tpp
+    jFFT/jfft.tpp
 
 HEADERS += \
     jFFT/jfft.h \
@@ -69,7 +67,6 @@ HEADERS += \
     jVector/jvector.h \
     jFilter/jfilter_unit_test.h \
     OpenCLBase/openclbase.h \
-    jFFT/jfft_unit_test.h \
     jFilter/jnonlinearfilter.h \
     jFilter/jlinearfilter.h \
     TaskQueue/taskqueue.h \
@@ -87,7 +84,9 @@ HEADERS += \
     TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.h \
     Containers/ouroboros.h \
     Debug/debug.h \
-    Containers/test_ouroborus.h
+    Containers/test_ouroborus.h \
+    jFFT/perf_jfft.h \
+    jFFT/test_jfft.h
 
 DISTFILES += \
     TaskItems/LinearConvolution/linearconvolve.cl \
