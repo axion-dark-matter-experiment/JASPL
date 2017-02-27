@@ -86,7 +86,10 @@ HEADERS += \
     Debug/debug.h \
     Containers/test_ouroborus.h \
     jFFT/perf_jfft.h \
-    jFFT/test_jfft.h
+    jFFT/test_jfft.h \
+    includes/gnuplot-iostream.h \
+    TaskItems/Rebin/rebin.h \
+    Units/unit_conversions.h
 
 DISTFILES += \
     TaskItems/LinearConvolution/linearconvolve.cl \

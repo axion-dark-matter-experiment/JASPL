@@ -44,7 +44,7 @@ class JFFT {
 
 };
 
-#include "jfft.tpp"
+#include "../../JASPL/jFFT/jfft.tpp"
 
 }
 #endif // JFFT_H

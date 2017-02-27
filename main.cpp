@@ -298,6 +298,6 @@ int main(int argc, char *argv[]) {
 
 //    fftTimingTest();
 //    convolutionTimingTest();
-    jaspl::TestJFFT();
+    jaspl::RunTestJFFT();
 
 }

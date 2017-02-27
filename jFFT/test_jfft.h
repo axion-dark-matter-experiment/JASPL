@@ -15,6 +15,8 @@
 //
 // Boost Headers
 //
+// Google Test
+#include <gtest/gtest.h>
 //Project specific headers
 #include "jfft.h"
 #include "../jPlot/jplot.h"
@@ -40,6 +42,17 @@ double sqr_sum( const std::vector< double >& signal ) {
     return tot;
 }
 
+double sum( const std::vector< double >& signal ) {
+
+    double tot = 0.0;
+
+    for ( const auto& val : signal ) {
+        tot += val;
+    }
+
+    return tot;
+}
+
 std::vector< double > build_test_signal( uint N ) {
 
     std::vector< double > sin_vect;
@@ -49,9 +62,9 @@ std::vector< double > build_test_signal( uint N ) {
 
     for ( uint i = 0; i < N ; i++ ) {
 
-        double x = static_cast< double >(i)/N_f;
+        double x = static_cast< double >( i )/N_f;
 
-        sin_vect.push_back( sin( 25.0*(2.0*M_PI)*x ) );
+        sin_vect.push_back( std::sin( (N_f/4)*(2.0*M_PI)*x ) );
     }
 
     return sin_vect;
@@ -59,9 +72,7 @@ std::vector< double > build_test_signal( uint N ) {
 
 namespace jaspl {
 
-void TestJFFT() {
-
-    const uint signal_size = 10000;
+void TestJFFT( const uint signal_size ) {
 
     JFFT< std::vector< double > > fft_er( signal_size, true );
 
@@ -69,13 +80,13 @@ void TestJFFT() {
 
     double time_series_tot_pow = sqr_sum( signal );
 
-    plot( signal, "Times Series" );
+    //plot( signal, "Times Series" );
 
     std::vector< double > power_spectrum = fft_er.PowerSpectrum( signal );
 
-    double power_spectrum_tot_pow = sqr_sum( power_spectrum );
+    double power_spectrum_tot_pow = 2.0*sum( power_spectrum );
 
-    plot( power_spectrum, "Power Spectrum" );
+    //plot( power_spectrum, "Power Spectrum" );
 
 
     if( !almost_equal( time_series_tot_pow, power_spectrum_tot_pow, 2 ) ) {
@@ -86,6 +97,7 @@ void TestJFFT() {
                   << time_series_tot_pow
                   << " Square sum of power spectrum values: "
                   << power_spectrum_tot_pow
+                  << "\n"
                   << std::endl;
 
         std::cout << "Power spectrum differs by multiplicative factor of: "
@@ -100,9 +112,22 @@ void TestJFFT() {
                   << time_series_tot_pow
                   << " Square sum of power spectrum values: "
                   << power_spectrum_tot_pow
+                  << "\n"
                   << std::endl;
     }
 
+}
+
+void RunTestJFFT() {
+
+    for ( uint i = 2 ; i < std::pow( 2, 16 ); i *= 2 ) {
+
+        std::cout << "Testing JFFT for signal of size "
+                  << i
+                  << std::endl;
+
+        TestJFFT( i );
+    }
 }
 
 }
