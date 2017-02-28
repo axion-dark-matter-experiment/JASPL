@@ -17,7 +17,6 @@ void JFFT<T>::SetUp( uint size ) {
     fft_size = ( size%2 == 0 )?( size / 2 ):( ( size - 1 ) / 2 );
 
     norm_factor = static_cast< typename T::value_type >( N );
-    std::cout << "Norm Factor: " << norm_factor << std::endl;
 
     //Setup multi-threading
     if ( threading ) {
@@ -80,9 +79,16 @@ T JFFT<T>::PowerSpectrum( const T& input ) {
     T output;
     output.reserve( fft_size );
 
-    for ( uint i = 0; i < fft_size ; i++ ) {
+//    for ( uint i = 0; i < fft_size ; i++ ) {
+      for ( uint i = fft_size; i < N ; i++ ) {
 
-        auto val = ( out[i][0]*out[i][0] + out[i][1]*out[i][1] )/( norm_factor );
+          auto val = out[i][0]*out[i][0] + out[i][1]*out[i][1];
+          val += out[N-i][0]*out[N-i][0] + out[N-i][1]*out[N-i][1];
+          val /= ( norm_factor * norm_factor );
+          val *= 2.0;
+
+        //auto val = 2.0*( out[i][0]*out[i][0] + out[i][1]*out[i][1] )/( norm_factor * norm_factor );
+
         output.push_back( val );
 
     }

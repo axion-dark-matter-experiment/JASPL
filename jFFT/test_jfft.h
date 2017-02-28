@@ -80,13 +80,13 @@ void TestJFFT( const uint signal_size ) {
 
     double time_series_tot_pow = sqr_sum( signal );
 
-    //plot( signal, "Times Series" );
+    plot( signal, "Times Series" );
 
     std::vector< double > power_spectrum = fft_er.PowerSpectrum( signal );
 
     double power_spectrum_tot_pow = 2.0*sum( power_spectrum );
 
-    //plot( power_spectrum, "Power Spectrum" );
+    plot( power_spectrum, "Power Spectrum" );
 
 
     if( !almost_equal( time_series_tot_pow, power_spectrum_tot_pow, 2 ) ) {

@@ -44,6 +44,8 @@ class ouroborus {
     void Reset();
 
     uint capacity();
+    uint size();
+
     bool overrun();
 
   private:
@@ -95,6 +97,12 @@ template < typename T >
 uint ouroborus<T>::capacity() {
     boost::shared_lock<boost::shared_mutex> lock( monitor );
     return internal_buffer.capacity();
+}
+
+template < typename T >
+uint ouroborus<T>::size() {
+    boost::shared_lock<boost::shared_mutex> lock( monitor );
+    return internal_buffer.size();
 }
 
 template < typename T >
