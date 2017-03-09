@@ -5,13 +5,19 @@ RecurseMean<T>::RecurseMean(uint num_samples) {
     static_assert(std::is_floating_point< typename T::value_type >::value,
                   "Recurse mean can only accept floating-point types");
 
-    last = T(num_samples, static_cast< typename T::value_type >(0.0f));
+    index = static_cast< typename T::value_type >( 0 );
+
+    last = T(num_samples, static_cast< typename T::value_type >(0.0));
 }
 
 template < typename T >
 void RecurseMean<T>::operator()(const T &next_value) {
 
     if ( last.size() != next_value.size() ) {
+        std::cout << "________________________________________________" << std::endl;
+        std::cout << "Sample size did not match averaging engine size" << std::endl;
+        std::cout << "Sample Size: " << last.size() << " Input Size: " << next_value.size() << std::endl;
+        std::cout << "________________________________________________" << std::endl;
         return;
     }
 

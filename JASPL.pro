@@ -24,7 +24,7 @@ LIBS +=-L "/usr/local/cuda/lib64" -lOpenCL
 INCLUDEPATH +=-I/usr/local/include
 LIBS +=-L/usr/local/lib64 -lclFFT
 
-LIBS +=-lfftw3_threads -lfftw3 -lm
+LIBS +=-lfftw3f_threads -lfftw3f -lm
 
 QMAKE_CXXFLAGS+= -fopenmp
 #QMAKE_CXXFLAGS+= -O3

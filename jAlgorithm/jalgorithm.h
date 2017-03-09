@@ -54,7 +54,7 @@ class RecurseMean {
   private:
 
     T last;
-    typename T::value_type index = static_cast< typename T::value_type >( 0 );
+    typename T::value_type index;
     boost::shared_mutex monitor;
 };
 

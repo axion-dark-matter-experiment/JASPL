@@ -36,9 +36,9 @@ class JFFT {
 
     uint N, fft_size;
     typename T::value_type norm_factor;
-    fftw_plan p;
-    fftw_complex *in = NULL;
-    fftw_complex *out = NULL;
+    fftwf_plan p;
+    fftwf_complex *in = NULL;
+    fftwf_complex *out = NULL;
 
     boost::shared_mutex monitor;
 

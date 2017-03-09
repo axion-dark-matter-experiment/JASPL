@@ -64,7 +64,7 @@ std::vector< double > build_test_signal( uint N ) {
 
         double x = static_cast< double >( i )/N_f;
 
-        sin_vect.push_back( std::sin( (N_f/4)*(2.0*M_PI)*x ) );
+        sin_vect.push_back( 0.25*std::sin( (N_f/4)*(2.0*M_PI)*x ) );
     }
 
     return sin_vect;
@@ -120,7 +120,7 @@ void TestJFFT( const uint signal_size ) {
 
 void RunTestJFFT() {
 
-    for ( uint i = 2 ; i < std::pow( 2, 16 ); i *= 2 ) {
+    for ( uint i = 2 ; i < std::pow( 2, 12 ); i *= 2 ) {
 
         std::cout << "Testing JFFT for signal of size "
                   << i
