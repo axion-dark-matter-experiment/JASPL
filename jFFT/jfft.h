@@ -8,6 +8,7 @@
 #include <mutex>
 #include <omp.h>
 #include <iostream>
+#include <atomic>
 // FFTW Headers
 #include <fftw3.h>
 // Boost Headers
@@ -23,18 +24,19 @@ namespace jaspl {
 template < typename T >
 class JFFT {
   public:
-    JFFT( uint transform_size, bool use_threading = false );
+    JFFT( bool use_threading = false );
     ~JFFT();
 
     T PowerSpectrum( const T& input );
+    void SetUp( uint size );
 
   private:
-    void SetUp( uint size );
     void TearDown();
 
     bool threading = true;
+    bool set_up = false;
 
-    uint N, fft_size;
+    std::atomic<uint> N, fft_size;
     typename T::value_type norm_factor;
     fftwf_plan p;
     fftwf_complex *in = NULL;
