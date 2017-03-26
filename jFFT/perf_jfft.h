@@ -35,7 +35,7 @@ void PerfJFFT() {
 
     const uint signal_size = 10000;
 
-    JFFT< std::vector < float > > fft_er( signal_size, true );
+    JFFT< std::vector < float > > fft_er( true );
 
     std::vector< float > signal = build_test_signal( signal_size );
 

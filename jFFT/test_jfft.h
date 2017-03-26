@@ -74,7 +74,7 @@ namespace jaspl {
 
 void TestJFFT( const uint signal_size ) {
 
-    JFFT< std::vector< double > > fft_er( signal_size, true );
+    JFFT< std::vector< double > > fft_er( true );
 
     std::vector< double > signal = build_test_signal( signal_size );
 

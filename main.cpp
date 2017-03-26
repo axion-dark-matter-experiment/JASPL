@@ -113,7 +113,7 @@ void TimingTest() {
 
     //  return a.exec();
 
-    jaspl::JFFT< std::vector < TEST_TYPE > > fft_er( TEST_POINTS, true );
+    jaspl::JFFT< std::vector < TEST_TYPE > > fft_er( true );
 
     auto time_series = sin_vect;
 
@@ -192,7 +192,7 @@ void fftTimingTest() {
 
         auto start_cpu = std::chrono::high_resolution_clock::now();
 
-        auto fft_er = std::unique_ptr< jaspl::JFFT< std::vector< TEST_TYPE > > >( new jaspl::JFFT< std::vector< TEST_TYPE > >( TEST_POINTS, true ) );
+        auto fft_er = std::unique_ptr< jaspl::JFFT< std::vector< TEST_TYPE > > >( new jaspl::JFFT< std::vector< TEST_TYPE > >( true ) );
 
         auto power_spec = fft_er->PowerSpectrum( sin_vect );
 
@@ -210,7 +210,10 @@ void fftTimingTest() {
         cpu_timing_data.push_back( time_taken_cpu );
     }
 
-    jaspl::plot( cpu_timing_data, opencl_timing_data, "Intel(R) Core(TM) i7-4700HQ CPU @ 2.40GHz","GeForce GTX 860M", "Power Spectrum CPU vs. GPU" );
+//    jaspl::plot_to_disk( cpu_timing_data,
+//                         opencl_timing_data,
+//                         "Intel(R) Core(TM) i7-4700HQ CPU @ 2.40GHz","GeForce GTX 860M",
+//                         "Power Spectrum CPU vs. GPU" );
 
 }
 
@@ -285,7 +288,10 @@ void convolutionTimingTest() {
         cpu_timing_data.push_back( time_taken_cpu );
     }
 
-    jaspl::plot( cpu_timing_data, opencl_timing_data,"Intel(R) Core(TM) i7-4700HQ CPU @ 2.40GHz","GeForce GTX 860M", "Linear Convolution CPU vs. GPU" );
+//    jaspl::plot_to_disk( cpu_timing_data,
+//                         opencl_timing_data,
+//                         "Intel(R) Core(TM) i7-4700HQ CPU @ 2.40GHz","GeForce GTX 860M",
+//                         "Linear Convolution CPU vs. GPU" );
 
 }
 
