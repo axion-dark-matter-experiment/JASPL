@@ -11,7 +11,7 @@
 //Boost Headers
 //
 //Qt Headers
-#include <QApplication>
+//
 //Project specific headers
 #include "jFFT/test_jfft.h"
 #include "jVector/jvector.h"
@@ -34,28 +34,6 @@
 #define TEST_POINTS pow( 2, 16 )
 #define TEST_TYPE float
 #define MAX_ITER 24
-
-/*! \mainpage J.A.S.P.L. (Just Another Signal Processing Library)
- *
- * \section intro_sec Introduction
- *
- * JASPL is designed to perform signal processing operations on 1 dimensional objects,
- *  with an emphasis on GPGPU acceleration.
- *
- * \section Base Dependencies
- *      \li Boost libraries >= 1.62
- *      \li gnuplot-iostream ( included with source files )
- *      \li fftw >= 3.3.5 http://www.fftw.org/download.html
- *
- * \section GPU-acceleration Dependencies
- *      \li OpenCL installation (e.g. Nvidia CUDA, AMD-APP, Intel)
- *      \li clFFT https://github.com/clMathLibraries/clFFT.git
- *
- * \section Special Considerations if compling from source
- *      \li OpenMP Installation and compilier that supports OpenMP pragmas ( GCC )
- *      \li C++11 Compliant Compilier ( GCC >= 4.8.2 )
- *
- */
 
 void TimingTest() {
     //  QApplication a(argc, argv);

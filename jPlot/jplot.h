@@ -1,8 +1,6 @@
 #ifndef JPLOT_H
 #define JPLOT_H
 
-//Header for this file
-
 //C System-Headers
 #include <cstdarg>
 //C++ System headers
@@ -12,7 +10,7 @@
 //Boost Headers
 
 //GnuPlot Headers
-#include "../JASPL/includes/gnuplot-iostream.h"
+#include "gnuplot-iostream.h"
 //Project specific headers
 #include "../JASPL/jTypeTraits/jtypetraits.h"
 

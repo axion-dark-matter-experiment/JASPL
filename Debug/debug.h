@@ -7,7 +7,7 @@
 #define DEBUG_ON 0
 #endif
 
-// C System-Headers
+// C System Headers
 #include <stdio.h>
 // C++ System headers
 #include <sstream>
@@ -28,8 +28,6 @@
         auto time_taken = ms.count();\
         std::cout<< "Function took " << time_taken <<" ms." << std::endl;\
     } while (0)
-
-
 
 #ifdef DEBUG
 # define DEBUG_PRINT( x, ... ) std::cout << x __VA_ARGS__ << std::endl;

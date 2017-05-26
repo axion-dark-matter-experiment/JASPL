@@ -107,7 +107,6 @@ T JFFT<T>::PowerSpectrum( const T& input ) {
     // Explicitly compute first element
     auto C_0 = abs_sqr( out[0] );
     C_0 /= N_sqr;
-//    C_0 *= 2.0;
 
     output.push_back( C_0 );
 
@@ -115,7 +114,6 @@ T JFFT<T>::PowerSpectrum( const T& input ) {
 
         auto C_i = abs_sqr( out[i] ) + abs_sqr( out[N-i] );;
         C_i /= N_sqr;
-//        C_i *= 2.0;
 
         output.push_back( C_i );
 
@@ -124,7 +122,6 @@ T JFFT<T>::PowerSpectrum( const T& input ) {
     // Explicitly compute last element
     auto C_N_half = abs_sqr( out[ fft_size - 1 ] );
     C_N_half /= N_sqr;
-//    C_N_half *= 2.0;
 
     output.push_back( C_N_half );
 

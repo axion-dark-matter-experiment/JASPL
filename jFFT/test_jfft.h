@@ -64,7 +64,7 @@ std::vector< double > build_test_signal( uint N ) {
 
         double x = static_cast< double >( i )/N_f;
 
-        sin_vect.push_back( 0.25*std::sin( (N_f/4)*(2.0*M_PI)*x ) );
+        sin_vect.push_back( 0.25*std::sin( (5.0)*(2.0*M_PI)*x ) );
     }
 
     return sin_vect;
@@ -82,9 +82,13 @@ void TestJFFT( const uint signal_size ) {
 
     plot( signal, "Times Series" );
 
+    fft_er.SetUp( signal_size );
+
     std::vector< double > power_spectrum = fft_er.PowerSpectrum( signal );
 
     double power_spectrum_tot_pow = 2.0*sum( power_spectrum );
+
+    std::for_each(power_spectrum.begin(), power_spectrum.end(), [=](double &x){std::sqrt(x); });
 
     plot( power_spectrum, "Power Spectrum" );
 

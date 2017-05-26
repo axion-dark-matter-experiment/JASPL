@@ -8,15 +8,24 @@ CONFIG(debug, debug|release) {
     DEFINES += "DEBUG"
 } else {
     DEFINES += "NDEBUG"
-    QMAKE_CXXFLAGS -= -O2
-    QMAKE_CXXFLAGS += -O3
+    CONFIG += optimize_full
+    QMAKE_CXXFLAGS_RELEASE *= -mtune=native
+    QMAKE_CXXFLAGS_RELEASE *= -march=native
 }
 
 INCLUDEPATH += ../../../include
 LIBS += -L$$OUT_PWD/../../../lib
 
 
-LIBS += -L/usr/local/lib -L/usr/lib -lboost_iostreams -lboost_system -lboost_filesystem -lboost_thread
+#gnuplot iostreams
+INCLUDEPATH += ../gnuplot-iostream
+
+LIBS += -L/usr/local/lib \
+        -L/usr/lib \
+        -lboost_iostreams \
+        -lboost_system \
+        -lboost_filesystem \
+        -lboost_thread
 
 INCLUDEPATH +=-I "/usr/local/cuda/include"
 LIBS +=-L "/usr/local/cuda/lib64" -lOpenCL
@@ -27,7 +36,6 @@ LIBS +=-L/usr/local/lib64 -lclFFT
 LIBS +=-lfftw3f_threads -lfftw3f -lm
 
 QMAKE_CXXFLAGS+= -fopenmp
-#QMAKE_CXXFLAGS+= -O3
 QMAKE_LFLAGS +=  -fopenmp
 
 SOURCES += main.cpp \
@@ -58,7 +66,6 @@ SOURCES += main.cpp \
     jTypeTraits/jtypetraits.cpp \
     TaskItems/Arithmetic/ScalarAdd/scalaradd.tpp \
     TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.tpp \
-    #TaskItems/Rebin/rebin.tpp
     jFFT/jfft.tpp
 
 HEADERS += \
@@ -78,7 +85,6 @@ HEADERS += \
     TaskItems/PowerSpectrum/powerspectrum.h \
     jTypeTraits/jtypetraits.h \
     TaskItems/NonLinearConvolution/nonlinearconvolution.h \
-    #TaskItems/Rebin/rebin.h \
     jAlgorithm/jalgorithm.h \
     TaskItems/Arithmetic/ScalarAdd/scalaradd.h \
     TaskItems/Arithmetic/ScalarMultiply/scalarmultiply.h \
@@ -87,7 +93,6 @@ HEADERS += \
     Containers/test_ouroborus.h \
     jFFT/perf_jfft.h \
     jFFT/test_jfft.h \
-    includes/gnuplot-iostream.h \
     TaskItems/Rebin/rebin.h \
     Units/unit_conversions.h
 
