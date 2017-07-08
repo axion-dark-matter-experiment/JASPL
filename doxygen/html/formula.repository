@@ -1,2 +1,0 @@
-\form#0:\[ \mu_i = \frac{ i - 1 }{ i } \mu_{ i - 1 } + \frac{1}{i} x_i \]
-\form#1:\[ \mu_i = \frac{ i - 1 }{ i } \mu_{ i - 1 } + \frac{1}{i} x_i\\ \text{ for } x_i \in \mathbb{R}^n \ \mu_i \in \mathcal{R} \\ \text{ and running index } i \in \mathbb{N} \]

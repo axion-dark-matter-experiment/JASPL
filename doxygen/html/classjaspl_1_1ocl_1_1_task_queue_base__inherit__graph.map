@@ -1,5 +1,0 @@
-<map id="jaspl::ocl::TaskQueueBase" name="jaspl::ocl::TaskQueueBase">
-<area shape="rect" id="node3" href="$classjaspl_1_1ocl_1_1_task_queue.html" title="jaspl::ocl::TaskQueue\&lt; T \&gt;" alt="" coords="5,162,187,189"/>
-<area shape="rect" id="node4" href="$classjaspl_1_1ocl_1_1_task_queue_3_01_t_01_5_01_4.html" title="jaspl::ocl::TaskQueue\l\&lt; T * \&gt;" alt="" coords="211,155,360,196"/>
-<area shape="rect" id="node2" href="$classjaspl_1_1ocl_1_1_open_c_l_base.html" title="Base class for every class that needs access to OpenCL Platforms, Contexts or Devices. " alt="" coords="111,5,271,32"/>
-</map>
