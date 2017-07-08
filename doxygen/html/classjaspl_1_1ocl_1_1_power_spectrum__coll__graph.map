@@ -1,0 +1,5 @@
+<map id="jaspl::ocl::PowerSpectrum&lt; T &gt;" name="jaspl::ocl::PowerSpectrum&lt; T &gt;">
+<area shape="rect" id="node2" href="$classjaspl_1_1ocl_1_1_f_f_t.html" title="jaspl::ocl::FFT\&lt; T \&gt;" alt="" coords="39,155,178,181"/>
+<area shape="rect" id="node3" href="$classjaspl_1_1ocl_1_1_task_item.html" title="jaspl::ocl::TaskItem" alt="" coords="40,80,177,107"/>
+<area shape="rect" id="node4" href="$classjaspl_1_1ocl_1_1_open_c_l_base.html" title="Base class for every class that needs access to OpenCL Platforms, Contexts or Devices. " alt="" coords="29,5,189,32"/>
+</map>

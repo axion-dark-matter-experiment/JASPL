@@ -1,0 +1,90 @@
+\hypertarget{classjaspl_1_1ocl_1_1_open_c_l_base}{}\section{jaspl\+:\+:ocl\+:\+:Open\+C\+L\+Base Class Reference}
+\label{classjaspl_1_1ocl_1_1_open_c_l_base}\index{jaspl\+::ocl\+::\+Open\+C\+L\+Base@{jaspl\+::ocl\+::\+Open\+C\+L\+Base}}
+
+
+Base class for every class that needs access to Open\+CL Platforms, Contexts or Devices.  
+
+
+
+
+{\ttfamily \#include $<$openclbase.\+h$>$}
+
+
+
+Inheritance diagram for jaspl\+:\+:ocl\+:\+:Open\+C\+L\+Base\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classjaspl_1_1ocl_1_1_open_c_l_base__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classjaspl_1_1ocl_1_1_open_c_l_base_a60c09a482b92e3e5fcaa488fcd391dcb}{Open\+C\+L\+Base} (uint platform\+\_\+number=0, uint device\+\_\+number=0)
+\begin{DoxyCompactList}\small\item\em Initialize Open\+CL Objects Note that the Platform and Context are selected automatically\+: Platform is set to cl\+::\+Platform( 0 ) Context is set to cl\+::\+Context( device\mbox{[} device\+\_\+number \mbox{]} ) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries Set\+Up} (uint platform\+\_\+number, uint device\+\_\+number)\hypertarget{classjaspl_1_1ocl_1_1_open_c_l_base_a18031bd6b0e52aefeff4b28e98fcda96}{}\label{classjaspl_1_1ocl_1_1_open_c_l_base_a18031bd6b0e52aefeff4b28e98fcda96}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static bool {\bfseries initalized} = false\hypertarget{classjaspl_1_1ocl_1_1_open_c_l_base_ad8942a3114b511028404945d2b658689}{}\label{classjaspl_1_1ocl_1_1_open_c_l_base_ad8942a3114b511028404945d2b658689}
+
+\item 
+static std\+::vector$<$ cl\+::\+Platform $>$ {\bfseries all\+\_\+platforms}\hypertarget{classjaspl_1_1ocl_1_1_open_c_l_base_aca4e1b8a9db57208f0f4aa93053551c5}{}\label{classjaspl_1_1ocl_1_1_open_c_l_base_aca4e1b8a9db57208f0f4aa93053551c5}
+
+\item 
+static cl\+::\+Platform {\bfseries default\+\_\+platform}\hypertarget{classjaspl_1_1ocl_1_1_open_c_l_base_adba19ace68e13d2aef858d62be78305d}{}\label{classjaspl_1_1ocl_1_1_open_c_l_base_adba19ace68e13d2aef858d62be78305d}
+
+\item 
+static std\+::vector$<$ cl\+::\+Device $>$ {\bfseries all\+\_\+devices}\hypertarget{classjaspl_1_1ocl_1_1_open_c_l_base_a38970dc6296c7e86cbd2e53ed96dbf89}{}\label{classjaspl_1_1ocl_1_1_open_c_l_base_a38970dc6296c7e86cbd2e53ed96dbf89}
+
+\item 
+static cl\+::\+Device {\bfseries current\+\_\+device}\hypertarget{classjaspl_1_1ocl_1_1_open_c_l_base_ab98895e065dcdbb77e82d68fe50f3656}{}\label{classjaspl_1_1ocl_1_1_open_c_l_base_ab98895e065dcdbb77e82d68fe50f3656}
+
+\item 
+static cl\+::\+Context {\bfseries context}\hypertarget{classjaspl_1_1ocl_1_1_open_c_l_base_a630838c8c08a6bda110e04c2dda66850}{}\label{classjaspl_1_1ocl_1_1_open_c_l_base_a630838c8c08a6bda110e04c2dda66850}
+
+\item 
+static cl\+::\+Command\+Queue {\bfseries command\+\_\+queue}\hypertarget{classjaspl_1_1ocl_1_1_open_c_l_base_a96aae0bed8da50e336194b437c159e4a}{}\label{classjaspl_1_1ocl_1_1_open_c_l_base_a96aae0bed8da50e336194b437c159e4a}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for every class that needs access to Open\+CL Platforms, Contexts or Devices. 
+
+This class a common Open\+CL Platform, Context, Command\+Queue and Device for derived classes to share. 
+
+Definition at line 31 of file openclbase.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{jaspl\+::ocl\+::\+Open\+C\+L\+Base@{jaspl\+::ocl\+::\+Open\+C\+L\+Base}!Open\+C\+L\+Base@{Open\+C\+L\+Base}}
+\index{Open\+C\+L\+Base@{Open\+C\+L\+Base}!jaspl\+::ocl\+::\+Open\+C\+L\+Base@{jaspl\+::ocl\+::\+Open\+C\+L\+Base}}
+\subsubsection[{\texorpdfstring{Open\+C\+L\+Base(uint platform\+\_\+number=0, uint device\+\_\+number=0)}{OpenCLBase(uint platform_number=0, uint device_number=0)}}]{\setlength{\rightskip}{0pt plus 5cm}jaspl\+::ocl\+::\+Open\+C\+L\+Base\+::\+Open\+C\+L\+Base (
+\begin{DoxyParamCaption}
+\item[{uint}]{platform\+\_\+number = {\ttfamily 0}, }
+\item[{uint}]{device\+\_\+number = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{classjaspl_1_1ocl_1_1_open_c_l_base_a60c09a482b92e3e5fcaa488fcd391dcb}{}\label{classjaspl_1_1ocl_1_1_open_c_l_base_a60c09a482b92e3e5fcaa488fcd391dcb}
+
+
+Initialize Open\+CL Objects Note that the Platform and Context are selected automatically\+: Platform is set to cl\+::\+Platform( 0 ) Context is set to cl\+::\+Context( device\mbox{[} device\+\_\+number \mbox{]} ) 
+
+The underlying assumption is that the host machine has only one Open\+CL Platform ( e.\+g. one of A\+M\+D-\/\+A\+PP, Nvidia C\+U\+DA, Intel )
+
+
+\begin{DoxyParams}{Parameters}
+{\em device\+\_\+number} & Number of the Open\+CL device to use as described by cl\+::\+Platform\+::get\+Devices(\+C\+L\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+A\+L\+L) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 78 of file openclbase.\+cpp.
+
